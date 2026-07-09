@@ -21,7 +21,7 @@ interface TextRollButtonProps {
 }
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  teal: 'bg-brand-teal text-white hover:bg-[#0a655c]',
+  teal: 'bg-brand-teal text-white hover:bg-brand-teal-hovered',
   white: 'bg-white text-brand-teal hover:bg-neutral-50',
 };
 
@@ -87,9 +87,9 @@ interface StatusBadgeProps {
 }
 
 const BADGE_TONES: Record<BadgeTone, string> = {
-  success: 'bg-[#E3FCEF] text-[#006644]',
+  success: 'bg-success text-success-fg',
   neutral: 'bg-neutral-100 text-neutral-600',
-  information: 'bg-[#DEEBFF] text-[#0052CC]',
+  information: 'bg-information text-information-fg',
 };
 
 /**

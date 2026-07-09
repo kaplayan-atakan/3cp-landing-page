@@ -1,3 +1,5 @@
+@import './styles/tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,9 +15,9 @@
 
   /* Visible keyboard focus for every interactive element (2px outline + 2px offset). */
   :focus-visible {
-    outline: 2px solid #0d7a6f;
+    outline: 2px solid rgb(var(--focus-ring-color));
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 }
 

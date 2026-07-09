@@ -10,12 +10,11 @@ import { ShaderErrorBoundary } from './primitives';
 function StaticBackground() {
   return (
     <div
-      className="absolute inset-0"
+      className="absolute inset-0 bg-neutral-50"
       style={{
-        background:
-          'radial-gradient(1200px 600px at 72% 18%, rgba(13,122,111,0.10), transparent 60%),' +
-          'radial-gradient(900px 520px at 18% 88%, rgba(13,122,111,0.06), transparent 60%),' +
-          '#F7F8F9',
+        backgroundImage:
+          'radial-gradient(1200px 600px at 72% 18%, rgb(var(--color-teal-700) / 0.10), transparent 60%),' +
+          'radial-gradient(900px 520px at 18% 88%, rgb(var(--color-teal-700) / 0.06), transparent 60%)',
       }}
     />
   );

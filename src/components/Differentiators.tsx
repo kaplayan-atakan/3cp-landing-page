@@ -37,7 +37,7 @@ function ConcentricDiagram() {
  */
 export function Differentiators() {
   return (
-    <section className="bg-[#F5F5F5]">
+    <section className="bg-surface-sunken">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader number="04" pill="Stratejik Üstünlük" title="3CP'yi farklı kılan ne?" />
 
