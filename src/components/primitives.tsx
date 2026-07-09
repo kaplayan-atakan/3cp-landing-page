@@ -1,5 +1,7 @@
 import { Component, type ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
+import { usePrefersReducedMotion } from '../hooks';
 
 /** Canonical transition used across the whole page. */
 export const TRANSITION =
@@ -140,6 +142,71 @@ export function SectionHeader({ number, pill, title }: SectionHeaderProps) {
       <h2 className="max-w-[900px] text-[clamp(1.5rem,4vw,2.8rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-neutral-900">
         {title}
       </h2>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Reveal                                                              */
+/* ------------------------------------------------------------------ */
+
+interface RevealProps {
+  children: ReactNode;
+  /** Seconds to wait before the reveal starts. */
+  delay?: number;
+  className?: string;
+}
+
+/**
+ * The page's single scroll-reveal primitive: a fade plus a 16px rise, once per
+ * element. Only opacity and transform animate, so it never shifts layout.
+ */
+export function Reveal({ children, delay = 0, className }: RevealProps) {
+  const reducedMotion = usePrefersReducedMotion();
+
+  return (
+    <motion.div
+      className={className}
+      initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+      transition={{ duration: 0.4, delay, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* DemoBadge                                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Marks a panel whose contents are seeded mock data.
+ *
+ * Mandatory on every surface that renders an AnimatedList. The page sells
+ * tenant isolation and an immutable audit trail; an unlabelled fake feed would
+ * undercut exactly the claim the surrounding section is making.
+ */
+export function DemoBadge({ label = 'Örnek görünüm · Demo verisi' }: { label?: string }) {
+  return (
+    <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 font-mono text-[11px] text-neutral-600">
+      <span className="h-1.5 w-1.5 rounded-full bg-neutral-400" aria-hidden="true" />
+      {label}
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* StatPair                                                            */
+/* ------------------------------------------------------------------ */
+
+/** A metric over its label. Mono figures per the design language's metric scale. */
+export function StatPair({ value, label }: { value: string; label: string }) {
+  return (
+    <div>
+      <p className="font-mono text-xl font-bold tabular-nums text-neutral-900">{value}</p>
+      <p className="mt-1 text-xs leading-snug text-neutral-600">{label}</p>
     </div>
   );
 }
