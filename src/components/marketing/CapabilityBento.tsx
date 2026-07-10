@@ -10,7 +10,7 @@ export function CapabilityBento() {
   return (
     <section id="platform" className="relative scroll-mt-24 overflow-hidden bg-surface-sunken">
       <GrainOverlay />
-      <div className="mx-auto max-w-container py-20">
+      <div className="relative z-10 mx-auto max-w-container py-20">
         <SectionHeader
           number="02"
           pill="Çekirdek Platform"

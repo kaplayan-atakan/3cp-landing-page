@@ -14,7 +14,7 @@ export function ActivityPreview() {
   return (
     <section className="relative overflow-hidden bg-surface-sunken">
       <GrainOverlay />
-      <div className="mx-auto max-w-container py-20">
+      <div className="relative z-10 mx-auto max-w-container py-20">
         <SectionHeader
           number="08"
           pill="Panel Önizleme"
