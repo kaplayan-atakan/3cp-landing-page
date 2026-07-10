@@ -1,6 +1,6 @@
-import { STEPS } from '../data/content';
-import { asset } from '../asset';
-import { SectionHeader } from './primitives';
+import { STEPS } from '../../data/content';
+import { asset } from '../../asset';
+import { SectionHeader } from '../primitives';
 
 /**
  * Section 3 — how it works / the core value pipeline (light gray).
@@ -9,10 +9,10 @@ import { SectionHeader } from './primitives';
  */
 export function HowItWorks() {
   return (
-    <section id="nasil-calisir" className="scroll-mt-24 bg-surface-sunken">
+    <section id="nasil-calisir" className="scroll-mt-24 bg-white">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
-          number="02"
+          number="03"
           pill="Otomasyon Akışı"
           title="Üç adımda ham veriden stratejik içgörüye"
         />

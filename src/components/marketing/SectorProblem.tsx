@@ -1,5 +1,5 @@
-import { SECTORS, PROBLEMS } from '../data/content';
-import { SectionHeader, StatusBadge, TRANSITION } from './primitives';
+import { SECTORS, PROBLEMS } from '../../data/content';
+import { SectionHeader, StatusBadge, TRANSITION } from '../primitives';
 
 /**
  * Section 2 — sector strip ribbon + problem-space architecture (white).

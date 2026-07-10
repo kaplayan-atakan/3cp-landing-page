@@ -1,6 +1,6 @@
-import { FOOTER_GROUPS, CONTACT_EMAIL } from '../data/content';
-import { asset } from '../asset';
-import { TextRollButton, TRANSITION } from './primitives';
+import { FOOTER_GROUPS, CONTACT_EMAIL } from '../../data/content';
+import { asset } from '../../asset';
+import { TextRollButton, TRANSITION } from '../primitives';
 
 /**
  * Section 7 — closing CTA band (brand teal) followed by the dark footer.

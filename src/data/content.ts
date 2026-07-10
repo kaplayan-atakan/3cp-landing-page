@@ -8,14 +8,8 @@ import {
   Contact,
   ClipboardList,
   Sparkles,
-  Bot,
-  Ticket,
   PhoneCall,
-  Megaphone,
   Radio,
-  BarChart3,
-  Gift,
-  Plug,
   Database,
   EyeOff,
   FileCheck2,
@@ -531,131 +525,7 @@ export const COST_MODELS: CostModel[] = [
   },
 ];
 
-/** Section 4 — capabilities matrix. */
-export interface Capability {
-  title: string;
-  description: string;
-  status: 'HAZIR' | 'ÇOK YAKINDA';
-  icon: LucideIcon;
-}
-
-export const CAPABILITIES: Capability[] = [
-  {
-    title: 'Çok Katmanlı Rol ve Şube Yönetimi',
-    description:
-      'Şirket, marka, şube ve departman hiyerarşinizin tamamını tek ekrandan yönetin. Her ekibe tam ihtiyacı kadar yetki verin; kimin neyi görebileceğine siz karar verin.',
-    status: 'HAZIR',
-    icon: KeyRound,
-  },
-  {
-    title: '360° Merkezi Müşteri Profili',
-    description:
-      'Her müşterinizin anket, şikayet, kampanya ve satın alma geçmişi tek bir profilde birleşir. KVKK uyumlu, zaman damgalı onay kaydıyla.',
-    status: 'HAZIR',
-    icon: Contact,
-  },
-  {
-    title: 'Anket & NPS Yönetimi',
-    description:
-      'QR ile saniyeler içinde anonim anket toplayın; şube ve ürün bazında NPS performansınızı canlı olarak izleyin.',
-    status: 'HAZIR',
-    icon: ClipboardList,
-  },
-  {
-    title: 'Yapay Zeka Destekli Anlamlandırma Motoru',
-    description:
-      'Binlerce yorumu otomatik olarak kategori, duygu ve kritiklik düzeyine göre sınıflandırın. Sistem, her insan düzeltmesiyle daha da akıllanır.',
-    status: 'HAZIR',
-    icon: Sparkles,
-  },
-  {
-    title: 'Kurumsal Akıllı Yanıt ve Otomasyon Sistemi',
-    description:
-      'Markanızın ses tonuna uygun otomatik yanıtlar; sağlayıcı bağımsız yapay zeka altyapısı ve tam şeffaf maliyet kontrolü.',
-    status: 'HAZIR',
-    icon: Bot,
-  },
-  {
-    title: 'Şikayet Yönetimi',
-    description:
-      'Tüm kanallardan gelen şikayetleri tek panelde toplayın; yapay zeka destekli yanıt taslakları, SLA takibi ve Kanban görünümüyle hızlıca çözün.',
-    status: 'ÇOK YAKINDA',
-    icon: Ticket,
-  },
-  {
-    title: 'Çağrı Merkezi Köprüsü',
-    description:
-      'Arayan müşteriyi anında tanıyın; maskeli müşteri kartı ekrana düşer, tüm çağrı geçmişi otomatik olarak profile işlenir.',
-    status: 'ÇOK YAKINDA',
-    icon: PhoneCall,
-  },
-  {
-    title: 'Kampanya & Kupon Motoru',
-    description:
-      "Segment bazlı kampanyalar kurun, kuponları POS'a otomatik iletin; yapay zeka ile kişiselleştirilmiş, İYS uyumlu mesajlar gönderin.",
-    status: 'ÇOK YAKINDA',
-    icon: Megaphone,
-  },
-  {
-    title: 'Çok Kanallı Sosyal Dinleme',
-    description:
-      'Google, Yemeksepeti, Getir ve sosyal medya yorumlarını tek gelen kutusunda toplayın; yapay zeka destekli yanıtlarla anında karşılık verin.',
-    status: 'ÇOK YAKINDA',
-    icon: Radio,
-  },
-  {
-    title: 'Gelişmiş Raporlama & BI',
-    description:
-      'Modüller arası birleşik panolar, Excel ve Power BI aktarımı, yapay zeka ile hazırlanan yönetici özetleri.',
-    status: 'ÇOK YAKINDA',
-    icon: BarChart3,
-  },
-  {
-    title: 'Sadakat ve Ödül Motoru',
-    description:
-      'Puan ve seviye kurallarını dilediğiniz gibi tanımlayın; müşteri profiliyle senkron üyelik ve otomatik kampanya tetikleme.',
-    status: 'ÇOK YAKINDA',
-    icon: Gift,
-  },
-  {
-    title: 'Evrensel Entegrasyon Altyapısı',
-    description:
-      'POS, çağrı merkezi ve tüm dış sistemlerinizle sorunsuz bağlantı. Tedarikçiniz değişse bile platformunuz kesintisiz çalışır.',
-    status: 'ÇOK YAKINDA',
-    icon: Plug,
-  },
-];
-
-/** Section 5 — differentiators. */
-export interface Differentiator {
-  title: string;
-  description: string;
-}
-
-export const DIFFERENTIATORS: Differentiator[] = [
-  {
-    title: 'Evrensel Çekirdek Teknolojisi',
-    description:
-      'Tek bir güçlü çekirdek; sınırsız marka, şube ve sektör. Yeni ihtiyaçlar dakikalar içinde yapılandırmayla eklenir — 3CP bir araç değil, sizinle büyüyen bir platformdur.',
-  },
-  {
-    title: 'Evrensel Entegrasyon ve Altyapı Bağımsızlığı',
-    description:
-      "3CP tedarikçilerinizin yerini almaz, hepsiyle konuşur. POS'unuz ya da çağrı merkeziniz değişse bile platformunuz kesintisiz çalışmaya devam eder.",
-  },
-  {
-    title: 'Anonim-Öncelikli ve Tam Uyumlu',
-    description:
-      'Anketler kimlik zorunluluğu olmadan toplanır; bu hem katılımı en üst düzeye çıkarır hem de sizi platform politikalarına aykırı yönlendirme riskinden korur.',
-  },
-  {
-    title: 'Kurumsal Seviye İzole Veri Güvenliği',
-    description:
-      'Her müşterinin verisi, veritabanı katmanında birbirinden tamamen izole edilir. Akıllı maskeleme ve tam denetim izi; güvenliği sonradan eklenen bir özellik değil, temel bir standart yapar.',
-  },
-];
-
-/** Section 5 — platform expansion chips. */
+/** Section 4 — platform expansion chips, rendered inside SectorVerticals. */
 export const CORE_CHIPS: string[] = [
   'Çoklu Marka & Şube',
   '360° Müşteri Profili',
