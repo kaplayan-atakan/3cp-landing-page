@@ -1,38 +1,79 @@
 /** @type {import('tailwindcss').Config} */
+
+/** Binds a Tailwind colour to an RGB-channel CSS variable, preserving /opacity modifiers. */
+const token = (name) => `rgb(var(${name}) / <alpha-value>)`;
+
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      // Every colour resolves through src/styles/tokens.css. Components never
+      // carry raw hex — see the design language's token architecture (§11).
       colors: {
-        'brand-teal': '#0D7A6F',
-        'brand-teal-dark': '#1FAF9E',
-        // Merge-extends the default neutral palette; only these shades are overridden
-        // with the 3CP design tokens, the rest (300/400/500/700/800) stay default.
+        'brand-teal': token('--color-background-brand-bold'),
+        'brand-teal-hovered': token('--color-background-brand-hovered'),
+        'brand-teal-dark': token('--color-teal-400'),
+
+        // Merge-extends the default neutral palette; only the shades the design
+        // language defines are overridden, the rest stay Tailwind's defaults.
         neutral: {
-          50: '#F7F8F9',
-          100: '#EBECF0',
-          200: '#DFE1E6',
-          600: '#5E6C84',
-          900: '#172B4D',
+          50: token('--color-neutral-50'),
+          100: token('--color-neutral-100'),
+          200: token('--color-neutral-200'),
+          400: token('--color-neutral-400'),
+          600: token('--color-neutral-600'),
+          800: token('--color-neutral-800'),
+          900: token('--color-neutral-900'),
         },
+
+        success: token('--color-background-success'),
+        'success-fg': token('--color-text-success'),
+        warning: token('--color-background-warning'),
+        'warning-fg': token('--color-text-warning'),
+        danger: token('--color-background-danger'),
+        'danger-fg': token('--color-text-danger'),
+        information: token('--color-background-information'),
+        'information-fg': token('--color-text-information'),
+
+        'surface-default': token('--color-background-default'),
+        'surface-sunken': token('--color-background-sunken'),
+        'footer-deep': token('--color-deep-navy'),
       },
       fontFamily: {
         sans: ['Inter', 'Geist Sans', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono"', '"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       transitionTimingFunction: {
-        smooth: 'cubic-bezier(0.25,0.1,0.25,1)',
+        smooth: 'var(--motion-easing-standard)',
       },
       transitionDuration: {
-        DEFAULT: '500ms',
+        DEFAULT: 'var(--motion-duration-slow)',
+        fast: 'var(--motion-duration-fast)',
+        medium: 'var(--motion-duration-medium)',
       },
       boxShadow: {
-        raised: '0 1px 1px rgba(9,30,66,0.25), 0 0 1px rgba(9,30,66,0.31)',
-        overlay: '0 4px 8px -2px rgba(9,30,66,0.25), 0 0 1px rgba(9,30,66,0.31)',
-        pill: '0 2px 8px rgba(0,0,0,0.04)',
+        raised: 'var(--elevation-raised)',
+        overlay: 'var(--elevation-overlay)',
+        pill: 'var(--elevation-pill)',
       },
       maxWidth: {
         container: '1440px',
+      },
+      // Drives src/components/magicui/marquee.tsx. --gap and --duration are set
+      // by the component; the keyframes only consume them.
+      keyframes: {
+        marquee: {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(calc(-100% - var(--gap)))' },
+        },
+        'marquee-vertical': {
+          from: { transform: 'translateY(0)' },
+          to: { transform: 'translateY(calc(-100% - var(--gap)))' },
+        },
+      },
+      animation: {
+        marquee: 'marquee var(--duration) linear infinite',
+        'marquee-vertical': 'marquee-vertical var(--duration) linear infinite',
       },
     },
   },

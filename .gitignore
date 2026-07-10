@@ -22,3 +22,6 @@ Thumbs.db
 *.tsbuildinfo
 vite.config.js
 vite.config.d.ts
+
+# Playwright MCP session artefacts
+.playwright-mcp/

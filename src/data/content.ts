@@ -8,27 +8,48 @@ import {
   Contact,
   ClipboardList,
   Sparkles,
-  Bot,
-  Ticket,
   PhoneCall,
-  Megaphone,
   Radio,
-  BarChart3,
-  Gift,
-  Plug,
   Database,
   EyeOff,
   FileCheck2,
   ScrollText,
+  UtensilsCrossed,
+  Home,
+  ShoppingBag,
+  BedDouble,
+  Network,
+  SlidersHorizontal,
+  Rocket,
+  CreditCard,
 } from 'lucide-react';
 
 /** Navigation links shared by the desktop navbar and the mobile menu. */
 export const NAV_LINKS: { label: string; href: string }[] = [
+  { label: 'Platform', href: '#platform' },
   { label: 'Nasıl Çalışır?', href: '#nasil-calisir' },
-  { label: 'Yetenekler', href: '#yetenekler' },
+  { label: 'Entegrasyon', href: '#entegrasyon' },
   { label: 'Güvenlik', href: '#guvenlik' },
-  { label: 'Yol Haritası', href: '#yol-haritasi' },
   { label: 'SSS', href: '#sss' },
+];
+
+/**
+ * Section 1 — hero scope counters.
+ *
+ * These are not traction metrics. Every figure is countable in the source
+ * documents; nothing about uptime, branch counts or processed volume appears
+ * here, because 3CP is pre-POC and no such number exists yet.
+ */
+export interface HeroStat {
+  value: number;
+  label: string;
+}
+
+export const HERO_STATS: HeroStat[] = [
+  { value: 12, label: 'yetenek modülü' }, // Yetenek Seti §I.1–I.12
+  { value: 18, label: 'ekran grubu' }, // Yetenek Seti §II — gruplar A–R
+  { value: 4, label: 'sektör dikeyi' }, // Yetenek Seti §0.3 + §III
+  { value: 4, label: 'desteklenen LLM sağlayıcısı' }, // §5.1 — Gemini, OpenAI, Claude, Mistral
 ];
 
 /** Section 2 — sector strip. */
@@ -117,131 +138,394 @@ export const STEPS: Step[] = [
   },
 ];
 
-/** Section 4 — capabilities matrix. */
-export interface Capability {
+/**
+ * Section 3 — the four POC-core modules (Yetenek Seti §0.4: IAM + Kişi Kartı +
+ * Anonim Anket + RAG segmentasyon). `wide` drives the bento column span.
+ *
+ * The LLM Gateway is not a fifth card: it is the infrastructure the RAG card
+ * runs on, so it appears there as a bullet.
+ */
+export interface CoreModule {
+  title: string;
+  phase: string;
+  description: string;
+  bullets: string[];
+  icon: LucideIcon;
+  wide: boolean;
+}
+
+export const CORE_MODULES: CoreModule[] = [
+  {
+    title: 'Kimlik ve Yetki Altyapısı',
+    phase: 'Faz 0',
+    description:
+      'Şirket, marka, şube ve departman hiyerarşinizin tamamı tek bir yetki modelinde toplanır. Sabit rol seti yoktur; her kiracı kendi rollerini tanımlar.',
+    bullets: [
+      'Modül × kapsam × aksiyon izin matrisi',
+      'Alıcı tipine göre dinamik alan maskeleme',
+      'Erişim ve değişiklik denetim kaydı',
+    ],
+    icon: KeyRound,
+    wide: true,
+  },
+  {
+    title: '360° Kişi Kartı',
+    phase: 'Faz 1',
+    description:
+      'Telefon numarası birincil anahtar; anket, şikayet, kampanya, çağrı ve satın alma geçmişi tek profilde birleşir.',
+    bullets: [
+      'Değiştirilemez rıza defteri',
+      'Kimlik birleştirme ve dedup',
+      'KVKK anonimleştirme akışı',
+    ],
+    icon: Contact,
+    wide: false,
+  },
+  {
+    title: 'Anket ve NPS',
+    phase: 'Faz 2',
+    description:
+      'Şube ve kampanya bazlı QR üretimi, mobil-öncelikli doldurma arayüzü. Anonim-öncelikli toplama katılımı yüksek tutar.',
+    bullets: [
+      'Eşik altı yanıt otomatik şikayet ticket’ına döner',
+      'Şube, ürün ve kategori bazlı NPS kırılımı',
+    ],
+    icon: ClipboardList,
+    wide: false,
+  },
+  {
+    title: 'Yapay Zeka Geri Bildirim Zekası',
+    phase: 'Faz 3',
+    description:
+      'Yorumlar embedding ve vektör arama üzerinden kategori, duygu ve kritiklik düzeyine göre sınıflandırılır. Düşük güvenli sonuçlar insan incelemesi için işaretlenir; her düzeltme örnek havuzunu besler.',
+    bullets: [
+      'Kiracıya özel kategori taksonomisi',
+      'Sağlayıcı-bağımsız LLM Gateway üzerinde çalışır',
+      'Kritik eşik aşıldığında otomatik uyarı',
+    ],
+    icon: Sparkles,
+    wide: true,
+  },
+];
+
+/** Shared shape for the two-up figures on a sector card. */
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+/**
+ * Section 5 — sector verticals.
+ *
+ * Restoran and Emlak counts come straight from Yetenek Seti §0.3 and §III.
+ * The documents define no module set for Perakende or Otelcilik, so those cards
+ * count the reused core instead and say "Tanımlanacak" rather than inventing a
+ * number.
+ */
+export interface SectorVertical {
+  name: string;
+  status: string;
+  active: boolean;
+  description: string;
+  icon: LucideIcon;
+  stats: [Stat, Stat];
+}
+
+export const SECTOR_VERTICALS: SectorVertical[] = [
+  {
+    name: 'Restoran Zincirleri',
+    status: 'AKTİF',
+    active: true,
+    description:
+      'İlk dikey pazar. Anket ve NPS, şikayet yönetimi ve kampanya motoru bu dikeyin kendi modülleridir; çekirdek onları taşır.',
+    icon: UtensilsCrossed,
+    stats: [
+      { value: 'v1', label: 'İlk dikey pazar' },
+      { value: '3', label: 'Sektöre özel modül' }, // Anket/NPS, Şikayet, Kampanya
+    ],
+  },
+  {
+    name: 'Emlak',
+    status: 'YAKINDA',
+    active: false,
+    description:
+      'İlan yönetimi, teklif ve pazarlık süreci, portföy eşleştirme. Aynı çekirdek, yeni modüller ve yeni ilan platformu adaptörleri.',
+    icon: Home,
+    stats: [
+      { value: '3', label: 'Planlanan sektörel modül' }, // §III
+      { value: '3', label: 'İlan platformu adaptörü' }, // Sahibinden, Emlakjet, Hürriyet Emlak
+    ],
+  },
+  {
+    name: 'Perakende',
+    status: 'YAKINDA',
+    active: false,
+    description:
+      'Çok-kiracılık, kişi kartı, dinamik yetki ve entegrasyon çatısı olduğu gibi devralınır. Sektörel modüller tasarım aşamasında.',
+    icon: ShoppingBag,
+    stats: [
+      { value: '6', label: 'Devralınan çekirdek servis' }, // §III generic çekirdek listesi
+      { value: 'Tanımlanacak', label: 'Sektörel modül seti' },
+    ],
+  },
+  {
+    name: 'Otelcilik',
+    status: 'YAKINDA',
+    active: false,
+    description:
+      'Çekirdek sektör-agnostiktir: yeni dikey sisteme bileşen ekler, mevcut çekirdeği değiştirmez.',
+    icon: BedDouble,
+    stats: [
+      { value: '6', label: 'Devralınan çekirdek servis' },
+      { value: 'Tanımlanacak', label: 'Sektörel modül seti' },
+    ],
+  },
+];
+
+/** Section 6 — onboarding walkthrough. */
+export interface OnboardingStep {
+  number: string;
   title: string;
   description: string;
-  status: 'HAZIR' | 'ÇOK YAKINDA';
   icon: LucideIcon;
 }
 
-export const CAPABILITIES: Capability[] = [
+export const ONBOARDING_STEPS: OnboardingStep[] = [
   {
-    title: 'Çok Katmanlı Rol ve Şube Yönetimi',
+    number: '01',
+    title: 'Kurulum',
     description:
-      'Şirket, marka, şube ve departman hiyerarşinizin tamamını tek ekrandan yönetin. Her ekibe tam ihtiyacı kadar yetki verin; kimin neyi görebileceğine siz karar verin.',
-    status: 'HAZIR',
-    icon: KeyRound,
+      'Kiracınız oluşturulur, marka ve şube hiyerarşiniz tanımlanır. 3CP bulut tabanlıdır; sunucu kurulumu gerektirmez.',
+    icon: Building2,
   },
   {
-    title: '360° Merkezi Müşteri Profili',
+    number: '02',
+    title: 'Şube bağlama',
     description:
-      'Her müşterinizin anket, şikayet, kampanya ve satın alma geçmişi tek bir profilde birleşir. KVKK uyumlu, zaman damgalı onay kaydıyla.',
-    status: 'HAZIR',
-    icon: Contact,
+      'Şubeler ve departmanlar sisteme girilir, ekip üyeleri davet akışıyla eklenir.',
+    icon: Network,
   },
   {
-    title: 'Anket & NPS Yönetimi',
+    number: '03',
+    title: 'Yapılandırma',
     description:
-      'QR ile saniyeler içinde anonim anket toplayın; şube ve ürün bazında NPS performansınızı canlı olarak izleyin.',
-    status: 'HAZIR',
-    icon: ClipboardList,
+      'Roller, izin matrisi, maskeleme politikası ve marka sesi profili ayarlanır. Kod değil, konfigürasyon.',
+    icon: SlidersHorizontal,
   },
   {
-    title: 'Yapay Zeka Destekli Anlamlandırma Motoru',
+    number: '04',
+    title: 'Canlıya geçiş',
     description:
-      'Binlerce yorumu otomatik olarak kategori, duygu ve kritiklik düzeyine göre sınıflandırın. Sistem, her insan düzeltmesiyle daha da akıllanır.',
-    status: 'HAZIR',
-    icon: Sparkles,
+      'QR kodlar üretilir, anket yayına alınır. İlk yanıtlar geldiği anda sınıflandırma çalışmaya başlar.',
+    icon: Rocket,
+  },
+];
+
+/**
+ * Section 6 — a read-only illustration of the Dense Matrix layout
+ * (Tasarım Dili §8.2). Not a real tenant's permission set.
+ */
+export const PERMISSION_MATRIX: {
+  roles: string[];
+  actions: string[];
+  grid: boolean[][];
+} = {
+  roles: ['Bölge Müdürü', 'Şube Sorumlusu', 'Çağrı Merkezi Agent'],
+  actions: ['Görüntüle', 'Düzenle', 'Sil', 'Onayla'],
+  grid: [
+    [true, true, true, true],
+    [true, true, false, false],
+    [true, false, false, false],
+  ],
+};
+
+/**
+ * Section 7 — the adapter framework (Yetenek Seti §6).
+ *
+ * No third-party supplier is named. The architecture document is explicit that
+ * names like RestoPos and AssisTT are the first reference adapters written for
+ * the v1 customer's suppliers, not fixed components of 3CP — presenting them as
+ * shipped integrations would be false, and using their marks would be a
+ * trademark problem. The review and listing platforms below are public
+ * surfaces 3CP reads from, and the documents name them outright.
+ */
+export interface AdapterClass {
+  name: string;
+  phase: string;
+  examples: string;
+  icon: LucideIcon;
+}
+
+export const ADAPTER_CLASSES: AdapterClass[] = [
+  {
+    name: 'POS adaptörleri',
+    phase: 'FAZ 4',
+    examples: 'Kampanya ve kupon iletimi, kullanım verisinin geri akışı',
+    icon: CreditCard,
   },
   {
-    title: 'Kurumsal Akıllı Yanıt ve Otomasyon Sistemi',
-    description:
-      'Markanızın ses tonuna uygun otomatik yanıtlar; sağlayıcı bağımsız yapay zeka altyapısı ve tam şeffaf maliyet kontrolü.',
-    status: 'HAZIR',
-    icon: Bot,
-  },
-  {
-    title: 'Şikayet Yönetimi',
-    description:
-      'Tüm kanallardan gelen şikayetleri tek panelde toplayın; yapay zeka destekli yanıt taslakları, SLA takibi ve Kanban görünümüyle hızlıca çözün.',
-    status: 'ÇOK YAKINDA',
-    icon: Ticket,
-  },
-  {
-    title: 'Çağrı Merkezi Köprüsü',
-    description:
-      'Arayan müşteriyi anında tanıyın; maskeli müşteri kartı ekrana düşer, tüm çağrı geçmişi otomatik olarak profile işlenir.',
-    status: 'ÇOK YAKINDA',
+    name: 'Çağrı merkezi adaptörleri',
+    phase: 'FAZ 4',
+    examples: 'IVR numara eşleşmesi, maskeli kart ekrana düşürme, rıza kaydı',
     icon: PhoneCall,
   },
   {
-    title: 'Kampanya & Kupon Motoru',
-    description:
-      "Segment bazlı kampanyalar kurun, kuponları POS'a otomatik iletin; yapay zeka ile kişiselleştirilmiş, İYS uyumlu mesajlar gönderin.",
-    status: 'ÇOK YAKINDA',
-    icon: Megaphone,
-  },
-  {
-    title: 'Çok Kanallı Sosyal Dinleme',
-    description:
-      'Google, Yemeksepeti, Getir ve sosyal medya yorumlarını tek gelen kutusunda toplayın; yapay zeka destekli yanıtlarla anında karşılık verin.',
-    status: 'ÇOK YAKINDA',
+    name: 'Yorum platformu adaptörleri',
+    phase: 'FAZ 8',
+    examples: 'Google, Yemeksepeti, Getir, Migros Yemek, Trendyol Go',
     icon: Radio,
   },
   {
-    title: 'Gelişmiş Raporlama & BI',
-    description:
-      'Modüller arası birleşik panolar, Excel ve Power BI aktarımı, yapay zeka ile hazırlanan yönetici özetleri.',
-    status: 'ÇOK YAKINDA',
-    icon: BarChart3,
-  },
-  {
-    title: 'Sadakat ve Ödül Motoru',
-    description:
-      'Puan ve seviye kurallarını dilediğiniz gibi tanımlayın; müşteri profiliyle senkron üyelik ve otomatik kampanya tetikleme.',
-    status: 'ÇOK YAKINDA',
-    icon: Gift,
-  },
-  {
-    title: 'Evrensel Entegrasyon Altyapısı',
-    description:
-      'POS, çağrı merkezi ve tüm dış sistemlerinizle sorunsuz bağlantı. Tedarikçiniz değişse bile platformunuz kesintisiz çalışır.',
-    status: 'ÇOK YAKINDA',
-    icon: Plug,
+    name: 'İlan platformu adaptörleri',
+    phase: 'SEKTÖR GENİŞLEMESİ',
+    examples: 'Sahibinden, Emlakjet, Hürriyet Emlak',
+    icon: Home,
   },
 ];
 
-/** Section 5 — differentiators. */
-export interface Differentiator {
-  title: string;
-  description: string;
+/**
+ * Mimari §8.4 — the transactional outbox. This is 3CP's *internal* event
+ * contract, not a public partner API; the surrounding section says so plainly.
+ */
+export const OUTBOX_EVENT_SAMPLE = `-- İş verisi ve olay kaydı aynı transaction'da yazılır
+INSERT INTO core.outbox_messages (id, type, payload, status)
+VALUES (
+  gen_random_uuid(),
+  'PlatformMentionIngested',
+  '{ "sourceType":    "platform",
+     "platformCode":  "GOOGLE",
+     "feedbackItemId": "…" }',   -- payload kişisel veri taşımaz
+  'pending'
+);
+
+-- Dispatcher kaldığı yerden devam eder:
+-- veritabanına yazıldıysa olay mutlaka işlenir.`;
+
+/**
+ * Section 8 — seeded audit ticker. Event names are 3CP's real audit surface
+ * (Mimari §8.4). The dataset is fixed: never live, never real tenant data.
+ */
+export interface AuditLine {
+  time: string;
+  event: string;
+  detail: string;
+  tone: 'neutral' | 'warning' | 'danger';
 }
 
-export const DIFFERENTIATORS: Differentiator[] = [
+export const AUDIT_LOG_LINES: AuditLine[] = [
+  { time: '09:14:02', event: 'LOGIN', detail: 'bolge_muduru · sube-34', tone: 'neutral' },
   {
-    title: 'Evrensel Çekirdek Teknolojisi',
-    description:
-      'Tek bir güçlü çekirdek; sınırsız marka, şube ve sektör. Yeni ihtiyaçlar dakikalar içinde yapılandırmayla eklenir — 3CP bir araç değil, sizinle büyüyen bir platformdur.',
+    time: '09:14:19',
+    event: 'REVEAL',
+    detail: 'telefon · alici_tipi=CALL_CENTER_AGENT',
+    tone: 'warning',
+  },
+  { time: '09:15:41', event: 'LOGIN_FAILED', detail: 'bilinmeyen kimlik · 3. deneme', tone: 'danger' },
+  { time: '09:16:03', event: 'ANONYMIZE', detail: 'KVKK silme talebi işlendi', tone: 'warning' },
+  { time: '09:17:22', event: 'TOKEN_REUSE', detail: 'oturum iptal edildi', tone: 'danger' },
+  { time: '09:18:07', event: 'PROVISION', detail: 'yeni kiracı oluşturuldu', tone: 'neutral' },
+  { time: '09:19:35', event: 'REFRESH', detail: 'oturum yenilendi', tone: 'neutral' },
+];
+
+/** Section 9 — capability marquee. Every tag maps to a documented module. */
+export const MARQUEE_ROW_ONE: string[] = [
+  '360° Kişi Kartı',
+  'Anket ve NPS',
+  'RAG Segmentasyon',
+  'Şikayet Yönetimi',
+  'Kampanya Motoru',
+  'Veri Maskeleme',
+  'Denetim İzi',
+  'QR Menü',
+];
+
+export const MARQUEE_ROW_TWO: string[] = [
+  'ABAC İzin Matrisi',
+  'LLM Gateway',
+  'Marka Sesi Profili',
+  'Kupon Motoru',
+  'Çağrı Merkezi Köprüsü',
+  'Sosyal Dinleme',
+  'Loyalty Motoru',
+  'Catalog Ürün Master’ı',
+];
+
+/**
+ * Section 10 — mocked cross-branch activity, rendered inside a panel that
+ * carries a DemoBadge. The page never claims this traffic is live.
+ */
+export interface ActivityItem {
+  branch: string;
+  title: string;
+  meta: string;
+  tone: 'success' | 'neutral' | 'information';
+}
+
+export const ACTIVITY_FEED: ActivityItem[] = [
+  { branch: 'Kadıköy', title: 'Anket yanıtı alındı', meta: 'NPS 9 · Pozitif', tone: 'success' },
+  {
+    branch: 'Beşiktaş',
+    title: 'Kritik uyarı tetiklendi',
+    meta: 'Servis hızı · Kritiklik 0.87',
+    tone: 'neutral',
   },
   {
-    title: 'Evrensel Entegrasyon ve Altyapı Bağımsızlığı',
-    description:
-      "3CP tedarikçilerinizin yerini almaz, hepsiyle konuşur. POS'unuz ya da çağrı merkeziniz değişse bile platformunuz kesintisiz çalışmaya devam eder.",
+    branch: 'Bakırköy',
+    title: 'Şikayet ticket’ı açıldı',
+    meta: 'Eşik altı NPS · SLA 4 saat',
+    tone: 'information',
+  },
+  { branch: 'Ataşehir', title: 'Anket yanıtı alındı', meta: 'NPS 4 · Negatif', tone: 'neutral' },
+  {
+    branch: 'Şişli',
+    title: 'Sınıflandırma düzeltildi',
+    meta: 'İnsan onayı · örnek havuzuna eklendi',
+    tone: 'information',
   },
   {
-    title: 'Anonim-Öncelikli ve Tam Uyumlu',
-    description:
-      'Anketler kimlik zorunluluğu olmadan toplanır; bu hem katılımı en üst düzeye çıkarır hem de sizi platform politikalarına aykırı yönlendirme riskinden korur.',
-  },
-  {
-    title: 'Kurumsal Seviye İzole Veri Güvenliği',
-    description:
-      'Her müşterinin verisi, veritabanı katmanında birbirinden tamamen izole edilir. Akıllı maskeleme ve tam denetim izi; güvenliği sonradan eklenen bir özellik değil, temel bir standart yapar.',
+    branch: 'Üsküdar',
+    title: 'Google yorumu işlendi',
+    meta: 'Kategori: Temizlik · Pozitif',
+    tone: 'success',
   },
 ];
 
-/** Section 5 — platform expansion chips. */
+/**
+ * Section 11 — the two LLM cost models documented in Mimari §"Birim ekonomisi
+ * ve bütçe". High-level only: 3CP's pricing model is not yet built, so there
+ * are no tiers, no unit prices and no margin figures anywhere on this page.
+ */
+export interface CostModel {
+  title: string;
+  description: string;
+  bullets: string[];
+  icon: LucideIcon;
+}
+
+export const COST_MODELS: CostModel[] = [
+  {
+    title: 'Kendi API anahtarınız',
+    description:
+      'Yapay zeka maliyetini doğrudan sağlayıcınıza ödersiniz. 3CP araya girmez, üzerine bir şey eklemez.',
+    bullets: [
+      'Token kullanımı kiracı, modül ve tarih bazında panelde görünür',
+      'Sağlayıcı ve model seçimi her modül için ayrı yapılabilir',
+    ],
+    icon: KeyRound,
+  },
+  {
+    title: 'Platform havuz anahtarı',
+    description:
+      'Anahtar yönetimiyle uğraşmazsınız; 3CP çağrıları kendi havuzundan geçirir ve tek faturada toplar.',
+    bullets: [
+      'Aylık bütçe eşiği ve aşım alarmı tanımlanır',
+      'Birincil sağlayıcı yanıt vermezse yedek sağlayıcı devreye girer',
+    ],
+    icon: Boxes,
+  },
+];
+
+/** Section 4 — platform expansion chips, rendered inside SectorVerticals. */
 export const CORE_CHIPS: string[] = [
   'Çoklu Marka & Şube',
   '360° Müşteri Profili',

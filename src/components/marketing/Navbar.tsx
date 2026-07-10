@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Clock, Menu, X } from 'lucide-react';
-import { NAV_LINKS } from '../data/content';
-import { useIstanbulClock } from '../hooks';
-import { TextRollButton, TRANSITION } from './primitives';
+import { NAV_LINKS } from '../../data/content';
+import { useIstanbulClock } from '../../hooks';
+import { TextRollButton, TRANSITION } from '../primitives';
 
 /**
  * Mobile navigation overlay: fixed full-screen scrim with a white bottom sheet
@@ -108,11 +108,15 @@ export function Navbar() {
               <Clock size={14} aria-hidden="true" />
               {time} TR&apos;de
             </span>
+            {/* `invisible` (not just opacity-0) is what pulls the hidden CTA out of
+                the tab order — otherwise keyboard users land on a button they
+                cannot see. Because `transition-all` covers `visibility`, it still
+                fades out rather than snapping. */}
             <div
               className={`${TRANSITION} ${
                 showCta
-                  ? 'translate-x-0 opacity-100'
-                  : 'pointer-events-none translate-x-2 opacity-0'
+                  ? 'visible translate-x-0 opacity-100'
+                  : 'invisible pointer-events-none translate-x-2 opacity-0'
               }`}
               aria-hidden={!showCta}
             >

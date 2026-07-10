@@ -1,6 +1,6 @@
-import { FOOTER_GROUPS, CONTACT_EMAIL } from '../data/content';
-import { asset } from '../asset';
-import { TextRollButton, TRANSITION } from './primitives';
+import { FOOTER_GROUPS, CONTACT_EMAIL } from '../../data/content';
+import { asset } from '../../asset';
+import { TextRollButton, TRANSITION } from '../primitives';
 
 /**
  * Section 7 — closing CTA band (brand teal) followed by the dark footer.
@@ -19,7 +19,7 @@ export function ClosingFooter() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-[#0D7A6F]/90 to-[#0e2a40]/85"
+          className="absolute inset-0 bg-gradient-to-r from-brand-teal/90 to-footer-deep/85"
           aria-hidden="true"
         />
         <div className="relative mx-auto max-w-container px-5 py-24 text-center sm:px-8 lg:px-12">
