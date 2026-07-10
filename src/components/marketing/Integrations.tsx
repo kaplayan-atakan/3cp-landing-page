@@ -34,7 +34,7 @@ export function Integrations() {
               Entegrasyon Çatısı
             </span>
           </div>
-          <h2 className="max-w-[900px] text-[clamp(1.5rem,4vw,2.8rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-white">
+          <h2 className="max-w-[900px] text-[clamp(1.5rem,4vw,2.8rem)] font-serif font-semibold leading-[1.15] tracking-[-0.02em] text-white">
             3CP tedarikçilerinizin işini yapmaz — onlarla konuşur
           </h2>
         </div>
