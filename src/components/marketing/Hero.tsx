@@ -1,33 +1,17 @@
-import { lazy, Suspense } from 'react';
 import { asset } from '../../asset';
 import { HERO_STATS } from '../../data/content';
 import { NumberTicker } from '../magicui/number-ticker';
 import { Reveal, TextRollButton, TRANSITION } from '../primitives';
-
-// Code-split the WebGPU shader stack so the (heavy) `shaders` library loads on
-// demand and never blocks first paint. The neutral background stands in until
-// the chunk is ready.
-const HeroShader = lazy(() =>
-  import('../HeroShader').then((module) => ({ default: module.HeroShader })),
-);
+import { HeroBackground } from './HeroBackground';
 
 /**
- * Section 1 — hero: ambient shader background, the headline block, a scope
+ * Section 1 — hero: ambient CSS background, the headline block, a scope
  * counter row, and a large product screenshot showcase.
  */
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden bg-neutral-50">
-      <Suspense
-        fallback={
-          <div
-            className="pointer-events-none absolute inset-0 z-10 bg-neutral-50"
-            aria-hidden="true"
-          />
-        }
-      >
-        <HeroShader />
-      </Suspense>
+      <HeroBackground />
 
       <div className="relative z-20 mx-auto w-full max-w-container px-5 pb-16 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pt-44">
         <div className="max-w-[860px]">

@@ -1,4 +1,4 @@
-import { Component, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { usePrefersReducedMotion } from '../hooks';
@@ -211,35 +211,3 @@ export function StatPair({ value, label }: { value: string; label: string }) {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* ShaderErrorBoundary                                                 */
-/* ------------------------------------------------------------------ */
-
-interface BoundaryProps {
-  fallback: ReactNode;
-  children: ReactNode;
-}
-
-interface BoundaryState {
-  hasError: boolean;
-}
-
-/**
- * Isolates the WebGPU hero shader: if the GPU pipeline fails to initialise on
- * a given device, we render the static gradient fallback instead of crashing
- * the page.
- */
-export class ShaderErrorBoundary extends Component<BoundaryProps, BoundaryState> {
-  state: BoundaryState = { hasError: false };
-
-  static getDerivedStateFromError(): BoundaryState {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback;
-    }
-    return this.props.children;
-  }
-}

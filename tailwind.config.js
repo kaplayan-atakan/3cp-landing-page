@@ -72,6 +72,10 @@ export default {
           from: { transform: 'translateY(0)' },
           to: { transform: 'translateY(calc(-100% - var(--gap)))' },
         },
+        heroDrift: {
+          '0%': { transform: 'translate3d(0,0,0) scale(1)' },
+          '100%': { transform: 'translate3d(0,-1.5%,0) scale(1.04)' },
+        },
       },
       animation: {
         marquee: 'marquee var(--duration) linear infinite',
