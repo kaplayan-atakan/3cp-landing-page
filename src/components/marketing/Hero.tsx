@@ -19,7 +19,7 @@ export function Hero() {
             Centralized Customer Control Panel
           </p>
 
-          <h1 className="text-[clamp(1.75rem,6vw,3.8rem)] font-bold leading-[1.1] tracking-[-0.03em] text-neutral-900">
+          <h1 className="text-[clamp(1.75rem,6vw,3.8rem)] font-serif font-semibold leading-[1.1] tracking-[-0.03em] text-neutral-900">
             Çok şubeli müşteri operasyonunuz{' '}
             <span className="text-brand-teal">tek kontrol panelinde toplanır.</span>
           </h1>
