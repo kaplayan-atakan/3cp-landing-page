@@ -12,7 +12,7 @@ import { DemoBadge, Reveal, SectionHeader, StatusBadge } from '../primitives';
  */
 export function ActivityPreview() {
   return (
-    <section className="bg-white">
+    <section className="bg-surface-sunken">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="08"
