@@ -55,8 +55,6 @@
   --color-background-information: var(--color-blue-50);
   --color-text-information: var(--color-blue-700);
 
-  --card-hairline: var(--color-teal-700); /* premium card üst aksan çizgisi */
-
   /* --- Katman 3: Component ------------------------------------------- */
   --button-primary-bg: var(--color-background-brand-bold);
   --button-primary-bg-hovered: var(--color-background-brand-hovered);

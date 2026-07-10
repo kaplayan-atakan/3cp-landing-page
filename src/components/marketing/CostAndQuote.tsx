@@ -1,5 +1,5 @@
 import { COST_MODELS, CONTACT_EMAIL } from '../../data/content';
-import { Reveal, SectionHeader, TRANSITION } from '../primitives';
+import { PremiumCard, Reveal, SectionHeader, TRANSITION } from '../primitives';
 
 /**
  * Section 9 — cost transparency, where a pricing table would normally go.
@@ -29,7 +29,7 @@ export function CostAndQuote() {
             const Icon = model.icon;
             return (
               <Reveal key={model.title} delay={index * 0.05}>
-                <div className="flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-8">
+                <PremiumCard className="flex h-full flex-col">
                   <span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-brand-teal">
                     <Icon size={20} aria-hidden="true" />
                   </span>
@@ -48,7 +48,7 @@ export function CostAndQuote() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </PremiumCard>
               </Reveal>
             );
           })}

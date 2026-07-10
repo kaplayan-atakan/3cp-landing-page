@@ -215,22 +215,6 @@ export function StatPair({ value, label }: { value: string; label: string }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* SerifHeading                                                        */
-/* ------------------------------------------------------------------ */
-
-interface SerifHeadingProps {
-  children: ReactNode;
-  as?: 'h1' | 'h2' | 'h3';
-  className?: string;
-}
-
-/** Editorial serif heading (Playfair Display). Used only for large titles. */
-export function SerifHeading({ children, as = 'h2', className }: SerifHeadingProps) {
-  const Tag = as;
-  return <Tag className={cn('font-serif tracking-[-0.01em]', className)}>{children}</Tag>;
-}
-
-/* ------------------------------------------------------------------ */
 /* PremiumCard                                                         */
 /* ------------------------------------------------------------------ */
 

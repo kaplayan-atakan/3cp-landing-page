@@ -23,7 +23,7 @@ export function ClosingFooter() {
           aria-hidden="true"
         />
         <div className="relative mx-auto max-w-container px-5 py-24 text-center sm:px-8 lg:px-12">
-          <h2 className="mx-auto max-w-[820px] text-[clamp(1.5rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.02em] text-white">
+          <h2 className="mx-auto max-w-[820px] font-serif text-[clamp(1.5rem,4vw,2.6rem)] font-semibold leading-tight tracking-[-0.02em] text-white">
             Müşteri geri bildirimini içgörüye çevirmeye hazır mısınız?
           </h2>
           <p className="mx-auto mt-4 max-w-[560px] text-white/90">

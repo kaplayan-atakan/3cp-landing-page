@@ -2,7 +2,7 @@ import { ShieldCheck } from 'lucide-react';
 import { asset } from '../../asset';
 import { SECURITY_PILLARS, AUDIT_LOG_LINES, type AuditLine } from '../../data/content';
 import { AnimatedList } from '../magicui/animated-list';
-import { DemoBadge, Reveal, SectionHeader, TRANSITION } from '../primitives';
+import { DemoBadge, PremiumCard, Reveal, SectionHeader, TRANSITION } from '../primitives';
 
 /** Event-name chip. Tuned for the dark log panel, so it can't reuse StatusBadge. */
 const EVENT_TONES: Record<AuditLine['tone'], string> = {
@@ -51,9 +51,7 @@ export function Security() {
             const Icon = pillar.icon;
             return (
               <Reveal key={pillar.title} delay={index * 0.05}>
-                <div
-                  className={`flex h-full flex-col rounded-xl border border-neutral-200 p-6 hover:shadow-raised ${TRANSITION}`}
-                >
+                <PremiumCard className="flex h-full flex-col">
                   <span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-brand-teal">
                     <Icon size={20} aria-hidden="true" />
                   </span>
@@ -61,7 +59,7 @@ export function Security() {
                   <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                     {pillar.description}
                   </p>
-                </div>
+                </PremiumCard>
               </Reveal>
             );
           })}

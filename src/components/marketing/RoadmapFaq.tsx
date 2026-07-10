@@ -1,6 +1,6 @@
 import { ChevronDown } from 'lucide-react';
 import { PHASES, FAQ } from '../../data/content';
-import { Reveal, SectionHeader, TRANSITION } from '../primitives';
+import { PremiumCard, Reveal, SectionHeader, TRANSITION } from '../primitives';
 
 /**
  * Sections 10 and 11 — the product roadmap and the FAQ. They share a surface
@@ -16,12 +16,15 @@ export function RoadmapFaq() {
           <div className="grid grid-cols-1 gap-6 px-5 sm:px-8 md:grid-cols-2 lg:grid-cols-4 lg:px-12">
             {PHASES.map((phase, index) => (
               <Reveal key={phase.phase} delay={index * 0.05}>
-                <div className="flex h-full flex-col rounded-xl border border-neutral-200 bg-white p-6">
+                <PremiumCard
+                  cornerLabel={String(index + 1).padStart(2, '0')}
+                  className="flex h-full flex-col"
+                >
                   <h3 className="text-base font-semibold text-neutral-900">{phase.phase}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                     {phase.description}
                   </p>
-                </div>
+                </PremiumCard>
               </Reveal>
             ))}
           </div>

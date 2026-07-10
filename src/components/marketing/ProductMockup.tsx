@@ -8,9 +8,13 @@ import { DemoBadge, StatusBadge } from '../primitives';
  * carries a DemoBadge because it seeds from ACTIVITY_FEED — the same honest
  * mock data used in the Section 8 panel preview. No invented traction
  * figures, no English strings, no fabricated dates.
+ *
+ * Uses a different window of ACTIVITY_FEED than Section 8 (which renders the
+ * full list) so the hero panel and the Section 8 preview don't show an
+ * identical row-for-row list.
  */
 export function ProductMockup() {
-  const items = ACTIVITY_FEED.slice(0, 5);
+  const items = ACTIVITY_FEED.slice(1, 6);
 
   return (
     <div className="relative rounded-2xl border border-neutral-200 bg-white p-5 shadow-overlay">
