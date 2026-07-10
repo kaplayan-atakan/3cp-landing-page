@@ -1,5 +1,5 @@
 import { CORE_MODULES } from '../../data/content';
-import { PremiumCard, Reveal, SectionHeader } from '../primitives';
+import { GrainOverlay, PremiumCard, Reveal, SectionHeader } from '../primitives';
 
 /**
  * Section 2 — the platform's four core modules (IAM, the customer record,
@@ -8,7 +8,8 @@ import { PremiumCard, Reveal, SectionHeader } from '../primitives';
  */
 export function CapabilityBento() {
   return (
-    <section id="platform" className="scroll-mt-24 bg-surface-sunken">
+    <section id="platform" className="relative scroll-mt-24 overflow-hidden bg-surface-sunken">
+      <GrainOverlay />
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="02"

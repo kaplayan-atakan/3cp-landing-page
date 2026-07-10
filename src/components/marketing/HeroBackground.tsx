@@ -1,4 +1,5 @@
 import { usePrefersReducedMotion } from '../../hooks';
+import { GrainOverlay } from '../primitives';
 
 /**
  * GPU-free hero background. Token-bound radial gradients over a near-white base,
@@ -22,14 +23,7 @@ export function HeroBackground() {
             'radial-gradient(900px 520px at 18% 88%, rgb(var(--color-teal-700) / 0.07), transparent 60%)',
         }}
       />
-      {/* Inline SVG grain as a data-URI — no external fetch. */}
-      <div
-        className="absolute inset-0 opacity-[0.03] mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-      />
+      <GrainOverlay className="opacity-[0.03]" />
     </div>
   );
 }

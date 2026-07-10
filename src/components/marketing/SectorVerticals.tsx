@@ -35,7 +35,7 @@ function ConcentricDiagram() {
  */
 export function SectorVerticals() {
   return (
-    <section className="bg-surface-sunken">
+    <section className="border-t border-neutral-100 bg-surface-sunken">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="04"

@@ -132,8 +132,10 @@ interface SectionHeaderProps {
 export function SectionHeader({ number, pill, title }: SectionHeaderProps) {
   return (
     <div className="mb-12 px-5 sm:px-8 lg:px-12">
-      <div className="mb-4 flex items-center">
-        <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-neutral-900 font-mono text-xs text-white">
+      <div className="mb-4 flex items-end gap-4">
+        {/* Swiss Modernism numeral: large, thin, low-opacity mono figure —
+            typographic scale only, same neutral-900 token as the rest of the page. */}
+        <span className="font-mono text-[clamp(2rem,5vw,3.5rem)] font-thin leading-none tracking-tight text-neutral-900/20">
           {number}
         </span>
         <span className="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-600">
@@ -252,7 +254,7 @@ export function PremiumCard({ children, className, hairline = true, cornerLabel 
     <div
       className={cn(
         'group relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 shadow-raised transition-shadow duration-medium ease-smooth',
-        !reducedMotion && 'hover:-translate-y-0.5 hover:shadow-overlay motion-safe:transition-[transform,box-shadow]',
+        !reducedMotion && 'hover:-translate-y-0.5 hover:shadow-overlay motion-safe:transition-[transform,box-shadow] motion-safe:active:scale-[0.99]',
         className,
       )}
     >
@@ -269,6 +271,32 @@ export function PremiumCard({ children, className, hairline = true, cornerLabel 
       )}
       {children}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* GrainOverlay                                                        */
+/* ------------------------------------------------------------------ */
+
+/** Inline-SVG fractal-noise grain as a data-URI — no external fetch. Shared
+ * by HeroBackground (Task 3) and any light section that wants the same
+ * barely-there paper texture. Purely static (opacity only, no animation), so
+ * it needs no reduced-motion gate. */
+const GRAIN_DATA_URI =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+interface GrainOverlayProps {
+  /** Opacity utility class; default matches the very-light touch used on light sections. */
+  className?: string;
+}
+
+export function GrainOverlay({ className = 'opacity-[0.02]' }: GrainOverlayProps) {
+  return (
+    <div
+      className={cn('pointer-events-none absolute inset-0 mix-blend-multiply', className)}
+      style={{ backgroundImage: GRAIN_DATA_URI }}
+      aria-hidden="true"
+    />
   );
 }
 

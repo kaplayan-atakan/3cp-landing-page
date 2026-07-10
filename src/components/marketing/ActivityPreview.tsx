@@ -1,6 +1,6 @@
 import { ACTIVITY_FEED } from '../../data/content';
 import { AnimatedList } from '../magicui/animated-list';
-import { DemoBadge, Reveal, SectionHeader, StatusBadge } from '../primitives';
+import { DemoBadge, GrainOverlay, Reveal, SectionHeader, StatusBadge } from '../primitives';
 
 /**
  * Section 8 — what the panel looks like once branches are live.
@@ -12,7 +12,8 @@ import { DemoBadge, Reveal, SectionHeader, StatusBadge } from '../primitives';
  */
 export function ActivityPreview() {
   return (
-    <section className="bg-surface-sunken">
+    <section className="relative overflow-hidden bg-surface-sunken">
+      <GrainOverlay />
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="08"

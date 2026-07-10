@@ -9,7 +9,7 @@ import { SectionHeader } from '../primitives';
  */
 export function HowItWorks() {
   return (
-    <section id="nasil-calisir" className="scroll-mt-24 bg-white">
+    <section id="nasil-calisir" className="scroll-mt-24 border-t border-neutral-100 bg-white">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="03"
