@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 import { usePrefersReducedMotion } from '../hooks';
+import { cn } from '../lib/utils';
 
 /** Canonical transition used across the whole page. */
 export const TRANSITION =
@@ -207,6 +208,66 @@ export function StatPair({ value, label }: { value: string; label: string }) {
     <div>
       <p className="font-mono text-xl font-bold tabular-nums text-neutral-900">{value}</p>
       <p className="mt-1 text-xs leading-snug text-neutral-600">{label}</p>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* SerifHeading                                                        */
+/* ------------------------------------------------------------------ */
+
+interface SerifHeadingProps {
+  children: ReactNode;
+  as?: 'h1' | 'h2' | 'h3';
+  className?: string;
+}
+
+/** Editorial serif heading (Playfair Display). Used only for large titles. */
+export function SerifHeading({ children, as = 'h2', className }: SerifHeadingProps) {
+  const Tag = as;
+  return <Tag className={cn('font-serif tracking-[-0.01em]', className)}>{children}</Tag>;
+}
+
+/* ------------------------------------------------------------------ */
+/* PremiumCard                                                         */
+/* ------------------------------------------------------------------ */
+
+interface PremiumCardProps {
+  children: ReactNode;
+  className?: string;
+  /** Show the 1px teal hairline accent at the top edge. */
+  hairline?: boolean;
+  /** Optional mono tabular corner number (replaces phase badges). */
+  cornerLabel?: string;
+}
+
+/**
+ * Elevated content card with a hairline top accent and a soft hover lift.
+ * Only box-shadow and transform animate (no layout shift); the lift is disabled
+ * under reduced-motion. This is the single "designer's hand" card primitive.
+ */
+export function PremiumCard({ children, className, hairline = true, cornerLabel }: PremiumCardProps) {
+  const reducedMotion = usePrefersReducedMotion();
+  return (
+    <div
+      className={cn(
+        'group relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 shadow-raised transition-shadow duration-medium ease-smooth',
+        !reducedMotion && 'hover:-translate-y-0.5 hover:shadow-overlay motion-safe:transition-[transform,box-shadow]',
+        className,
+      )}
+    >
+      {hairline && (
+        <span
+          className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-teal to-transparent opacity-70"
+          aria-hidden="true"
+        />
+      )}
+      {cornerLabel && (
+        <span className="absolute right-4 top-4 font-mono text-xs tabular-nums text-neutral-400">
+          {cornerLabel}
+        </span>
+      )}
+      {children}
     </div>
   );
 }
