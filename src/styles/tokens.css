@@ -35,6 +35,7 @@
   --color-white: 255 255 255;
   --color-surface-sunken-raw: 244 245 247; /* #F4F5F7 — Tasarım Dili §9 */
   --color-deep-navy: 14 42 64; /* #0E2A40 — yalnız kapanış bandı gradient'i */
+  --color-led-bg: 11 17 32; /* #0B1120 — LED bandı zemini (dot-matrix) */
 
   /* --- Katman 2: Semantic (anlam) ------------------------------------ */
   --color-background-brand-bold: var(--color-teal-700);
@@ -53,6 +54,8 @@
   --color-text-danger: var(--color-red-700);
   --color-background-information: var(--color-blue-50);
   --color-text-information: var(--color-blue-700);
+
+  --card-hairline: var(--color-teal-700); /* premium card üst aksan çizgisi */
 
   /* --- Katman 3: Component ------------------------------------------- */
   --button-primary-bg: var(--color-background-brand-bold);

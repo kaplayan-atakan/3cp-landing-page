@@ -38,6 +38,7 @@ export default {
         'surface-default': token('--color-background-default'),
         'surface-sunken': token('--color-background-sunken'),
         'footer-deep': token('--color-deep-navy'),
+        'led-bg': token('--color-led-bg'),
       },
       fontFamily: {
         sans: ['"Inter Variable"', 'Inter', 'system-ui', 'sans-serif'],
