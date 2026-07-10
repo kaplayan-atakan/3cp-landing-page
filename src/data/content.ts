@@ -55,15 +55,13 @@ export const HERO_STATS: HeroStat[] = [
 /** Section 2 — sector strip. */
 export interface Sector {
   name: string;
-  status: string;
-  active: boolean;
 }
 
 export const SECTORS: Sector[] = [
-  { name: 'Restoran Zincirleri', status: 'AKTİF', active: true },
-  { name: 'Emlak', status: 'YAKINDA', active: false },
-  { name: 'Perakende', status: 'YAKINDA', active: false },
-  { name: 'Otelcilik', status: 'YAKINDA', active: false },
+  { name: 'Restoran Zincirleri' },
+  { name: 'Emlak' },
+  { name: 'Perakende' },
+  { name: 'Otelcilik' },
 ];
 
 /** Section 2 — problem cards. */
@@ -147,7 +145,6 @@ export const STEPS: Step[] = [
  */
 export interface CoreModule {
   title: string;
-  phase: string;
   description: string;
   bullets: string[];
   icon: LucideIcon;
@@ -157,7 +154,6 @@ export interface CoreModule {
 export const CORE_MODULES: CoreModule[] = [
   {
     title: 'Kimlik ve Yetki Altyapısı',
-    phase: 'Faz 0',
     description:
       'Şirket, marka, şube ve departman hiyerarşinizin tamamı tek bir yetki modelinde toplanır. Sabit rol seti yoktur; her kiracı kendi rollerini tanımlar.',
     bullets: [
@@ -170,7 +166,6 @@ export const CORE_MODULES: CoreModule[] = [
   },
   {
     title: '360° Kişi Kartı',
-    phase: 'Faz 1',
     description:
       'Telefon numarası birincil anahtar; anket, şikayet, kampanya, çağrı ve satın alma geçmişi tek profilde birleşir.',
     bullets: [
@@ -183,7 +178,6 @@ export const CORE_MODULES: CoreModule[] = [
   },
   {
     title: 'Anket ve NPS',
-    phase: 'Faz 2',
     description:
       'Şube ve kampanya bazlı QR üretimi, mobil-öncelikli doldurma arayüzü. Anonim-öncelikli toplama katılımı yüksek tutar.',
     bullets: [
@@ -195,7 +189,6 @@ export const CORE_MODULES: CoreModule[] = [
   },
   {
     title: 'Yapay Zeka Geri Bildirim Zekası',
-    phase: 'Faz 3',
     description:
       'Yorumlar embedding ve vektör arama üzerinden kategori, duygu ve kritiklik düzeyine göre sınıflandırılır. Düşük güvenli sonuçlar insan incelemesi için işaretlenir; her düzeltme örnek havuzunu besler.',
     bullets: [
@@ -219,13 +212,10 @@ export interface Stat {
  *
  * Restoran and Emlak counts come straight from Yetenek Seti §0.3 and §III.
  * The documents define no module set for Perakende or Otelcilik, so those cards
- * count the reused core instead and say "Tanımlanacak" rather than inventing a
- * number.
+ * describe the reused core qualitatively instead of inventing a module count.
  */
 export interface SectorVertical {
   name: string;
-  status: string;
-  active: boolean;
   description: string;
   icon: LucideIcon;
   stats: [Stat, Stat];
@@ -234,50 +224,42 @@ export interface SectorVertical {
 export const SECTOR_VERTICALS: SectorVertical[] = [
   {
     name: 'Restoran Zincirleri',
-    status: 'AKTİF',
-    active: true,
     description:
       'İlk dikey pazar. Anket ve NPS, şikayet yönetimi ve kampanya motoru bu dikeyin kendi modülleridir; çekirdek onları taşır.',
     icon: UtensilsCrossed,
     stats: [
-      { value: 'v1', label: 'İlk dikey pazar' },
+      { value: 'İlk', label: 'Dikey pazar' },
       { value: '3', label: 'Sektöre özel modül' }, // Anket/NPS, Şikayet, Kampanya
     ],
   },
   {
     name: 'Emlak',
-    status: 'YAKINDA',
-    active: false,
     description:
       'İlan yönetimi, teklif ve pazarlık süreci, portföy eşleştirme. Aynı çekirdek, yeni modüller ve yeni ilan platformu adaptörleri.',
     icon: Home,
     stats: [
-      { value: '3', label: 'Planlanan sektörel modül' }, // §III
+      { value: '3', label: 'Sektöre özel modül' }, // §III
       { value: '3', label: 'İlan platformu adaptörü' }, // Sahibinden, Emlakjet, Hürriyet Emlak
     ],
   },
   {
     name: 'Perakende',
-    status: 'YAKINDA',
-    active: false,
     description:
-      'Çok-kiracılık, kişi kartı, dinamik yetki ve entegrasyon çatısı olduğu gibi devralınır. Sektörel modüller tasarım aşamasında.',
+      'Çok-kiracılık, kişi kartı, dinamik yetki ve entegrasyon çatısı olduğu gibi devralınır. Sektörel modüller çekirdek üzerine kurulur.',
     icon: ShoppingBag,
     stats: [
-      { value: '6', label: 'Devralınan çekirdek servis' }, // §III generic çekirdek listesi
-      { value: 'Tanımlanacak', label: 'Sektörel modül seti' },
+      { value: 'Tümü', label: 'Çekirdek servisler devralınır' },
+      { value: 'Sektörel', label: 'Modüller çekirdek üzerine kurulur' },
     ],
   },
   {
     name: 'Otelcilik',
-    status: 'YAKINDA',
-    active: false,
     description:
       'Çekirdek sektör-agnostiktir: yeni dikey sisteme bileşen ekler, mevcut çekirdeği değiştirmez.',
     icon: BedDouble,
     stats: [
-      { value: '6', label: 'Devralınan çekirdek servis' },
-      { value: 'Tanımlanacak', label: 'Sektörel modül seti' },
+      { value: 'Tümü', label: 'Çekirdek servisler devralınır' },
+      { value: 'Sektörel', label: 'Modüller çekirdek üzerine kurulur' },
     ],
   },
 ];
@@ -351,7 +333,6 @@ export const PERMISSION_MATRIX: {
  */
 export interface AdapterClass {
   name: string;
-  phase: string;
   examples: string;
   icon: LucideIcon;
 }
@@ -359,25 +340,21 @@ export interface AdapterClass {
 export const ADAPTER_CLASSES: AdapterClass[] = [
   {
     name: 'POS adaptörleri',
-    phase: 'FAZ 4',
     examples: 'Kampanya ve kupon iletimi, kullanım verisinin geri akışı',
     icon: CreditCard,
   },
   {
     name: 'Çağrı merkezi adaptörleri',
-    phase: 'FAZ 4',
     examples: 'IVR numara eşleşmesi, maskeli kart ekrana düşürme, rıza kaydı',
     icon: PhoneCall,
   },
   {
     name: 'Yorum platformu adaptörleri',
-    phase: 'FAZ 8',
     examples: 'Google, Yemeksepeti, Getir, Migros Yemek, Trendyol Go',
     icon: Radio,
   },
   {
     name: 'İlan platformu adaptörleri',
-    phase: 'SEKTÖR GENİŞLEMESİ',
     examples: 'Sahibinden, Emlakjet, Hürriyet Emlak',
     icon: Home,
   },

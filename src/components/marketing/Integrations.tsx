@@ -69,12 +69,9 @@ export function Integrations() {
                       key={adapter.name}
                       className="rounded-xl border border-white/10 bg-white/[0.03] p-4"
                     >
-                      <div className="mb-3 flex items-center justify-between gap-2">
-                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white">
-                          <Icon size={16} aria-hidden="true" />
-                        </span>
-                        <PhaseChip label={adapter.phase} />
-                      </div>
+                      <span className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white">
+                        <Icon size={16} aria-hidden="true" />
+                      </span>
                       <p className="text-sm font-medium text-white">{adapter.name}</p>
                       <p className="mt-1 text-xs leading-relaxed text-white/60">
                         {adapter.examples}

@@ -1,5 +1,5 @@
 import { SECTORS, PROBLEMS } from '../../data/content';
-import { SectionHeader, StatusBadge, TRANSITION } from '../primitives';
+import { SectionHeader, TRANSITION } from '../primitives';
 
 /**
  * Section 2 — sector strip ribbon + problem-space architecture (white).
@@ -15,13 +15,11 @@ export function SectorProblem() {
           </span>
           <div className="flex flex-wrap items-center gap-2">
             {SECTORS.map((sector) => (
-              <span key={sector.name} className="inline-flex items-center gap-2">
-                <span className="text-sm font-medium text-neutral-900">{sector.name}</span>
-                <StatusBadge
-                  label={sector.status}
-                  tone={sector.active ? 'success' : 'neutral'}
-                  shape="pill"
-                />
+              <span
+                key={sector.name}
+                className="inline-flex items-center rounded-full border border-neutral-200 px-3 py-1 text-sm font-medium text-neutral-900"
+              >
+                {sector.name}
               </span>
             ))}
           </div>
