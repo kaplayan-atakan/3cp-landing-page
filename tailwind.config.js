@@ -40,8 +40,9 @@ export default {
         'footer-deep': token('--color-deep-navy'),
       },
       fontFamily: {
-        sans: ['Inter', 'Geist Sans', 'system-ui', 'sans-serif'],
-        mono: ['"Geist Mono"', '"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Inter Variable"', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['"Playfair Display Variable"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
       },
       transitionTimingFunction: {
         smooth: 'var(--motion-easing-standard)',
