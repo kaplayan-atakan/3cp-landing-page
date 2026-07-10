@@ -27,10 +27,7 @@ export function ActivityPreview() {
               <span className="font-mono text-xs text-neutral-600">
                 Demo kiracı · 12 şube
               </span>
-              <div className="flex items-center gap-3">
-                <DemoBadge />
-                <StatusBadge label="DEMO" tone="information" />
-              </div>
+              <DemoBadge />
             </div>
 
             <AnimatedList delay={60} className="bg-white p-4">

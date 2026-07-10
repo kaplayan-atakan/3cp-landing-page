@@ -21,6 +21,22 @@
   }
 }
 
+@layer utilities {
+  /*
+   * Most interactive elements carry the house `transition-all` utility, which
+   * also transitions outline-color/-width/-offset — so the focus ring would
+   * morph in from the browser default over 500ms instead of landing at once.
+   *
+   * This has to live in the `utilities` layer: a `base`-layer declaration loses
+   * to `.transition-all` no matter the specificity, because layer order wins.
+   * Same specificity, declared later, so it takes precedence.
+   */
+  :focus-visible {
+    transition-property: background-color, border-color, color, fill, stroke,
+      transform, opacity, box-shadow, visibility;
+  }
+}
+
 /* Full integration of the reduced-motion preference. */
 @media (prefers-reduced-motion: reduce) {
   html {

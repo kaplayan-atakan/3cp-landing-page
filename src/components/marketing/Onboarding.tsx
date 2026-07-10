@@ -21,7 +21,11 @@ function PermissionMatrix() {
         <DemoBadge label="Örnek yapılandırma" />
       </div>
 
-      <div className="overflow-x-auto">
+      {/* `relative` is load-bearing: the cells' sr-only spans are absolutely
+          positioned, and without a positioned ancestor inside this scroller
+          they resolve against an outer containing block, escape the clip, and
+          drag the whole page 161px wide at 375px. */}
+      <div className="relative overflow-x-auto">
         <table className="w-full min-w-[520px] border-collapse text-sm">
           <caption className="sr-only">
             Rol ve aksiyon bazlı izin matrisi — örnek bir yapılandırma
