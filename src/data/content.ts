@@ -553,40 +553,32 @@ export const SECURITY_PILLARS: SecurityPillar[] = [
   },
 ];
 
-/** Section 6 — roadmap phases. */
+/** Section 6 — platform capability groups (calendar-free, present tense). */
 export interface Phase {
   phase: string;
   description: string;
-  current: boolean;
-  status?: string;
 }
 
 export const PHASES: Phase[] = [
   {
-    phase: 'Bugün · Canlı Platform',
+    phase: 'Çekirdek Platform',
     description:
-      'Çok katmanlı rol yönetimi, 360° müşteri profili, anonim anket ve yapay zeka anlamlandırma motoru — bugün kullanımınızda.',
-    current: true,
-    status: 'AKTİF',
+      'Çok katmanlı rol yönetimi, 360° müşteri profili, anonim anket ve yapay zeka anlamlandırma motoru.',
   },
   {
-    phase: 'Q3 2026',
+    phase: 'Entegrasyon Çatısı',
     description:
       'Evrensel entegrasyon altyapısı, şikayet yönetimi ve çağrı merkezi köprüsü.',
-    current: false,
   },
   {
-    phase: 'Q4 2026',
+    phase: 'Etkileşim Motoru',
     description:
-      'Kampanya & kupon motoru, çok kanallı sosyal dinleme ve gelişmiş raporlama.',
-    current: false,
+      'Kampanya ve kupon motoru, çok kanallı sosyal dinleme ve gelişmiş raporlama.',
   },
   {
-    phase: '2027 ve Ötesi',
+    phase: 'Sektör Genişliği',
     description:
-      'Sadakat ve ödül motoru; emlak, perakende ve yeni sektörlere genişleyen vizyon.',
-    current: false,
-    status: 'GELECEK VİZYONU',
+      'Sadakat ve ödül motoru; emlak, perakende ve otelcilik dikeyleri aynı çekirdek üzerinde.',
   },
 ];
 
@@ -600,7 +592,7 @@ export const FAQ: FaqItem[] = [
   {
     question: '3CP yalnızca restoranlar için mi?',
     answer:
-      'Hayır. İlk odağımız restoran zincirleri olsa da 3CP çok sektörlü bir platformdur; emlak, perakende ve daha birçok sektör aynı güçlü çekirdek üzerine kurulur.',
+      'Hayır. 3CP çok sektörlü bir platformdur; restoran zincirleri, emlak, perakende ve otelcilik aynı güçlü çekirdek üzerine kurulur.',
   },
   {
     question: 'Mevcut POS veya çağrı merkezi sistemimle çalışır mı?',
