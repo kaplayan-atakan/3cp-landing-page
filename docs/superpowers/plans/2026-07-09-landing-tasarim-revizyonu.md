@@ -65,7 +65,7 @@ Mevcut `src/components/{Navbar,Hero,HeroShader,SectorProblem,HowItWorks,Capabili
 **Interfaces:**
 - Produces: Tailwind renk isimleri `brand-teal`, `brand-teal-hovered`, `brand-teal-dark`, `neutral-{50,100,200,400,600,800,900}`, `success`, `success-fg`, `warning`, `warning-fg`, `danger`, `danger-fg`, `information`, `information-fg`, `surface-{sunken,default}`, `footer-deep`. Gölgeler `shadow-{raised,overlay,pill}`. Hepsi `<alpha-value>` modifier'ını destekler.
 
-- [ ] **Step 1: `src/styles/tokens.css` oluştur**
+- [x] **Step 1: `src/styles/tokens.css` oluştur**
 
 Renkler boşlukla ayrılmış RGB kanal üçlüsü olarak saklanır — Tailwind 3'ün `<alpha-value>` sözdizimi bunu gerektirir, aksi halde `bg-brand-teal/90` çalışmaz.
 
@@ -157,7 +157,7 @@ Renkler boşlukla ayrılmış RGB kanal üçlüsü olarak saklanır — Tailwind
 }
 ```
 
-- [ ] **Step 2: `src/index.css`'i güncelle**
+- [x] **Step 2: `src/index.css`'i güncelle**
 
 `tokens.css` importu `@tailwind base`'den **önce** gelmeli ki `@apply` ve base katmanı token'ları görebilsin. Focus ring'in ham hex'i token'a çekilir.
 
@@ -202,7 +202,7 @@ Renkler boşlukla ayrılmış RGB kanal üçlüsü olarak saklanır — Tailwind
 }
 ```
 
-- [ ] **Step 3: `tailwind.config.js`'i token'lara bağla**
+- [x] **Step 3: `tailwind.config.js`'i token'lara bağla**
 
 `neutral` paletindeki 300/500/700 boşlukları bilinçli bırakılır (kullanılmıyor); 400 ve 800 eklenir çünkü Tasarım Dili §5.3 onları tanımlar ve `ClosingFooter` `border-neutral-800` kullanıyor.
 
@@ -286,7 +286,7 @@ export default {
 
 > **Not:** `transitionDuration.DEFAULT` bir CSS değişkenine bağlanınca `duration-500` gibi utility'ler hâlâ çalışır; yalnız çıplak `transition` varsayılanı token'dan gelir. `TRANSITION` sabiti `duration-500`'ü açıkça yazdığı için davranış değişmez.
 
-- [ ] **Step 4: `primitives.tsx`'teki üç ham hex'i token'a çevir**
+- [x] **Step 4: `primitives.tsx`'teki üç ham hex'i token'a çevir**
 
 `src/components/primitives.tsx:24`:
 ```tsx
@@ -305,13 +305,13 @@ const BADGE_TONES: Record<BadgeTone, string> = {
 };
 ```
 
-- [ ] **Step 5: Bölüm arka planlarını ve gradient'i token'a çevir**
+- [x] **Step 5: Bölüm arka planlarını ve gradient'i token'a çevir**
 
 `src/components/HowItWorks.tsx:12` — `bg-[#F5F5F5]` → `bg-surface-sunken`
 `src/components/Differentiators.tsx:40` — `bg-[#F5F5F5]` → `bg-surface-sunken`
 `src/components/ClosingFooter.tsx:22` — `from-[#0D7A6F]/90 to-[#0e2a40]/85` → `from-brand-teal/90 to-footer-deep/85`
 
-- [ ] **Step 6: `HeroShader.tsx`'in StaticBackground'ını token'a çevir**
+- [x] **Step 6: `HeroShader.tsx`'in StaticBackground'ını token'a çevir**
 
 `<Shader>` alt bileşenlerine geçen renkler WebGL uniform değerleridir, CSS değil — literal kalır. Yalnız `StaticBackground` gradient'i token'a taşınır:
 
@@ -330,22 +330,22 @@ function StaticBackground() {
 }
 ```
 
-- [ ] **Step 7: Build'i çalıştır**
+- [x] **Step 7: Build'i çalıştır**
 
 Run: `npm run build`
 Expected: `tsc -b` hatasız, `vite build` başarılı, `dist/` üretilir.
 
-- [ ] **Step 8: Ham hex taraması**
+- [x] **Step 8: Ham hex taraması**
 
 Run: `rg -n "#[0-9a-fA-F]{6}" src/`
 Expected: Yalnız `src/styles/tokens.css` (yorum satırları) ve `src/components/HeroShader.tsx` (WebGL uniform'ları) eşleşir.
 
-- [ ] **Step 9: Görsel regresyon kontrolü**
+- [x] **Step 9: Görsel regresyon kontrolü**
 
 Run: `npm run dev`, tarayıcıda aç.
 Expected: Sayfa Task 1 öncesiyle **piksel olarak aynı** görünür. Bu task saf refactor'dür; hiçbir görsel değişiklik olmamalı. Teal butonlar teal, badge'ler yeşil/mavi, kapanış bandı gradient'i yerinde.
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```bash
 git add src/styles/tokens.css src/index.css tailwind.config.js src/components/
@@ -375,14 +375,14 @@ git commit -m "refactor(tokens): 4 katmanlı design token mimarisi + ham hex tem
   - `<DemoBadge label?: string />`
   - `<StatPair value: string, label: string />`
 
-- [ ] **Step 1: `motion` paketini kur**
+- [x] **Step 1: `motion` paketini kur**
 
 `motion`, Framer Motion'ın güncel paket adıdır; `motion/react` girişini sunar ve React 18 ile uyumludur.
 
 Run: `npm install motion`
 Expected: `package.json` dependencies'e `"motion": "^12.x"` eklenir.
 
-- [ ] **Step 2: `src/lib/utils.ts` oluştur**
+- [x] **Step 2: `src/lib/utils.ts` oluştur**
 
 `clsx` + `tailwind-merge` eklemiyoruz: mevcut kod çakışan utility sınıfları üretmiyor, bu yüzden merge mantığı gereksiz ağırlık. `cn` yalnız falsy değerleri eler.
 
@@ -399,7 +399,7 @@ export function cn(...classes: ClassValue[]): string {
 }
 ```
 
-- [ ] **Step 3: `src/components/magicui/number-ticker.tsx` oluştur**
+- [x] **Step 3: `src/components/magicui/number-ticker.tsx` oluştur**
 
 Sayaç ilk görünümde bir kez çalışır (`useInView`, `once: true`). Reduced-motion açıkken animasyon atlanır ve hedef değer anında basılır. Sayı `tr-TR` yerelinde biçimlenir (binlik ayracı nokta) ve `tabular-nums` ile düzen kayması önlenir.
 
@@ -464,7 +464,7 @@ export function NumberTicker({
 }
 ```
 
-- [ ] **Step 4: `src/components/magicui/marquee.tsx` oluştur**
+- [x] **Step 4: `src/components/magicui/marquee.tsx` oluştur**
 
 `--gap` ve `--duration` CSS değişkenleri Task 1'in keyframe'lerini besler. Reduced-motion açıkken `animate-*` sınıfı hiç eklenmez; içerik statik, kaydırılabilir bir şeride döner.
 
@@ -522,7 +522,7 @@ export function Marquee({
 }
 ```
 
-- [ ] **Step 5: `src/components/magicui/animated-list.tsx` oluştur**
+- [x] **Step 5: `src/components/magicui/animated-list.tsx` oluştur**
 
 Girişler alttan yukarı stagger ile belirir (40ms/öğe, Material `stagger-sequence` aralığında). Reduced-motion açıkken hepsi anında görünür. Bu bileşen **sahte canlı akış üretmez** — sabit, seed'lenmiş bir listeyi bir kez animasyonlar; feed illüzyonu için `delay` yeterlidir.
 
@@ -565,7 +565,7 @@ export function AnimatedList({ children, delay = 40, className }: AnimatedListPr
 }
 ```
 
-- [ ] **Step 6: `primitives.tsx`'e `Reveal`, `DemoBadge`, `StatPair` ekle**
+- [x] **Step 6: `primitives.tsx`'e `Reveal`, `DemoBadge`, `StatPair` ekle**
 
 `Reveal`, sayfadaki tek scroll-reveal mekanizmasıdır — her bölüm bunu sarar, böylece motion dili tek yerden yönetilir.
 
@@ -644,12 +644,12 @@ export function StatPair({ value, label }: { value: string; label: string }) {
 
 `cn` kullanan `Reveal` için `primitives.tsx` başına `import { cn } from '../lib/utils';` eklenir.
 
-- [ ] **Step 7: Build**
+- [x] **Step 7: Build**
 
 Run: `npm run build`
 Expected: temiz geçer. `noUnusedLocals` açık olduğu için kullanılmayan import bırakılmamalı.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add package.json package-lock.json src/lib src/components/magicui src/components/primitives.tsx
@@ -681,7 +681,7 @@ git commit -m "feat(ui): motion + Magic UI portları (NumberTicker, Marquee, Ani
 
 > `CAPABILITIES` **silinmez** — Task 13'e kadar `Capabilities.tsx` onu kullanmaya devam eder. Task 13'te birlikte kaldırılır.
 
-- [ ] **Step 1: Hero istatistiklerini ekle**
+- [x] **Step 1: Hero istatistiklerini ekle**
 
 Her sayının kaynağı yorumda belirtilir. Bunlar performans metriği değil, **kapsam sayılarıdır** — doğrulanabilir olmayan hiçbir rakam eklenmez.
 
@@ -705,7 +705,7 @@ export const HERO_STATS: HeroStat[] = [
 ];
 ```
 
-- [ ] **Step 2: Çekirdek modülleri (bento) ekle**
+- [x] **Step 2: Çekirdek modülleri (bento) ekle**
 
 POC dilimi tam olarak bu dört modüldür (Yetenek Seti §0.4): `IAM + Kişi Kartı + Anonim Anket + tek-provider LLM ile RAG segmentasyon`. LLM Gateway ayrı kart değil; RAG kartının altyapısı olarak anlatılır.
 
@@ -768,7 +768,7 @@ export const CORE_MODULES: CoreModule[] = [
 ];
 ```
 
-- [ ] **Step 3: Sektör dikeylerini ekle**
+- [x] **Step 3: Sektör dikeylerini ekle**
 
 Restoran ve Emlak'ın stat'ları Yetenek Seti §0.3 ve §III'ten sayılır. Perakende ve Otelcilik için doküman modül listesi vermez — bu yüzden stat'lar yeniden kullanılan çekirdeği sayar ve modül tarafı dürüstçe "Tanımlanacak" der. **Uydurma sayı yazılmaz.**
 
@@ -840,7 +840,7 @@ export const SECTOR_VERTICALS: SectorVertical[] = [
 ];
 ```
 
-- [ ] **Step 4: Kurulum adımlarını ve izin matrisini ekle**
+- [x] **Step 4: Kurulum adımlarını ve izin matrisini ekle**
 
 ```ts
 /** Section 6 — onboarding. */
@@ -898,7 +898,7 @@ export const PERMISSION_MATRIX: {
 };
 ```
 
-- [ ] **Step 5: Entegrasyon çatısını ve outbox örneğini ekle**
+- [x] **Step 5: Entegrasyon çatısını ve outbox örneğini ekle**
 
 **Üçüncü taraf tedarikçi adı (RestoPos, AssisTT) yazılmaz.** Yorum/ilan platformları, 3CP'nin okuyacağı kamuya açık platformlardır ve Yetenek Seti §10 / §III'te açıkça sayılır — logo değil, düz metin olarak listelenir.
 
@@ -956,7 +956,7 @@ VALUES (
 -- "DB'ye yazıldıysa event mutlaka işlenir."`;
 ```
 
-- [ ] **Step 6: Denetim kaydı satırlarını ekle**
+- [x] **Step 6: Denetim kaydı satırlarını ekle**
 
 Olay adları Mimari §8.4'ün gerçek audit yüzeyinden alınır: `LOGIN`, `LOGIN_FAILED`, `REFRESH`, `TOKEN_REUSE`, `ANONYMIZE`, `REVEAL`, `PROVISION`.
 
@@ -979,7 +979,7 @@ export const AUDIT_LOG_LINES: AuditLine[] = [
 ];
 ```
 
-- [ ] **Step 7: Marquee etiketlerini ekle**
+- [x] **Step 7: Marquee etiketlerini ekle**
 
 Her etiket bir doküman modülüne veya bileşenine karşılık gelir.
 
@@ -1008,7 +1008,7 @@ export const MARQUEE_ROW_TWO: string[] = [
 ];
 ```
 
-- [ ] **Step 8: Aktivite feed'ini ve maliyet modellerini ekle**
+- [x] **Step 8: Aktivite feed'ini ve maliyet modellerini ekle**
 
 `ACTIVITY_FEED` mock'tur ve `DemoBadge` ile işaretlenmiş bir panel içinde render edilir. `tone` yalnız renk için değil, `StatusBadge` metnini de sürer.
 
@@ -1063,7 +1063,7 @@ export const COST_MODELS: CostModel[] = [
 ];
 ```
 
-- [ ] **Step 9: `NAV_LINKS`'i yeni bölümlere göre güncelle**
+- [x] **Step 9: `NAV_LINKS`'i yeni bölümlere göre güncelle**
 
 Yedi link mobilde taşar; beşte tutulur.
 
@@ -1077,12 +1077,12 @@ export const NAV_LINKS: { label: string; href: string }[] = [
 ];
 ```
 
-- [ ] **Step 10: `lucide-react` importlarını genişlet**
+- [x] **Step 10: `lucide-react` importlarını genişlet**
 
 Mevcut import bloğuna eklenir: `UtensilsCrossed`, `Home`, `ShoppingBag`, `BedDouble`, `Network`, `SlidersHorizontal`, `Rocket`, `CreditCard`.
 `Building2`, `KeyRound`, `Contact`, `ClipboardList`, `Sparkles`, `PhoneCall`, `Radio`, `Boxes` zaten import edilmiş durumda.
 
-- [ ] **Step 11: Build ve commit**
+- [x] **Step 11: Build ve commit**
 
 Run: `npm run build`
 Expected: temiz. (`content.ts` henüz tüketilmeyen export'lar barındırır; `noUnusedLocals` **modül export'larını** kapsamaz, yalnız yerel değişkenleri — hata beklenmez.)
@@ -1103,7 +1103,7 @@ git commit -m "feat(content): yeni bölümlerin doküman-doğrulanmış içeriğ
 **Interfaces:**
 - Consumes: `HERO_STATS` (Task 3), `NumberTicker` (Task 2), `Reveal` (Task 2)
 
-- [ ] **Step 1: Hero başlığını iki satırlı, çok-şubeli merkezîleştirme mesajına çevir**
+- [x] **Step 1: Hero başlığını iki satırlı, çok-şubeli merkezîleştirme mesajına çevir**
 
 Mevcut H1 yalnız geri bildirim→içgörü anlatıyor; talep çok-şubeli operasyonun merkezîleştirilmesini istiyor. İkinci satır Teal kalır (mevcut desen).
 
@@ -1124,7 +1124,7 @@ Alt metin, merkezîleştirme + otomatik anlamlandırma ikilisini kurar:
 </p>
 ```
 
-- [ ] **Step 2: İstatistik satırını CTA'ların altına, güven satırının yerine ekle**
+- [x] **Step 2: İstatistik satırını CTA'ların altına, güven satırının yerine ekle**
 
 Güven satırı (`Kurumsal Güvenlik · KVKK Uyumlu · Altyapı Bağımsız`) korunur; istatistik satırı onun altına gelir. `dl/dt/dd` kullanılır — ekran okuyucu için anlamlı bir tanım listesi.
 
@@ -1147,11 +1147,11 @@ Güven satırı (`Kurumsal Güvenlik · KVKK Uyumlu · Altyapı Bağımsız`) ko
 </Reveal>
 ```
 
-- [ ] **Step 3: Hero'ya `id="platform"` çapası eklenmez**
+- [x] **Step 3: Hero'ya `id="platform"` çapası eklenmez**
 
 `#platform` çapası Task 5'teki `CapabilityBento` bölümüne aittir. Hero `id="top"` olarak kalır.
 
-- [ ] **Step 4: Doğrula**
+- [x] **Step 4: Doğrula**
 
 Run: `npm run dev`
 Expected: Sayaçlar sayfa açılınca 0'dan hedefe animasyonlanır ve **bir kez** çalışır (aşağı-yukarı scroll tekrar tetiklemez). `12`, `18`, `4`, `4` görünür.
@@ -1159,7 +1159,7 @@ Expected: Sayaçlar sayfa açılınca 0'dan hedefe animasyonlanır ve **bir kez*
 DevTools → Rendering → `prefers-reduced-motion: reduce` işaretle, yenile.
 Expected: Sayaçlar animasyonsuz, doğrudan son değerde.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/components/Hero.tsx src/components/Navbar.tsx
@@ -1176,7 +1176,7 @@ git commit -m "feat(hero): çok-şubeli merkezîleştirme başlığı + doğrula
 **Interfaces:**
 - Consumes: `CORE_MODULES` (Task 3), `SectionHeader`, `StatusBadge`, `Reveal`, `TRANSITION`
 
-- [ ] **Step 1: Bileşeni yaz**
+- [x] **Step 1: Bileşeni yaz**
 
 Bento düzeni: `lg:grid-cols-3`. `wide: true` kartlar `lg:col-span-2` alır. Sıra: geniş, dar / dar, geniş — böylece iki satır da dolar.
 
@@ -1207,12 +1207,12 @@ Kart yapısı: ikon kutusu → faz `StatusBadge` (`tone="neutral"`, `shape="pill
 
 `Reveal` bir `motion.div` render ettiği için grid item'ı odur; kart gövdesi `h-full` almalıdır ki satır içinde eşit yükseklik korunsun.
 
-- [ ] **Step 2: Kontrol et**
+- [x] **Step 2: Kontrol et**
 
 Run: `npm run dev`
 Expected: 1440px'te 2 satır × 3 sütun bento; 768px'te tek sütun; kartlar hover'da `shadow-raised`. Faz rozetleri "Faz 0"…"Faz 3" okur.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/components/marketing/CapabilityBento.tsx
@@ -1230,21 +1230,21 @@ git commit -m "feat(section): çekirdek modül bento ızgarası"
 **Interfaces:**
 - Consumes: `SECTOR_VERTICALS`, `CORE_CHIPS`, `SECTOR_CHIPS` (Task 3 / mevcut), `StatPair`, `StatusBadge`, `Reveal`, `SectionHeader`
 
-- [ ] **Step 1: `ConcentricDiagram`'ı `Differentiators.tsx`'ten kopyala**
+- [x] **Step 1: `ConcentricDiagram`'ı `Differentiators.tsx`'ten kopyala**
 
 Aynen taşınır; yalnız `bg-[#F5F5F5]` sarmalayıcısı `bg-surface-sunken`'a döner (Task 1'de zaten yapıldı).
 
-- [ ] **Step 2: Dört dikey kartını yaz**
+- [x] **Step 2: Dört dikey kartını yaz**
 
 Her kart: ikon → `StatusBadge` (aktif ise `tone="success"`, değilse `tone="neutral"`, `shape="pill"`) → `h3` → açıklama → `border-t` üstünde iki `StatPair` yan yana (`grid-cols-2`).
 
 Aktif kart `border-2 border-brand-teal`, diğerleri `border border-neutral-200` (mevcut `PHASES` kartı deseni).
 
-- [ ] **Step 3: Çekirdek/sektörel chip matrisini altına taşı**
+- [x] **Step 3: Çekirdek/sektörel chip matrisini altına taşı**
 
 `Differentiators.tsx:68-106`'daki "Bugün restoran, yarın her sektör" paneli olduğu gibi bu bölümün sonuna gelir.
 
-- [ ] **Step 4: Kontrol + commit**
+- [x] **Step 4: Kontrol + commit**
 
 Run: `npm run dev` → dört kart, Restoran teal kenarlıklı ve `AKTİF`; diğerleri `YAKINDA`.
 
@@ -1263,11 +1263,11 @@ git commit -m "feat(section): sektör dikeyleri + çekirdek/sektörel chip matri
 **Interfaces:**
 - Consumes: `ONBOARDING_STEPS`, `PERMISSION_MATRIX`, `Reveal`, `SectionHeader`
 
-- [ ] **Step 1: Dört adımlı numaralı akışı yaz**
+- [x] **Step 1: Dört adımlı numaralı akışı yaz**
 
 `lg:grid-cols-4`. Her adım: mono numara (`01`…`04`, teal) → ikon → `h3` → açıklama. Adımlar arası bağlantı çizgisi `lg:` üstünde `border-t border-neutral-200` ile ima edilir; mobilde dikey yığılır.
 
-- [ ] **Step 2: İzin matrisi panelini yaz**
+- [x] **Step 2: İzin matrisi panelini yaz**
 
 Tasarım Dili §8.2'nin "Dense Matrix" düzeni: sol sütun sticky rol adları, sağda aksiyon sütunları. Salt-okunur bir illüstrasyon.
 
@@ -1309,7 +1309,7 @@ Panel bir `DemoBadge label="Örnek yapılandırma"` taşır — bu gerçek bir k
 
 Tablo dar ekranda `overflow-x-auto` bir sarmalayıcı içinde yatay kayar; **sayfa gövdesi asla yatay kaymaz**.
 
-- [ ] **Step 3: Kontrol + commit**
+- [x] **Step 3: Kontrol + commit**
 
 375px'te tablo kendi içinde kayar, `document.documentElement.scrollWidth === clientWidth` kalır.
 
@@ -1328,7 +1328,7 @@ git commit -m "feat(section): kurulum akışı + izin matrisi paneli"
 **Interfaces:**
 - Consumes: `ADAPTER_CLASSES`, `OUTBOX_EVENT_SAMPLE`, `Reveal`, `SectionHeader`, `StatusBadge`
 
-- [ ] **Step 1: Mimari diyagramı yaz**
+- [x] **Step 1: Mimari diyagramı yaz**
 
 Saf CSS/flex; görsel dosyası yok. Üç katman, yukarıdan aşağı:
 
@@ -1352,7 +1352,7 @@ Bölümün altına açık bir çürütme cümlesi konur:
 
 > "3CP tedarikçilerin işini yapmaz; onlarla haberleşir. Yukarıdaki adaptörler çekirdeğin dışındadır — POS'unuz veya çağrı merkeziniz değiştiğinde yalnız adaptör değişir."
 
-- [ ] **Step 2: Outbox kod panelini yaz**
+- [x] **Step 2: Outbox kod panelini yaz**
 
 `<pre><code>` bloğu, `font-mono text-[13px]`, `bg-neutral-900 text-neutral-100`, `overflow-x-auto`, `rounded-xl`. Üstünde bir başlık şeridi: `Mimari · Transactional Outbox` + `StatusBadge label="FAZ 4"`.
 
@@ -1364,7 +1364,7 @@ Yanına kısa bir açıklama paneli:
 
 Son cümle zorunludur — panelin partner API sanılmasını önler.
 
-- [ ] **Step 3: Kontrol + commit**
+- [x] **Step 3: Kontrol + commit**
 
 Kod bloğu 375px'te kendi içinde kayar; sayfa kaymaz.
 
@@ -1385,7 +1385,7 @@ git commit -m "feat(section): entegrasyon adaptör çatısı diyagramı + outbox
 **Interfaces:**
 - Consumes: `SECURITY_PILLARS`, `AUDIT_LOG_LINES`, `PHASES`, `FAQ`, `AnimatedList`, `DemoBadge`, `StatusBadge`, `Reveal`, `SectionHeader`
 
-- [ ] **Step 1: `SECURITY_PILLARS`'ı dört gerçek sütuna hizala**
+- [x] **Step 1: `SECURITY_PILLARS`'ı dört gerçek sütuna hizala**
 
 `content.ts`'teki mevcut dört sütun zaten doğru (izole veri, maskeleme, rıza defteri, denetim). Başlıklar teknik karşılıklarıyla zenginleştirilir — her biri Mimari'de doğrulanmıştır:
 
@@ -1396,7 +1396,7 @@ git commit -m "feat(section): entegrasyon adaptör çatısı diyagramı + outbox
 | Değiştirilemez Onay Kaydı | Zaman damgalı, immutable rıza defteri; KVKK `ANONYMIZE` akışı | Yetenek §2 |
 | Tam İzlenebilirlik ve Denetim | Transactional outbox + merkezî audit domain-event yüzeyi | Mimari §8.4 |
 
-- [ ] **Step 2: Uyumluluk rozet satırı**
+- [x] **Step 2: Uyumluluk rozet satırı**
 
 **Tek rozet: KVKK.** `ISO 27001` ve `SOC 2` üç dokümanın hiçbirinde geçmez; yazılırsa sahte uyumluluk beyanı olur.
 
@@ -1412,7 +1412,7 @@ git commit -m "feat(section): entegrasyon adaptör çatısı diyagramı + outbox
 </div>
 ```
 
-- [ ] **Step 3: Denetim kaydı ticker'ını yaz**
+- [x] **Step 3: Denetim kaydı ticker'ını yaz**
 
 `AnimatedList` içinde `AUDIT_LOG_LINES`. Panel: `bg-neutral-900`, mono, satır düzeni `time · event · detail`. `event` bir `StatusBadge` benzeri mono etiket; `LOGIN_FAILED` ve `TOKEN_REUSE` `danger` tonunda, `ANONYMIZE` ve `REVEAL` `warning`, diğerleri `neutral`.
 
@@ -1420,11 +1420,11 @@ git commit -m "feat(section): entegrasyon adaptör çatısı diyagramı + outbox
 
 Panel `role="log"` **almaz** — bu canlı bir bölge değil, statik bir illüstrasyondur. `aria-live` kullanılmaz.
 
-- [ ] **Step 4: `RoadmapFaq.tsx`'i ayır**
+- [x] **Step 4: `RoadmapFaq.tsx`'i ayır**
 
 `SecurityRoadmapFaq.tsx`'in roadmap (`PHASES`) ve FAQ (`FAQ`) blokları aynen taşınır; `id="yol-haritasi"` ve `id="sss"` korunur. Bölüm numaraları Task 13'te yeniden verilir.
 
-- [ ] **Step 5: Kontrol + commit**
+- [x] **Step 5: Kontrol + commit**
 
 Ticker girişleri kaydırınca alttan yukarı stagger'la belirir; reduced-motion'da hepsi anında görünür.
 
@@ -1443,7 +1443,7 @@ git commit -m "feat(section): güvenlik sütunları + KVKK rozeti + seed'lenmiş
 **Interfaces:**
 - Consumes: `MARQUEE_ROW_ONE`, `MARQUEE_ROW_TWO`, `Marquee` (Task 2)
 
-- [ ] **Step 1: İki satırı ters yönde yaz**
+- [x] **Step 1: İki satırı ters yönde yaz**
 
 ```tsx
 <div className="relative flex flex-col gap-4 overflow-hidden">
@@ -1463,17 +1463,17 @@ git commit -m "feat(section): güvenlik sütunları + KVKK rozeti + seed'lenmiş
 
 Bölüm arka planı `bg-surface-sunken` olmalı ki kenar gradient'leri arka planla eşleşsin.
 
-- [ ] **Step 2: Ekran okuyucu alternatifi**
+- [x] **Step 2: Ekran okuyucu alternatifi**
 
 `Marquee` içindeki kopyaların 2..n'i zaten `aria-hidden`. İlk kopya okunabilir kalır; ek bir `sr-only` liste gerekmez.
 
-- [ ] **Step 3: Kontrol**
+- [x] **Step 3: Kontrol**
 
 - Hover: her iki satır da durur.
 - `prefers-reduced-motion: reduce`: animasyon yok, şerit `overflow-x-auto` ile elle kaydırılabilir.
 - Yatay sayfa kayması yok.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add src/components/marketing/CapabilityMarquee.tsx
@@ -1490,7 +1490,7 @@ git commit -m "feat(section): iki satırlı yetenek marquee'si"
 **Interfaces:**
 - Consumes: `ACTIVITY_FEED`, `AnimatedList`, `DemoBadge`, `StatusBadge`, `SectionHeader`, `Reveal`
 
-- [ ] **Step 1: Mock panel çerçevesini yaz**
+- [x] **Step 1: Mock panel çerçevesini yaz**
 
 Bölüm başlığı: "Panelde ne görürsünüz". Başlığın hemen altında `DemoBadge` — bölüm düzeyinde, atlanamaz.
 
@@ -1502,7 +1502,7 @@ Panel bir tarayıcı/uygulama penceresi gibi çerçevelenir: üstte `rounded-t-x
 
 **Kritik:** "12 şube" ifadesi panel çerçevesinin *içindedir* ve demo kiracıya aittir. Sayfa düzeyinde "X şube şu anda aktif" gibi bir gerçek-trafik iddiası **kurulmaz**.
 
-- [ ] **Step 2: Feed'i yaz**
+- [x] **Step 2: Feed'i yaz**
 
 ```tsx
 <AnimatedList delay={60} className="p-4">
@@ -1520,7 +1520,7 @@ Panel bir tarayıcı/uygulama penceresi gibi çerçevelenir: üstte `rounded-t-x
 
 `StatusBadge` şube adını taşır; `tone` yalnız arka planı sürer, anlam metinden okunur.
 
-- [ ] **Step 3: Kontrol + commit**
+- [x] **Step 3: Kontrol + commit**
 
 Feed girişleri scroll ile 60ms aralıklarla belirir. Reduced-motion'da hepsi statik.
 
@@ -1539,13 +1539,13 @@ git commit -m "feat(section): demo rozetli çok-şubeli panel önizlemesi"
 **Interfaces:**
 - Consumes: `COST_MODELS`, `CONTACT_EMAIL`, `Reveal`, `SectionHeader`, `TRANSITION`
 
-- [ ] **Step 1: İki maliyet modeli kartını yaz**
+- [x] **Step 1: İki maliyet modeli kartını yaz**
 
 `md:grid-cols-2`. Her kart: ikon → `h3` → açıklama → `bullets`.
 
 **Hiçbir kartta rakam, birim maliyet, marj veya "önerilen" vurgusu yoktur.** Üç kademeli fiyat kartı deseni bilinçle terk edilmiştir: fiyatlandırma modeli henüz kurulmadı (Mimari §"Birim ekonomisi ve bütçe").
 
-- [ ] **Step 2: Teklif çağrısını yaz**
+- [x] **Step 2: Teklif çağrısını yaz**
 
 Kartların altında, ortalanmış:
 
@@ -1565,7 +1565,7 @@ CTA: **bordered/secondary varyant**, Teal değil.
 
 **Neden Teal değil:** Bu bölüme scroll edildiğinde navbar'ın Teal CTA'sı zaten görünür durumdadır. İkinci bir Teal CTA, Tasarım Dili §5.2'nin "sayfada birden fazla marka rengi CTA'sı bir işaret sorunudur" kuralını ihlal eder.
 
-- [ ] **Step 3: Kontrol + commit**
+- [x] **Step 3: Kontrol + commit**
 
 Sayfayı bu bölüme kadar kaydır; ekranda **yalnız bir** Teal buton (navbar) görünmeli.
 
@@ -1588,7 +1588,7 @@ git commit -m "feat(section): şeffaf LLM maliyet modelleri + teklif çağrısı
 **Interfaces:**
 - Consumes: Task 4–12'nin tüm bölüm bileşenleri
 
-- [ ] **Step 1: `App.tsx`'i yeni sıraya göre yaz**
+- [x] **Step 1: `App.tsx`'i yeni sıraya göre yaz**
 
 ```tsx
 import { Navbar } from './components/marketing/Navbar';
@@ -1630,7 +1630,7 @@ export default function App() {
 }
 ```
 
-- [ ] **Step 2: `SectionHeader` numaralarını yeniden ver**
+- [x] **Step 2: `SectionHeader` numaralarını yeniden ver**
 
 Numaralar render sırasını izlemeli; atlanan numara okuyucuyu şaşırtır.
 
@@ -1649,7 +1649,7 @@ Numaralar render sırasını izlemeli; atlanan numara okuyucuyu şaşırtır.
 | `RoadmapFaq` → roadmap | `10` | Ürün Vizyonu |
 | `RoadmapFaq` → FAQ | `11` | Sık Sorulan Sorular |
 
-- [ ] **Step 3: Arka plan ritmini kur**
+- [x] **Step 3: Arka plan ritmini kur**
 
 Ardışık iki bölüm aynı arka planı almamalı; aksi halde bölüm sınırı kaybolur.
 
@@ -1657,23 +1657,23 @@ Ardışık iki bölüm aynı arka planı almamalı; aksi halde bölüm sınırı
 
 > `Integrations`'ı koyu yapmak sayfaya tek bir görsel nefes noktası verir ve outbox kod panelini doğal bağlamına oturtur. Koyu bölümde metin `text-white/70`, başlık `text-white`; kontrast AA'yı geçer.
 
-- [ ] **Step 4: Çapaları `NAV_LINKS` ile doğrula**
+- [x] **Step 4: Çapaları `NAV_LINKS` ile doğrula**
 
 `#platform` → `CapabilityBento`, `#nasil-calisir` → `HowItWorks`, `#entegrasyon` → `Integrations`, `#guvenlik` → `Security`, `#sss` → `RoadmapFaq`. Her hedef `scroll-mt-24` taşımalı (fixed navbar payı).
 
-- [ ] **Step 5: Ölü kodu kaldır**
+- [x] **Step 5: Ölü kodu kaldır**
 
 `content.ts`'ten `CAPABILITIES`, `Capability`, `DIFFERENTIATORS`, `Differentiator` ve artık kullanılmayan ikon importları (`Bot`, `Ticket`, `Megaphone`, `BarChart3`, `Gift`, `Plug`, `ScanText`, `Lock` — hangileri gerçekten kullanılmıyorsa) silinir.
 
 Run: `rg -n "CAPABILITIES|DIFFERENTIATORS" src/`
 Expected: hiç eşleşme yok.
 
-- [ ] **Step 6: Build**
+- [x] **Step 6: Build**
 
 Run: `npm run build`
 Expected: temiz. `noUnusedLocals`/`noUnusedParameters` ölü importları yakalar — hepsi temizlenmiş olmalı.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A src/
@@ -1686,17 +1686,17 @@ git commit -m "refactor(layout): bölümleri marketing/ altında birleştir, num
 
 **Files:** yok (yalnız doğrulama; bulunan hatalar ilgili task'ın dosyasında düzeltilir)
 
-- [ ] **Step 1: Build ve tip denetimi**
+- [x] **Step 1: Build ve tip denetimi**
 
 Run: `npm run build`
 Expected: `tsc -b` sıfır hata; `vite build` başarılı.
 
-- [ ] **Step 2: Ham hex denetimi**
+- [x] **Step 2: Ham hex denetimi**
 
 Run: `rg -n "#[0-9a-fA-F]{6}" src/ --glob '!src/styles/tokens.css' --glob '!src/components/HeroShader.tsx'`
 Expected: **sıfır eşleşme.**
 
-- [ ] **Step 3: Yasaklı içerik denetimi**
+- [x] **Step 3: Yasaklı içerik denetimi**
 
 Run: `rg -in "ISO 27001|ISO27001|SOC 2|uptime|RestoPos|AssisTT|%99" src/`
 Expected: **sıfır eşleşme.**
@@ -1704,7 +1704,7 @@ Expected: **sıfır eşleşme.**
 Run: `rg -n "₺|TL/ay|\\$[0-9]" src/`
 Expected: **sıfır eşleşme** (fiyat rakamı yok).
 
-- [ ] **Step 4: Responsive doğrulama (Playwright MCP)**
+- [x] **Step 4: Responsive doğrulama (Playwright MCP)**
 
 `npm run dev` çalışırken, `mcp__plugin_playwright_playwright__browser_navigate` ile `http://localhost:5173` açılır.
 
@@ -1721,7 +1721,7 @@ Her genişlik için (`browser_resize` → 375×812, 768×1024, 1440×900):
 
 Expected: her üç genişlikte `scrollWidth === clientWidth`.
 
-- [ ] **Step 5: Tek Teal CTA kuralı**
+- [x] **Step 5: Tek Teal CTA kuralı**
 
 `browser_evaluate` ile hero'nun altına kaydır, sonra:
 
@@ -1737,7 +1737,7 @@ Expected: her üç genişlikte `scrollWidth === clientWidth`.
 
 Expected: her scroll pozisyonunda `<= 1`.
 
-- [ ] **Step 6: Marquee hover'da durur**
+- [x] **Step 6: Marquee hover'da durur**
 
 `browser_hover` ile marquee şeridinin üstüne gel, `browser_evaluate` ile:
 
@@ -1747,7 +1747,7 @@ Expected: her scroll pozisyonunda `<= 1`.
 
 Expected: `"paused"`.
 
-- [ ] **Step 7: Reduced-motion**
+- [x] **Step 7: Reduced-motion**
 
 `browser_run_code_unsafe` ile CDP emülasyonu yerine, `browser_evaluate` ile doğrudan doğrulanamaz — bu adım DevTools'ta elle yapılır:
 Chrome DevTools → Rendering → *Emulate CSS media feature prefers-reduced-motion* → `reduce`, sayfayı yenile.
@@ -1758,14 +1758,14 @@ Expected:
 - `AnimatedList` girişleri anında görünür.
 - Hero shader'ı `StaticBackground`'a düşer.
 
-- [ ] **Step 8: Klavye ve ekran okuyucu**
+- [x] **Step 8: Klavye ve ekran okuyucu**
 
 Sayfa başından sonuna `Tab`.
 Expected: her interaktif elemanda görünür focus ring (2px teal, 2px offset); sıra görsel sırayla eşleşir; mobil menü açıkken `Escape` benzeri bir kaçış yolu (kapat butonu) ilk durakta.
 
 `h1` → `h2` → `h3` hiyerarşisi atlanmaz. Her bölümde tek `h2`.
 
-- [ ] **Step 9: Kontrast**
+- [x] **Step 9: Kontrast**
 
 DevTools → Elements → Accessibility → Contrast.
 Kontrol edilecekler:
@@ -1774,13 +1774,13 @@ Kontrol edilecekler:
 - `Integrations` koyu bölümünde `text-white/70` üstünde `bg-neutral-900` (#172B4D) → ≥ 4.5:1 doğrula; geçmezse `text-white/80`'e çıkar
 - `StatusBadge` `success` (#006644 on #E3FCEF) → ✓
 
-- [ ] **Step 10: Demo rozeti denetimi**
+- [x] **Step 10: Demo rozeti denetimi**
 
 Run: `rg -l "AnimatedList" src/components/marketing/`
 Her eşleşen dosya için: aynı dosyada `DemoBadge` de geçmeli.
 Expected: `Security.tsx` ve `ActivityPreview.tsx` — ikisi de `DemoBadge` içerir.
 
-- [ ] **Step 11: Commit ve push**
+- [x] **Step 11: Commit ve push**
 
 ```bash
 git add -A
@@ -1822,3 +1822,31 @@ Spec'in her maddesinin bir task'ı var. Boşluk yok.
 - `cn(...classes: ClassValue[])` — `Marquee` ona `boolean` geçirebilir (`reducedMotion && '…'` → `false | string`). `ClassValue` `false`'u kapsıyor. ✓
 
 **Placeholder taraması:** Kod içeren her adımda gerçek kod var. `ONBOARDING_STEPS` içindeki "Tanımlanacak" bir plan placeholder'ı değil, kasıtlı ve doğru bir **içerik** değeridir (Perakende/Otelcilik modül setleri dokümanda tanımlı değil).
+
+---
+
+## Doğrulama Kaydı — 2026-07-10
+
+Uygulama sırasında kutular işaretlenmemişti. Task 14'ün kabul kriterleri sonradan baştan çalıştırıldı ve tamamı geçti; kutular bu ölçümlere dayanarak işaretlendi.
+
+| Kriter | Ölçüm |
+|---|---|
+| `npm run build` | `tsc -b` + `vite build` temiz |
+| Ham hex kapsamı | Yalnız `tokens.css` + `HeroShader.tsx` |
+| Yasaklı içerik / fiyat rakamı | Sıfır eşleşme (üç isabet de kuralı açıklayan JSDoc yorumu) |
+| Ölü kod (`CAPABILITIES`, `DIFFERENTIATORS`) | Sıfır eşleşme |
+| Yatay taşma (375 / 768 / 1440) | Üçünde de `scrollWidth === clientWidth` |
+| Tek Teal CTA | Her scroll konumunda ≤ 1 |
+| Marquee hover | Hover edilen satır `paused`, diğeri `running` |
+| Reduced-motion | Shader statik, marquee durgun + kaydırılabilir, sayaçlar anında |
+| Başlık hiyerarşisi | Tek `h1`, atlanan seviye yok |
+| Konsol | 0 hata |
+
+**Ölçüm tuzağı:** `html { scroll-behavior: smooth }` yüzünden `scrollTo()` sonrası hemen okunan `getBoundingClientRect()` eski konumu verir ve tek-Teal-CTA denetimi yanlışlıkla ihlal raporlar. Bu kural yeniden ölçülecekse `scroll-behavior` geçici olarak `auto`'ya alınmalı veya konumun oturması beklenmeli.
+
+**Plandan sapmalar (kasıtlı, düzeltme gerekmiyor):**
+- `Integrations.tsx` `SectionHeader` kullanmaz; koyu bölüm olduğu için `06` numarasını ve pill'i elle render eder. Numaralandırma 01–11 eksiksizdir.
+- `RoadmapFaq.tsx` tek `<section>` içinde iki `h2` taşır. Task 13 Step 2 tablosu bu bileşene iki başlık (`10`, `11`) verdiği için Task 14 Step 8'in "her bölümde tek `h2`" kuralıyla çelişir; bölüm tablosu esas alındı. Semantik olarak daha temizi iki ayrı `<section>`'dır.
+- `Onboarding.tsx` planda öngörülmeyen bir `DemoBadge` taşır. Kuralın ihlali değil, lehine: izin matrisi de seed'lenmiş mock veridir.
+
+**Plan kapsamı dışında kalan bilinen durum:** `HeroShader` chunk'ı 1.35 MB (gzip 366 kB); Vite 500 kB uyarısı veriyor. Planda bu konuda madde yok. Kod bölme (`manualChunks` veya dinamik import) ayrı bir iş olarak ele alınmalı.
