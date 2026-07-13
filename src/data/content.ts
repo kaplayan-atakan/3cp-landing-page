@@ -9,15 +9,11 @@ import {
   ClipboardList,
   Sparkles,
   PhoneCall,
-  Radio,
   Database,
   EyeOff,
   FileCheck2,
   ScrollText,
   UtensilsCrossed,
-  Home,
-  ShoppingBag,
-  BedDouble,
   Network,
   SlidersHorizontal,
   Rocket,
@@ -36,9 +32,15 @@ export const NAV_LINKS: { label: string; href: string }[] = [
 /**
  * Section 1 — hero scope counters.
  *
- * These are not traction metrics. Every figure is countable in the source
- * documents; nothing about uptime, branch counts or processed volume appears
- * here, because 3CP is pre-POC and no such number exists yet.
+ * These are not traction metrics. Every figure is countable against the live
+ * module/adapter lists in this file: the 6 live modules are the four
+ * CORE_MODULES entries (Kimlik ve Yetki Altyapısı, 360° Kişi Kartı, Anket ve
+ * NPS, Yapay Zeka Geri Bildirim Zekası) plus the two named in PHASES'
+ * "Operasyon Modülleri" group (Şikayet Yönetimi, Kampanya Motoru); the 2
+ * adapter classes are the length of ADAPTER_CLASSES; the 4 LLM providers are
+ * named in the FAQ answer on supported AI providers. Nothing about uptime,
+ * branch counts or processed volume appears here, because 3CP is pre-POC and
+ * no such number exists yet.
  */
 export interface HeroStat {
   value: number;
@@ -46,10 +48,9 @@ export interface HeroStat {
 }
 
 export const HERO_STATS: HeroStat[] = [
-  { value: 12, label: 'yetenek modülü' }, // Yetenek Seti §I.1–I.12
-  { value: 18, label: 'ekran grubu' }, // Yetenek Seti §II — gruplar A–R
-  { value: 4, label: 'sektör dikeyi' }, // Yetenek Seti §0.3 + §III
-  { value: 4, label: 'desteklenen LLM sağlayıcısı' }, // §5.1 — Gemini, OpenAI, Claude, Mistral
+  { value: 6, label: 'canlı modül' }, // CORE_MODULES (4) + Operasyon Modülleri (Şikayet, Kampanya)
+  { value: 2, label: 'entegrasyon adaptör sınıfı' }, // ADAPTER_CLASSES.length
+  { value: 4, label: 'desteklenen LLM sağlayıcısı' }, // FAQ — Gemini, OpenAI, Claude, Mistral
 ];
 
 /** Section 2 — sector strip. */
@@ -57,12 +58,7 @@ export interface Sector {
   name: string;
 }
 
-export const SECTORS: Sector[] = [
-  { name: 'Restoran Zincirleri' },
-  { name: 'Emlak' },
-  { name: 'Perakende' },
-  { name: 'Otelcilik' },
-];
+export const SECTORS: Sector[] = [{ name: 'Restoran Zincirleri' }];
 
 /** Section 2 — problem cards. */
 export interface Problem {
@@ -259,11 +255,12 @@ export interface Stat {
 }
 
 /**
- * Section 5 — sector verticals.
+ * Section 4 — the restaurant vertical.
  *
- * Restoran and Emlak counts come straight from Yetenek Seti §0.3 and §III.
- * The documents define no module set for Perakende or Otelcilik, so those cards
- * describe the reused core qualitatively instead of inventing a module count.
+ * Restoran Zincirleri is the only sector 3CP is built for today. The
+ * "Sektöre özel modül" count is the three restaurant-facing modules (Anket ve
+ * NPS, Şikayet Yönetimi, Kampanya Motoru); the sector-agnostic core (kimlik ve
+ * yetki, kişi kartı, yapay zeka) carries them and names no other vertical.
  */
 export interface SectorVertical {
   name: string;
@@ -276,41 +273,11 @@ export const SECTOR_VERTICALS: SectorVertical[] = [
   {
     name: 'Restoran Zincirleri',
     description:
-      'İlk dikey pazar. Anket ve NPS, şikayet yönetimi ve kampanya motoru bu dikeyin kendi modülleridir; çekirdek onları taşır.',
+      'Anket ve NPS, şikayet yönetimi ve kampanya motoru bu dikeyin kendi modülleridir; kimlik ve yetki altyapısı, 360° kişi kartı ve yapay zeka katmanından oluşan sektör-agnostik çekirdek onları taşır.',
     icon: UtensilsCrossed,
     stats: [
-      { value: 'İlk', label: 'Dikey pazar' },
-      { value: '3', label: 'Sektöre özel modül' }, // Anket/NPS, Şikayet, Kampanya
-    ],
-  },
-  {
-    name: 'Emlak',
-    description:
-      'İlan yönetimi, teklif ve pazarlık süreci, portföy eşleştirme. Aynı çekirdek, yeni modüller ve yeni ilan platformu adaptörleri.',
-    icon: Home,
-    stats: [
-      { value: '3', label: 'Sektöre özel modül' }, // §III
-      { value: '3', label: 'İlan platformu adaptörü' }, // Sahibinden, Emlakjet, Hürriyet Emlak
-    ],
-  },
-  {
-    name: 'Perakende',
-    description:
-      'Çok-kiracılık, kişi kartı, dinamik yetki ve entegrasyon çatısı olduğu gibi devralınır. Sektörel modüller çekirdek üzerine kurulur.',
-    icon: ShoppingBag,
-    stats: [
-      { value: 'Tümü', label: 'Çekirdek servisler devralınır' },
-      { value: 'Sektörel', label: 'Modüller çekirdek üzerine kurulur' },
-    ],
-  },
-  {
-    name: 'Otelcilik',
-    description:
-      'Çekirdek sektör-agnostiktir: yeni dikey sisteme bileşen ekler, mevcut çekirdeği değiştirmez.',
-    icon: BedDouble,
-    stats: [
-      { value: 'Tümü', label: 'Çekirdek servisler devralınır' },
-      { value: 'Sektörel', label: 'Modüller çekirdek üzerine kurulur' },
+      { value: '3', label: 'Sektöre özel modül' }, // Anket/NPS, Şikayet Yönetimi, Kampanya Motoru
+      { value: 'Sektör-agnostik', label: 'Kimlik, kişi kartı ve yapay zeka çekirdeği' },
     ],
   },
 ];
@@ -342,7 +309,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     number: '03',
     title: 'Yapılandırma',
     description:
-      'Roller, izin matrisi, maskeleme politikası ve marka sesi profili ayarlanır. Kod değil, konfigürasyon.',
+      'Roller, izin matrisi ve maskeleme politikası ayarlanır. Kod değil, konfigürasyon.',
     icon: SlidersHorizontal,
   },
   {
@@ -375,12 +342,12 @@ export const PERMISSION_MATRIX: {
 /**
  * Section 7 — the adapter framework (Yetenek Seti §6).
  *
- * No third-party supplier is named. The architecture document is explicit that
- * names like RestoPos and AssisTT are the first reference adapters written for
- * the v1 customer's suppliers, not fixed components of 3CP — presenting them as
- * shipped integrations would be false, and using their marks would be a
- * trademark problem. The review and listing platforms below are public
- * surfaces 3CP reads from, and the documents name them outright.
+ * Only the two live adapter classes are listed. No third-party supplier is
+ * named: the architecture document is explicit that names like RestoPos and
+ * AssisTT are the first reference adapters written for the v1 customer's
+ * suppliers, not fixed components of 3CP — presenting them as shipped
+ * integrations would be false, and using their marks would be a trademark
+ * problem.
  */
 export interface AdapterClass {
   name: string;
@@ -399,16 +366,6 @@ export const ADAPTER_CLASSES: AdapterClass[] = [
     examples: 'IVR numara eşleşmesi, maskeli kart ekrana düşürme, rıza kaydı',
     icon: PhoneCall,
   },
-  {
-    name: 'Yorum platformu adaptörleri',
-    examples: 'Google, Yemeksepeti, Getir, Migros Yemek, Trendyol Go',
-    icon: Radio,
-  },
-  {
-    name: 'İlan platformu adaptörleri',
-    examples: 'Sahibinden, Emlakjet, Hürriyet Emlak',
-    icon: Home,
-  },
 ];
 
 /**
@@ -419,10 +376,10 @@ export const OUTBOX_EVENT_SAMPLE = `-- İş verisi ve olay kaydı aynı transact
 INSERT INTO core.outbox_messages (id, type, payload, status)
 VALUES (
   gen_random_uuid(),
-  'PlatformMentionIngested',
-  '{ "sourceType":    "platform",
-     "platformCode":  "GOOGLE",
-     "feedbackItemId": "…" }',   -- payload kişisel veri taşımaz
+  'CouponRedemptionIngested',
+  '{ "sourceType":    "adapter",
+     "adapterClass":  "POS",
+     "couponCode":    "…" }',   -- payload kişisel veri taşımaz
   'pending'
 );
 
@@ -462,20 +419,16 @@ export const MARQUEE_ROW_ONE: string[] = [
   'RAG Segmentasyon',
   'Şikayet Yönetimi',
   'Kampanya Motoru',
-  'Veri Maskeleme',
-  'Denetim İzi',
-  'QR Menü',
+  'Kupon Motoru',
 ];
 
 export const MARQUEE_ROW_TWO: string[] = [
+  'Veri Maskeleme',
+  'Denetim İzi',
   'ABAC İzin Matrisi',
   'LLM Gateway',
-  'Marka Sesi Profili',
-  'Kupon Motoru',
   'Çağrı Merkezi Köprüsü',
-  'Sosyal Dinleme',
-  'Loyalty Motoru',
-  'Catalog Ürün Master’ı',
+  'POS Entegrasyonu',
 ];
 
 /**
@@ -512,8 +465,8 @@ export const ACTIVITY_FEED: ActivityItem[] = [
   },
   {
     branch: 'Üsküdar',
-    title: 'Google yorumu işlendi',
-    meta: 'Kategori: Temizlik · Pozitif',
+    title: 'Kampanya kuponu kullanıldı',
+    meta: 'POS entegrasyonu · Pozitif',
     tone: 'success',
   },
 ];
@@ -553,21 +506,20 @@ export const COST_MODELS: CostModel[] = [
   },
 ];
 
-/** Section 4 — platform expansion chips, rendered inside SectorVerticals. */
+/** Section 4 — platform-wide chips, rendered inside SectorVerticals. */
 export const CORE_CHIPS: string[] = [
   'Çoklu Marka & Şube',
   '360° Müşteri Profili',
   'Rol & Yetki Yönetimi',
-  'Akıllı Yanıt Motoru',
-  'Evrensel Entegrasyon',
+  'Entegrasyon Çatısı',
   'Veri Maskeleme',
 ];
 
-export const SECTOR_CHIPS: string[] = [
-  'İlan Yönetimi',
-  'Teklif & Pazarlık Süreci',
-  'Portföy Eşleştirme',
-  'İlan Platformu Entegrasyonları',
+/** Section 4 — the restaurant vertical's own modules, rendered inside SectorVerticals. */
+export const RESTAURANT_MODULE_CHIPS: string[] = [
+  'Anket ve NPS',
+  'Şikayet Yönetimi',
+  'Kampanya Motoru',
 ];
 
 /** Section 6 — security pillars. */
@@ -614,22 +566,22 @@ export const PHASES: Phase[] = [
   {
     phase: 'Çekirdek Platform',
     description:
-      'Çok katmanlı rol yönetimi, 360° müşteri profili, anonim anket ve yapay zeka anlamlandırma motoru.',
+      'Çok katmanlı rol yönetimi, 360° müşteri profili, anket ve NPS.',
+  },
+  {
+    phase: 'Yapay Zeka Katmanı',
+    description:
+      'RAG segmentasyon, otomatik sınıflandırma, sağlayıcı-bağımsız LLM Gateway.',
+  },
+  {
+    phase: 'Operasyon Modülleri',
+    description:
+      'Şikayet yönetimi, kampanya ve kupon motoru.',
   },
   {
     phase: 'Entegrasyon Çatısı',
     description:
-      'Evrensel entegrasyon altyapısı, şikayet yönetimi ve çağrı merkezi köprüsü.',
-  },
-  {
-    phase: 'Etkileşim Motoru',
-    description:
-      'Kampanya ve kupon motoru, çok kanallı sosyal dinleme ve gelişmiş raporlama.',
-  },
-  {
-    phase: 'Sektör Genişliği',
-    description:
-      'Sadakat ve ödül motoru; emlak, perakende ve otelcilik dikeyleri aynı çekirdek üzerinde.',
+      'POS ve çağrı merkezi adaptörleri.',
   },
 ];
 
@@ -641,9 +593,9 @@ export interface FaqItem {
 
 export const FAQ: FaqItem[] = [
   {
-    question: '3CP yalnızca restoranlar için mi?',
+    question: '3CP kimler için?',
     answer:
-      'Hayır. 3CP çok sektörlü bir platformdur; restoran zincirleri, emlak, perakende ve otelcilik aynı güçlü çekirdek üzerine kurulur.',
+      '3CP, çok şubeli ve çok markalı restoran zincirleri için inşa edildi. Kimlik ve yetki altyapısı, 360° kişi kartı ve yapay zeka katmanından oluşan çekirdek sektör-agnostik tasarlanmıştır; bugün platformun canlı kapsamı restoran zincirleridir.',
   },
   {
     question: 'Mevcut POS veya çağrı merkezi sistemimle çalışır mı?',

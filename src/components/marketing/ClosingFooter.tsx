@@ -53,8 +53,8 @@ export function ClosingFooter() {
             <div>
               <span className="text-xl font-bold tracking-tight">3CP</span>
               <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/70">
-                Centralized Customer Control Panel. Çok-kiracılı, çok-sektörlü müşteri yönetim
-                platformu.
+                Centralized Customer Control Panel. Restoran zincirleri için çok-kiracılı
+                müşteri yönetim platformu.
               </p>
             </div>
 

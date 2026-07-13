@@ -108,9 +108,6 @@ export function Navbar() {
           <div className="hidden items-center gap-4 md:flex">
             {/* Meta waits for `lg`: at `md` the five nav links and this text fight
                 for the same row and "Nasıl Çalışır?" wraps onto a second line. */}
-            <span className="hidden font-mono text-[13px] text-neutral-600 lg:inline">
-              Enterprise Ready
-            </span>
             <span className="hidden items-center gap-1 font-mono text-[13px] text-neutral-600 lg:flex">
               <Clock size={14} aria-hidden="true" />
               {time} TR&apos;de

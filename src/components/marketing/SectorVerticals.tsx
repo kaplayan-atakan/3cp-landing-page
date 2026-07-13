@@ -1,4 +1,4 @@
-import { SECTOR_VERTICALS, CORE_CHIPS, SECTOR_CHIPS } from '../../data/content';
+import { SECTOR_VERTICALS, CORE_CHIPS, RESTAURANT_MODULE_CHIPS } from '../../data/content';
 import { PremiumCard, Reveal, SectionHeader, StatPair, TRANSITION } from '../primitives';
 
 /**
@@ -29,47 +29,47 @@ function ConcentricDiagram() {
 }
 
 /**
- * Section 4 — the multi-sector framework. One card per vertical, each carrying
- * two figures. Where the documents define no module set for a vertical, the
- * card describes the reused core qualitatively rather than inventing a number.
+ * Section 4 — the restaurant vertical, carried by a sector-agnostic core.
+ * SECTOR_VERTICALS holds a single live entry (Restoran Zincirleri); this
+ * section makes no promise about any other sector.
  */
 export function SectorVerticals() {
+  const sector = SECTOR_VERTICALS[0];
+  const Icon = sector.icon;
+
   return (
     <section className="border-t border-neutral-100 bg-surface-sunken">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="04"
-          pill="Çok-Sektör Çerçevesi"
-          title="Bugün restoran, yarın her sektör — aynı çekirdek üzerinde"
+          pill="Restoran Zincirleri"
+          title="Restoran zincirleri için uçtan uca müşteri operasyonu"
         />
 
-        <div className="grid grid-cols-1 gap-6 px-5 sm:px-8 md:grid-cols-2 lg:grid-cols-4 lg:px-12">
-          {SECTOR_VERTICALS.map((sector, index) => {
-            const Icon = sector.icon;
-            return (
-              <Reveal key={sector.name} delay={index * 0.05}>
-                <PremiumCard className="flex h-full flex-col">
-                  <span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-brand-teal">
-                    <Icon size={20} aria-hidden="true" />
-                  </span>
+        <div className="px-5 sm:px-8 lg:px-12">
+          <Reveal>
+            <PremiumCard className="flex flex-col gap-6 sm:flex-row sm:items-center">
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-brand-teal">
+                <Icon size={20} aria-hidden="true" />
+              </span>
 
-                  <h3 className="text-base font-semibold text-neutral-900">{sector.name}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-neutral-600">
-                    {sector.description}
-                  </p>
+              <div className="flex-1">
+                <h3 className="text-base font-semibold text-neutral-900">{sector.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                  {sector.description}
+                </p>
+              </div>
 
-                  <div className="mt-6 grid grid-cols-2 gap-4 border-t border-neutral-100 pt-4">
-                    {sector.stats.map((stat) => (
-                      <StatPair key={stat.label} value={stat.value} label={stat.label} />
-                    ))}
-                  </div>
-                </PremiumCard>
-              </Reveal>
-            );
-          })}
+              <div className="grid grid-cols-2 gap-6 border-t border-neutral-100 pt-4 sm:w-[300px] sm:shrink-0 sm:border-l sm:border-t-0 sm:pl-6 sm:pt-0">
+                {sector.stats.map((stat) => (
+                  <StatPair key={stat.label} value={stat.value} label={stat.label} />
+                ))}
+              </div>
+            </PremiumCard>
+          </Reveal>
         </div>
 
-        {/* The core stays put; each vertical adds its own modules on top. */}
+        {/* The core stays sector-agnostic; the restaurant vertical adds its own modules on top. */}
         <Reveal>
           <div className="mx-5 mt-12 rounded-xl border border-neutral-200 bg-white p-8 sm:mx-8 lg:mx-12">
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16">
@@ -77,11 +77,12 @@ export function SectorVerticals() {
 
               <div>
                 <h3 className="text-xl font-semibold text-neutral-900">
-                  Yeni sektör, çekirdeği değiştirmez
+                  Sektöre özel modüller, sektör-agnostik çekirdek üzerine kurulur
                 </h3>
                 <p className="mt-2 max-w-[560px] text-sm leading-relaxed text-neutral-600">
-                  Çok-kiracılık, kişi kartı, dinamik yetki ve entegrasyon çatısı her dikeyde
-                  aynıdır. Sektöre özel ihtiyaçlar sisteme bileşen ekleyerek karşılanır.
+                  Çok-kiracılık, kişi kartı, dinamik yetki ve entegrasyon çatısı sektörden
+                  bağımsız aynı çekirdekte çalışır. Restoran zincirlerine özel ihtiyaçlar bu
+                  çekirdek üzerine bileşen eklenerek karşılanır.
                 </p>
 
                 <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2">
@@ -107,10 +108,10 @@ export function SectorVerticals() {
 
                   <div>
                     <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-600">
-                      Sektöre özel — Örnek: Emlak
+                      Sektöre özel — Restoran Zincirleri
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {SECTOR_CHIPS.map((chip) => (
+                      {RESTAURANT_MODULE_CHIPS.map((chip) => (
                         <span
                           key={chip}
                           className="inline-flex items-center gap-2 rounded-lg border border-dashed border-neutral-200 bg-neutral-50 px-3 py-2 text-sm font-medium text-neutral-600"

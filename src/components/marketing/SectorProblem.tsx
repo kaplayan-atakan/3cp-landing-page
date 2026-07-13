@@ -11,7 +11,7 @@ export function SectorProblem() {
         {/* Sector strip */}
         <div className="mb-16 flex flex-wrap items-center gap-4 border-b border-neutral-100 px-5 pb-8 sm:px-8 lg:px-12">
           <span className="font-mono text-[13px] text-neutral-600">
-            İlk dikey pazar restoran zincirleri — çekirdek her sektöre genişler.
+            3CP, çok şubeli restoran zincirleri için inşa edildi.
           </span>
           <div className="flex flex-wrap items-center gap-2">
             {SECTORS.map((sector) => (
