@@ -98,14 +98,24 @@ export const PROBLEMS: Problem[] = [
   },
 ];
 
-/** Section 3 — how it works, 3-step pipeline. */
+/**
+ * Section 3 — how it works, 3-step pipeline.
+ *
+ * Step 01 stays a raster screenshot (`image`/`imageAlt`) — it is clean and
+ * accurate. Steps 02 and 03 render as honest HTML/CSS mockups instead
+ * (`mockup`): two raster attempts at these screens baked in defects (English
+ * strings, a fabricated "2023" date) that AI image regeneration could not
+ * reliably fix, so the panels are built from real markup + seeded data,
+ * which makes incorrect text structurally impossible.
+ */
 export interface Step {
   number: string;
   title: string;
   description: string;
-  image: string;
-  imageAlt: string;
+  image?: string;
+  imageAlt?: string;
   portrait?: boolean;
+  mockup?: 'analysis' | 'dashboard';
 }
 
 export const STEPS: Step[] = [
@@ -123,18 +133,59 @@ export const STEPS: Step[] = [
     title: 'Anında AI Analizi ve Etiketleme',
     description:
       'Yapay zeka her yanıtı otomatik olarak kategori, duygu ve kritiklik düzeyine göre etiketler. Emin olunmayan sonuçlar incelemeniz için işaretlenir.',
-    image: 'images/step-2-ai-analizi.png',
-    imageAlt: 'Yapay zeka geri bildirim analizi: kategori, duygu skoru ve güven oranı',
+    mockup: 'analysis',
   },
   {
     number: '03',
     title: 'Tek Merkezden Stratejik Aksiyon',
     description:
       'Dağınık veri değil, önceliklendirilmiş içgörü. Kritik puanlar otomatik olarak aksiyon listenize düşer; ekibiniz vakit kaybetmeden harekete geçer.',
-    image: 'images/step-3-stratejik-aksiyon.png',
-    imageAlt: 'Bölge yöneticisi paneli: şube NPS performansı, otomatik oluşan ticketlar ve kritik uyarılar',
+    mockup: 'dashboard',
   },
 ];
+
+/**
+ * Step 02 mockup data (`StepAnalysisMockup`) — seeded demo data illustrating
+ * the AI categorisation/sentiment pipeline. Never live, never real tenant
+ * data.
+ */
+export const STEP_ANALYSIS = {
+  feedback: 'Garsonumuz Ayşe harikaydı, ama pizza soğuk geldi ve çok bekledik.',
+  categories: [
+    { label: 'Personel (Pozitif)', tone: 'success' as const },
+    { label: 'Yemek (Kritik)', tone: 'danger' as const },
+  ],
+  sentimentScore: '7.2',
+  sentimentMax: '10',
+  positivePct: 65,
+  criticalPct: 35,
+  confidence: '98%',
+};
+
+/**
+ * Step 03 mockup data (`StepDashboardMockup`) — seeded demo data illustrating
+ * the regional manager panel (branch NPS, auto-generated tickets, critical
+ * alerts). Never live, never real tenant data. All timestamps are relative
+ * ("Bugün"/"Dün") — no calendar date appears anywhere.
+ */
+export const STEP_DASHBOARD = {
+  nps: [
+    { branch: 'Şube A (Levent)', score: 82, delta: '+3' },
+    { branch: 'Şube C (Bursa)', score: 78, delta: '+1' },
+    { branch: 'Şube B (Kadıköy)', score: 65, delta: '-4' },
+    { branch: 'Şube D (İzmit)', score: 71, delta: '+2' },
+  ],
+  tickets: [
+    { id: '#T-0842', branch: 'Şube B', category: 'Yemek Kalitesi', time: 'Bugün 10:15', status: 'Beklemede', tone: 'neutral' as const },
+    { id: '#T-0841', branch: 'Şube A', category: 'Hizmet Hızı', time: 'Bugün 09:50', status: 'Atandı', tone: 'information' as const },
+    { id: '#T-0840', branch: 'Şube C', category: 'Temizlik', time: 'Dün 16:22', status: 'Kapatıldı', tone: 'neutral' as const },
+    { id: '#T-0839', branch: 'Şube B', category: 'Soğuk Yemek', time: 'Dün 14:10', status: 'Kritik', tone: 'success' as const },
+  ],
+  alerts: [
+    { branch: 'Şube B (Kadıköy)', title: 'Soğuk Yemek Şikayeti Artışı', priority: 'Yüksek Öncelik' },
+    { branch: 'Şube D (İzmit)', title: 'Bekleme Süreleri Uzuyor', priority: 'Orta Öncelik' },
+  ],
+};
 
 /**
  * Section 3 — the four POC-core modules (Yetenek Seti §0.4: IAM + Kişi Kartı +

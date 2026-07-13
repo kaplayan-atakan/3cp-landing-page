@@ -1,6 +1,8 @@
 import { STEPS } from '../../data/content';
 import { asset } from '../../asset';
 import { SectionHeader } from '../primitives';
+import { StepAnalysisMockup } from './StepAnalysisMockup';
+import { StepDashboardMockup } from './StepDashboardMockup';
 
 /**
  * Section 3 — how it works / the core value pipeline (light gray).
@@ -25,18 +27,26 @@ export function HowItWorks() {
                 key={step.number}
                 className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16"
               >
-                {/* Screenshot */}
+                {/* Screenshot or honest HTML/CSS mockup */}
                 <div className={imageFirst ? 'lg:order-1' : 'lg:order-2'}>
-                  <img
-                    src={asset(step.image)}
-                    alt={step.imageAlt}
-                    loading="lazy"
-                    className={
-                      step.portrait
-                        ? 'mx-auto max-h-[600px] w-auto rounded-[2rem] shadow-overlay'
-                        : 'w-full rounded-2xl border border-neutral-200 shadow-overlay'
-                    }
-                  />
+                  {step.mockup === 'analysis' ? (
+                    <StepAnalysisMockup />
+                  ) : step.mockup === 'dashboard' ? (
+                    <StepDashboardMockup />
+                  ) : (
+                    step.image && (
+                      <img
+                        src={asset(step.image)}
+                        alt={step.imageAlt ?? ''}
+                        loading="lazy"
+                        className={
+                          step.portrait
+                            ? 'mx-auto max-h-[600px] w-auto rounded-[2rem] shadow-overlay'
+                            : 'w-full rounded-2xl border border-neutral-200 shadow-overlay'
+                        }
+                      />
+                    )
+                  )}
                 </div>
 
                 {/* Copy */}
