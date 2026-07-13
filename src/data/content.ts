@@ -179,7 +179,7 @@ export const STEP_DASHBOARD = {
     { id: '#T-0842', branch: 'Şube B', category: 'Yemek Kalitesi', time: 'Bugün 10:15', status: 'Beklemede', tone: 'neutral' as const },
     { id: '#T-0841', branch: 'Şube A', category: 'Hizmet Hızı', time: 'Bugün 09:50', status: 'Atandı', tone: 'information' as const },
     { id: '#T-0840', branch: 'Şube C', category: 'Temizlik', time: 'Dün 16:22', status: 'Kapatıldı', tone: 'neutral' as const },
-    { id: '#T-0839', branch: 'Şube B', category: 'Soğuk Yemek', time: 'Dün 14:10', status: 'Kritik', tone: 'success' as const },
+    { id: '#T-0839', branch: 'Şube B', category: 'Soğuk Yemek', time: 'Dün 14:10', status: 'Kritik', tone: 'danger' as const },
   ],
   alerts: [
     { branch: 'Şube B (Kadıköy)', title: 'Soğuk Yemek Şikayeti Artışı', priority: 'Yüksek Öncelik' },

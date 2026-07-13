@@ -11,13 +11,19 @@ const PRIORITY_TONE_CLASSES: Record<'Yüksek Öncelik' | 'Orta Öncelik', string
 };
 
 /**
- * Ticket status badge. Three of the four statuses map cleanly onto
- * StatusBadge's tone union; "Kritik" needs to read as severe, which that
- * union can't express, so it renders from plain danger token classes
- * instead of trusting the seed data's tone field for that one row.
+ * Ticket status badge. A 'danger' status has to read as severe, which
+ * StatusBadge's tone union (success | neutral | information) can't express, so
+ * it renders from plain danger token classes. The tone drives the badge — never
+ * the status label — so changing the copy can't silently flip a badge's colour.
  */
-function TicketStatus({ status, tone }: { status: string; tone: 'success' | 'neutral' | 'information' }) {
-  if (status === 'Kritik') {
+function TicketStatus({
+  status,
+  tone,
+}: {
+  status: string;
+  tone: 'neutral' | 'information' | 'danger';
+}) {
+  if (tone === 'danger') {
     return (
       <span className="inline-flex items-center rounded-full bg-danger px-3 py-1 font-mono text-xs font-bold text-danger-fg">
         {status}
