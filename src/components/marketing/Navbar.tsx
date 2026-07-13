@@ -76,7 +76,10 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40">
+    /* `sticky`, not `fixed`: the LED band above sits in normal flow, so a fixed
+       header would paint straight over it. Sticky keeps the header in flow —
+       it rides below the band and pins to the viewport once the band scrolls out. */
+    <header className="sticky top-0 z-40">
       <div className="mx-auto max-w-container p-3">
         <nav className="flex items-center justify-between rounded-full bg-white p-[5px] shadow-pill">
           {/* Left: wordmark + desktop links */}
@@ -103,8 +106,12 @@ export function Navbar() {
 
           {/* Right: meta + scroll-revealed CTA (desktop) */}
           <div className="hidden items-center gap-4 md:flex">
-            <span className="font-mono text-[13px] text-neutral-600">Enterprise Ready</span>
-            <span className="flex items-center gap-1 font-mono text-[13px] text-neutral-600">
+            {/* Meta waits for `lg`: at `md` the five nav links and this text fight
+                for the same row and "Nasıl Çalışır?" wraps onto a second line. */}
+            <span className="hidden font-mono text-[13px] text-neutral-600 lg:inline">
+              Enterprise Ready
+            </span>
+            <span className="hidden items-center gap-1 font-mono text-[13px] text-neutral-600 lg:flex">
               <Clock size={14} aria-hidden="true" />
               {time} TR&apos;de
             </span>

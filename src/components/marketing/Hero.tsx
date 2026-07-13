@@ -14,7 +14,9 @@ export function Hero() {
     <section id="top" className="relative overflow-hidden bg-neutral-50">
       <HeroBackground />
 
-      <div className="relative z-20 mx-auto w-full max-w-container px-5 pb-16 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pt-44">
+      {/* Top padding only has to clear breathing room now, not the navbar: the
+          header is `sticky`, so it occupies real flow space above this section. */}
+      <div className="relative z-20 mx-auto w-full max-w-container px-5 pb-16 pt-12 sm:px-8 sm:pt-16 lg:px-12 lg:pt-24">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="max-w-[640px]">
             <p className="mb-4 font-mono text-[13px] tracking-wider text-neutral-600">
