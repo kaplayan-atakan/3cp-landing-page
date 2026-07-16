@@ -1,4 +1,6 @@
+import { motion } from 'motion/react';
 import { STEP_ANALYSIS } from '../../data/content';
+import { usePrefersReducedMotion } from '../../hooks';
 import { DemoBadge } from '../primitives';
 
 /** Category chip tones. 'danger' has no StatusBadge equivalent (its tone
@@ -20,9 +22,10 @@ const CATEGORY_TONE_CLASSES: Record<'success' | 'danger', string> = {
 export function StepAnalysisMockup() {
   const { feedback, categories, sentimentScore, sentimentMax, positivePct, criticalPct, confidence } =
     STEP_ANALYSIS;
+  const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-5 shadow-overlay sm:p-6">
+    <div className="w-full rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay sm:p-6">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <span className="font-mono text-xs text-neutral-600">3CP · Yapay Zeka Analizi</span>
         <DemoBadge />
@@ -66,9 +69,21 @@ export function StepAnalysisMockup() {
                 {sentimentScore} / {sentimentMax}
               </span>
             </div>
-            <div className="mt-3 flex h-2 w-full overflow-hidden rounded-full bg-neutral-100" aria-hidden="true">
-              <span className="h-full bg-success-fg" style={{ width: `${positivePct}%` }} />
-              <span className="h-full bg-danger-fg" style={{ width: `${criticalPct}%` }} />
+            {/* Segments keep their real widths; a single clip-path reveal
+                (transform-free, GPU-friendly) sweeps the whole bar in from the
+                left, once, when the panel scrolls into view. Reduced-motion
+                renders the bar already full. */}
+            <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-neutral-100" aria-hidden="true">
+              <motion.div
+                className="flex h-full w-full"
+                initial={reducedMotion ? false : { clipPath: 'inset(0 100% 0 0)' }}
+                whileInView={{ clipPath: 'inset(0 0% 0 0)' }}
+                viewport={{ once: true, margin: '0px 0px -80px 0px' }}
+                transition={{ duration: 0.8, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
+              >
+                <span className="h-full bg-success-fg" style={{ width: `${positivePct}%` }} />
+                <span className="h-full bg-danger-fg" style={{ width: `${criticalPct}%` }} />
+              </motion.div>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-neutral-600">
               <span className="inline-flex items-center gap-1.5">

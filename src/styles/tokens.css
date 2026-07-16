@@ -14,6 +14,7 @@
   --color-teal-700: 13 122 111; /* #0D7A6F — 3CP marka birincil rengi */
   --color-teal-800: 10 101 92; /* #0A655C — hover / pressed */
   --color-teal-400: 31 175 158; /* #1FAF9E — dark mode marka rengi */
+  --color-teal-300: 45 199 181; /* #2DC7B5 — dark mode hover (açığa doğru) */
 
   --color-neutral-50: 247 248 249; /* #F7F8F9 */
   --color-neutral-100: 235 236 240; /* #EBECF0 */
@@ -36,6 +37,37 @@
   --color-surface-sunken-raw: 244 245 247; /* #F4F5F7 — Tasarım Dili §9 */
   --color-deep-navy: 14 42 64; /* #0E2A40 — yalnız kapanış bandı gradient'i */
   --color-led-bg: 11 17 32; /* #0B1120 — LED bandı zemini (dot-matrix) */
+  /* Kasıtlı koyu bloklar (Integrations, footer, terminal) için SABİT yüzey:
+     iki temada da aynı kalır, nötr inversiyondan etkilenmez. Değer, light'taki
+     bg-neutral-900 (#172B4D) ile birebir — light temada piksel değişmez. */
+  --color-surface-dark-fixed: 23 43 77; /* #172B4D */
+  /* Sabit koyu bloklar İÇİNDE kullanılan, inversiyondan muaf yardımcılar:
+     hover zemini ve footer ayracı light'taki piksellerle birebir kalsın diye. */
+  --color-neutral-50-fixed: 247 248 249; /* #F7F8F9 */
+  --color-neutral-800-fixed: 37 56 88; /* #253858 */
+
+  /* Dark tema primitives — navy türevi düşük kroma skala (Tasarım Dili §5.6).
+     Numara büyüdükçe koyulaşır; 100–400 metin, 500–600 border, 600–950 yüzey. */
+  --color-dark-navy-100: 231 236 242; /* #E7ECF2 — dark: birincil metin */
+  --color-dark-navy-200: 213 221 230; /* #D5DDE6 — dark: güçlü metin */
+  --color-dark-navy-300: 159 176 195; /* #9FB0C3 — dark: ikincil metin */
+  --color-dark-navy-400: 143 161 184; /* #8FA1B8 — dark: soluk metin / ikon */
+  --color-dark-navy-500: 56 79 111; /* #384F6F — dark: border */
+  --color-dark-navy-600: 44 64 94; /* #2C405E — dark: overlay yüzeyi / ince border */
+  --color-dark-navy-700: 36 53 80; /* #243550 — dark: raised yüzey */
+  --color-dark-navy-800: 28 43 65; /* #1C2B41 — dark: varsayılan yüzey */
+  --color-dark-navy-900: 15 27 45; /* #0F1B2D — dark: sunken / sayfa zemini */
+  --color-dark-navy-950: 10 18 31; /* #0A121F — dark: blanket / en derin zemin */
+
+  /* Dark tema semantik çiftleri: doygun 400 fg + koyu, düşük kroma bg */
+  --color-green-400: 76 217 163; /* #4CD9A3 */
+  --color-green-900: 19 46 37; /* #132E25 */
+  --color-yellow-400: 255 180 84; /* #FFB454 */
+  --color-yellow-900: 57 43 16; /* #392B10 */
+  --color-red-400: 255 143 115; /* #FF8F73 */
+  --color-red-900: 62 26 20; /* #3E1A14 */
+  --color-blue-400: 87 157 255; /* #579DFF */
+  --color-blue-900: 21 41 66; /* #152942 */
 
   /* --- Katman 2: Semantic (anlam) ------------------------------------ */
   --color-background-brand-bold: var(--color-teal-700);
@@ -45,6 +77,19 @@
 
   --color-background-default: var(--color-white);
   --color-background-sunken: var(--color-surface-sunken-raw);
+  --color-background-raised: var(--color-white);
+  --color-background-overlay: var(--color-white);
+
+  --color-text-primary: var(--color-neutral-900);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-subtle: var(--color-neutral-400);
+  --color-text-inverse: var(--color-white);
+
+  --color-border-default: var(--color-neutral-200);
+  --color-border-subtle: var(--color-neutral-100);
+
+  /* Scrim / karartma perdesi (mobil menü vb.) — opaklık kullanım yerinde verilir */
+  --color-blanket: 9 30 66; /* #091E42 */
 
   --color-background-success: var(--color-green-50);
   --color-text-success: var(--color-green-700);
@@ -79,13 +124,68 @@
 }
 
 /* --- Katman 4: Theme -------------------------------------------------
-   Light varsayılandır (yukarıdaki :root). Dark mode token'ları Tasarım
-   Dili §5.6 uyarınca hazır tutulur; sayfa şu an light-only render eder.
+   Light varsayılandır (yukarıdaki :root). Dark tema Tasarım Dili §5.6:
+   saf siyah yok — koyu lacivert zeminler, düşük kroma yüzeyler, teal-400
+   vurgu. index.html'deki inline script FOUC olmadan data-theme'i basar.
    --------------------------------------------------------------------- */
 :root[data-theme='dark'] {
+  /* Marka — dark'ta hover koyuya değil AÇIĞA gider (teal-300): butonlardaki
+     koyu (content-inverse) metin, teal-700 üstünde 4.5:1'in altına düşerdi. */
   --color-background-brand-bold: var(--color-teal-400);
-  --color-background-brand-hovered: var(--color-teal-700);
+  --color-background-brand-hovered: var(--color-teal-300);
   --color-text-brand: var(--color-teal-400);
   --color-border-brand: var(--color-teal-400);
-  --color-background-default: 28 43 65; /* #1C2B41 */
+
+  /* Yüzey hiyerarşisi (sunken < default < raised < overlay: yükseldikçe açılır) */
+  --color-background-default: var(--color-dark-navy-800); /* #1C2B41 */
+  --color-background-sunken: var(--color-dark-navy-900);
+  --color-background-raised: var(--color-dark-navy-700);
+  --color-background-overlay: var(--color-dark-navy-600);
+
+  /* Metin hiyerarşisi — zemine karşı ≥ 4.5:1 (primary ~11.5:1, secondary ~6.4:1,
+     subtle ~4.7:1 @ #1C2B41) */
+  --color-text-primary: var(--color-dark-navy-100);
+  --color-text-secondary: var(--color-dark-navy-300);
+  --color-text-subtle: var(--color-dark-navy-400);
+  --color-text-inverse: var(--color-dark-navy-950);
+
+  /* Border */
+  --color-border-default: var(--color-dark-navy-500);
+  --color-border-subtle: var(--color-dark-navy-600);
+
+  --color-blanket: 3 8 18; /* dark'ta scrim neredeyse siyaha yaklaşır */
+
+  /* Semantik çiftler: koyu düşük kroma zemin + doygun 400'lük ön plan */
+  --color-background-success: var(--color-green-900);
+  --color-text-success: var(--color-green-400);
+  --color-background-warning: var(--color-yellow-900);
+  --color-text-warning: var(--color-yellow-400);
+  --color-background-danger: var(--color-red-900);
+  --color-text-danger: var(--color-red-400);
+  --color-background-information: var(--color-blue-900);
+  --color-text-information: var(--color-blue-400);
+
+  /* Nötr skala inversiyonu — bileşenler renkleri Tailwind `neutral-*`
+     sınıflarıyla (yani bu primitives üzerinden) tüketiyor; skala ters
+     çevrilmezse gövde metni ve zeminler dark'ta olduğu gibi kalırdı.
+     Işık yönü tersine döner: 50 en koyu zemin, 900 en açık metin olur.
+     DİKKAT: `bg-neutral-900`u kasıtlı koyu blok olarak kullanan bölümler
+     (Integrations, ClosingFooter footer, Security terminali) dark'ta
+     açık zemine döner — entegrasyon fazında sabit primitive'e alınmalı. */
+  --color-neutral-50: var(--color-dark-navy-900);
+  --color-neutral-100: var(--color-dark-navy-700);
+  --color-neutral-200: var(--color-dark-navy-600);
+  --color-neutral-400: var(--color-dark-navy-400);
+  --color-neutral-600: var(--color-dark-navy-300);
+  --color-neutral-800: var(--color-dark-navy-200);
+  --color-neutral-900: var(--color-dark-navy-100);
+
+  /* Elevation — dark'ta derinlik gölgeyle değil, "daha açık yüzey + ince
+     ışık kenarı" ile okunur; gölge yalnızca zeminden koparmak için kalır. */
+  --elevation-raised: 0 0 0 1px rgb(255 255 255 / 0.06),
+    0 1px 1px rgb(3 8 18 / 0.5);
+  --elevation-overlay: 0 0 0 1px rgb(255 255 255 / 0.08),
+    0 8px 16px -4px rgb(3 8 18 / 0.6);
+  --elevation-pill: 0 0 0 1px rgb(255 255 255 / 0.06),
+    0 2px 8px rgb(3 8 18 / 0.4);
 }

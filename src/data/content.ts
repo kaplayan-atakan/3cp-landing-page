@@ -117,9 +117,9 @@ export interface Step {
 export const STEPS: Step[] = [
   {
     number: '01',
-    title: 'Kusursuz ve Anonim Katılım',
+    title: 'Sürtünmesiz ve Anonim Katılım',
     description:
-      'Müşteriniz masadaki QR kodu okutur ve saniyeler içinde açılan mobil-öncelikli anketi kimlik zorunluluğu olmadan doldurur. Yüksek katılım, sıfır sürtünme.',
+      'Müşteriniz masadaki QR kodu okutur ve saniyeler içinde açılan mobil-öncelikli anketi kimlik zorunluluğu olmadan doldurur. Uygulama indirmeden, kimlik bilgisi istemeden.',
     image: 'images/step-1-anonim-katilim.png',
     imageAlt: 'Restoran masasında telefonda açılan anonim 3CP müşteri anketi ekranı',
     portrait: true,
@@ -533,7 +533,7 @@ export const SECURITY_PILLARS: SecurityPillar[] = [
   {
     title: 'Kurumsal Seviye İzole Veri Güvenliği',
     description:
-      'Her müşterinin verisi, veritabanı katmanında tamamen izole edilir. Bir markanın verisine başka hiçbir hesap erişemez.',
+      'Her müşterinin verisi, veritabanı katmanında tamamen izole edilir. Erişim, kiracı sınırını aşamayacak şekilde tasarlanmıştır.',
     icon: Database,
   },
   {
@@ -595,12 +595,12 @@ export const FAQ: FaqItem[] = [
   {
     question: '3CP kimler için?',
     answer:
-      '3CP, çok şubeli ve çok markalı restoran zincirleri için inşa edildi. Kimlik ve yetki altyapısı, 360° kişi kartı ve yapay zeka katmanından oluşan çekirdek sektör-agnostik tasarlanmıştır; bugün platformun canlı kapsamı restoran zincirleridir.',
+      '3CP, çok şubeli ve çok markalı restoran zincirleri için inşa edildi. Kimlik ve yetki altyapısı, 360° kişi kartı ve yapay zeka katmanından oluşan çekirdek sektör-agnostik tasarlanmıştır; bugün platformun canlı kapsamı restoran zincirleridir. Bölge ve operasyon direktörleri şubeleri tek panelden karşılaştırır, CX ekipleri kritik yorumları kaçırmaz, franchise sahipleri her markanın performansını aynı yetki modelinde görür.',
   },
   {
     question: 'Mevcut POS veya çağrı merkezi sistemimle çalışır mı?',
     answer:
-      'Evet. 3CP altyapı bağımsızdır; mevcut sistemlerinizle sorunsuz entegre olur ve tedarikçiniz değişse bile çalışmaya devam eder.',
+      '3CP entegrasyonlar için iki adaptör katmanı üzerine kuruludur: POS ve çağrı merkezi. Yeni bir tedarikçi için o katmana bir adaptör yazılır; iş mantığınız aynı kalır, tedarikçiniz değişse bile panel çalışmaya devam eder.',
   },
   {
     question: 'Verilerimiz KVKK açısından güvende mi?',
@@ -610,7 +610,7 @@ export const FAQ: FaqItem[] = [
   {
     question: 'Anketler için müşterinin telefon numarası zorunlu mu?',
     answer:
-      'Hayır. Anketler varsayılan olarak kimlik istemeden doldurulur; iletişim bilgisi yalnızca müşteri kendisi isterse alınır. Bu, katılım oranını en üst düzeye çıkarır.',
+      'Hayır. Anketler varsayılan olarak kimlik istemeden doldurulur; iletişim bilgisi yalnızca müşteri kendisi isterse alınır. Bu, katılım önündeki engelleri kaldırır.',
   },
   {
     question: 'Hangi yapay zeka teknolojisini kullanıyorsunuz?',

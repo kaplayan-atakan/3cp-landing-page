@@ -1,8 +1,28 @@
 import { useEffect, useState } from 'react';
-import { Clock, Menu, X } from 'lucide-react';
+import { Clock, Menu, Moon, Sun, X } from 'lucide-react';
 import { NAV_LINKS } from '../../data/content';
-import { useIstanbulClock } from '../../hooks';
+import { useIstanbulClock, useTheme } from '../../hooks';
 import { TextRollButton, TRANSITION } from '../primitives';
+
+/**
+ * Ghost icon button that flips the `data-theme` attribute. The aria-label
+ * names the theme the click switches TO, per the Turkish copy convention.
+ */
+function ThemeToggle({ className = '' }: { className?: string }) {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDark ? 'Aydınlık tema' : 'Karanlık tema'}
+      className={`rounded-full p-2 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 ${TRANSITION} ${className}`}
+    >
+      {isDark ? <Sun size={16} aria-hidden="true" /> : <Moon size={16} aria-hidden="true" />}
+    </button>
+  );
+}
 
 /**
  * Mobile navigation overlay: fixed full-screen scrim with a white bottom sheet
@@ -15,19 +35,22 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
         type="button"
         aria-label="Menüyü kapat"
         onClick={onClose}
-        className="absolute inset-0 h-full w-full cursor-default bg-neutral-900/30 backdrop-blur-sm"
+        className="absolute inset-0 h-full w-full cursor-default bg-blanket/40 backdrop-blur-sm"
       />
-      <div className="absolute inset-x-0 bottom-0 mx-3 mb-3 rounded-2xl bg-white p-6 shadow-overlay">
+      <div className="absolute inset-x-0 bottom-0 mx-3 mb-3 rounded-2xl bg-surface-default p-6 shadow-overlay">
         <div className="mb-4 flex items-center justify-between">
           <span className="text-xl font-bold tracking-tight text-brand-teal">3CP</span>
-          <button
-            type="button"
-            aria-label="Menüyü kapat"
-            onClick={onClose}
-            className="rounded-full bg-neutral-900 p-2 text-white"
-          >
-            <X size={18} aria-hidden="true" />
-          </button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              type="button"
+              aria-label="Menüyü kapat"
+              onClick={onClose}
+              className="rounded-full bg-neutral-900 p-2 text-neutral-50"
+            >
+              <X size={18} aria-hidden="true" />
+            </button>
+          </div>
         </div>
         <nav className="flex flex-col">
           {NAV_LINKS.map((link) => (
@@ -81,7 +104,7 @@ export function Navbar() {
        it rides below the band and pins to the viewport once the band scrolls out. */
     <header className="sticky top-0 z-40">
       <div className="mx-auto max-w-container p-3">
-        <nav className="flex items-center justify-between rounded-full bg-white p-[5px] shadow-pill">
+        <nav className="flex items-center justify-between rounded-full bg-surface-default p-[5px] shadow-pill">
           {/* Left: wordmark + desktop links */}
           <div className="flex items-center gap-6 pl-3">
             <a
@@ -112,6 +135,7 @@ export function Navbar() {
               <Clock size={14} aria-hidden="true" />
               {time} TR&apos;de
             </span>
+            <ThemeToggle />
             {/* `invisible` (not just opacity-0) is what pulls the hidden CTA out of
                 the tab order — otherwise keyboard users land on a button they
                 cannot see. Because `transition-all` covers `visibility`, it still
@@ -137,7 +161,7 @@ export function Navbar() {
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-label="Menüyü aç"
-            className="rounded-full bg-neutral-900 p-2.5 text-white md:hidden"
+            className="rounded-full bg-neutral-900 p-2.5 text-neutral-50 md:hidden"
           >
             <Menu size={18} aria-hidden="true" />
           </button>

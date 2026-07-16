@@ -1,12 +1,12 @@
 import { SECTORS, PROBLEMS } from '../../data/content';
-import { SectionHeader, TRANSITION } from '../primitives';
+import { Reveal, SectionHeader, TRANSITION } from '../primitives';
 
 /**
  * Section 2 — sector strip ribbon + problem-space architecture (white).
  */
 export function SectorProblem() {
   return (
-    <section className="bg-white">
+    <section className="bg-surface-default">
       <div className="mx-auto max-w-container pb-16 pt-20 lg:pt-28">
         {/* Sector strip */}
         <div className="mb-16 flex flex-wrap items-center gap-4 border-b border-neutral-100 px-5 pb-8 sm:px-8 lg:px-12">
@@ -33,22 +33,25 @@ export function SectorProblem() {
         />
 
         {/* Problem grid */}
+        {/* Staggered entrance (60ms/card via the shared Reveal primitive);
+            reduced motion renders cards in place. */}
         <div className="grid grid-cols-1 gap-6 px-5 sm:px-8 md:grid-cols-2 lg:grid-cols-4 lg:px-12">
-          {PROBLEMS.map((problem) => {
+          {PROBLEMS.map((problem, index) => {
             const Icon = problem.icon;
             return (
-              <div
-                key={problem.title}
-                className={`rounded-xl bg-neutral-50 p-6 hover:shadow-raised ${TRANSITION}`}
-              >
-                <span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-neutral-900">
-                  <Icon size={20} aria-hidden="true" />
-                </span>
-                <h3 className="text-base font-semibold text-neutral-900">{problem.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-neutral-600">
-                  {problem.description}
-                </p>
-              </div>
+              <Reveal key={problem.title} delay={index * 0.06} className="h-full">
+                <div
+                  className={`h-full rounded-xl bg-neutral-50 p-6 hover:shadow-raised ${TRANSITION}`}
+                >
+                  <span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-surface-raised text-neutral-900">
+                    <Icon size={20} aria-hidden="true" />
+                  </span>
+                  <h3 className="text-base font-semibold text-neutral-900">{problem.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-neutral-600">
+                    {problem.description}
+                  </p>
+                </div>
+              </Reveal>
             );
           })}
         </div>

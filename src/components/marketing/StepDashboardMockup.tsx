@@ -1,6 +1,38 @@
+import { type ReactNode } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
+import { motion } from 'motion/react';
 import { STEP_DASHBOARD } from '../../data/content';
+import { usePrefersReducedMotion } from '../../hooks';
+import { NumberTicker } from '../magicui/number-ticker';
 import { DemoBadge, StatusBadge } from '../primitives';
+
+/**
+ * List row with a once-only staggered entrance (opacity + 8px rise, 60ms per
+ * row — inside the 30-80ms band the animation standards prescribe). Under
+ * reduced motion the row renders in place with no initial state.
+ */
+function StaggerRow({
+  index,
+  className,
+  children,
+}: {
+  index: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  const reducedMotion = usePrefersReducedMotion();
+  return (
+    <motion.li
+      className={className}
+      initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '0px 0px -60px 0px' }}
+      transition={{ duration: 0.3, delay: index * 0.06, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {children}
+    </motion.li>
+  );
+}
 
 /** Priority chip tones. 'danger'/'warning' have no StatusBadge equivalent
  * (its tone union is success | neutral | information), so alert priority
@@ -50,7 +82,7 @@ export function StepDashboardMockup() {
   const { nps, tickets, alerts } = STEP_DASHBOARD;
 
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-white p-5 shadow-overlay sm:p-6">
+    <div className="w-full rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay sm:p-6">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <span className="font-mono text-xs text-neutral-600">3CP · Bölge Yöneticisi Paneli · Bugün</span>
         <DemoBadge />
@@ -65,18 +97,20 @@ export function StepDashboardMockup() {
           <span className="font-mono text-[11px] text-neutral-400">Son 30 Gün</span>
         </div>
         <ul className="mt-3 space-y-2">
-          {nps.map((row) => {
+          {nps.map((row, index) => {
             const isUp = row.delta.startsWith('+');
             return (
-              <li
+              <StaggerRow
                 key={row.branch}
+                index={index}
                 className="flex items-center justify-between gap-3 rounded-lg border border-neutral-100 px-3 py-2.5"
               >
                 <span className="truncate text-sm font-medium text-neutral-900">{row.branch}</span>
                 <div className="flex shrink-0 items-center gap-3">
-                  <span className="font-mono text-sm font-bold tabular-nums text-neutral-900">
-                    {row.score}
-                  </span>
+                  <NumberTicker
+                    value={row.score}
+                    className="font-mono text-sm font-bold tabular-nums text-neutral-900"
+                  />
                   <span
                     className={`inline-flex items-center gap-1 font-mono text-xs font-bold tabular-nums ${
                       isUp ? 'text-success-fg' : 'text-danger-fg'
@@ -90,7 +124,7 @@ export function StepDashboardMockup() {
                     {row.delta}
                   </span>
                 </div>
-              </li>
+              </StaggerRow>
             );
           })}
         </ul>
@@ -102,8 +136,12 @@ export function StepDashboardMockup() {
           Otomatik Oluşan Ticket&rsquo;lar
         </h4>
         <ul className="mt-3 space-y-2">
-          {tickets.map((ticket) => (
-            <li key={ticket.id} className="rounded-lg border border-neutral-100 px-3 py-2.5">
+          {tickets.map((ticket, index) => (
+            <StaggerRow
+              key={ticket.id}
+              index={index}
+              className="rounded-lg border border-neutral-100 px-3 py-2.5"
+            >
               <div className="flex items-center justify-between gap-2">
                 <span className="font-mono text-xs font-bold tabular-nums text-neutral-900">
                   {ticket.id}
@@ -114,7 +152,7 @@ export function StepDashboardMockup() {
                 {ticket.branch} · {ticket.category}
               </p>
               <p className="mt-0.5 font-mono text-[11px] text-neutral-400">{ticket.time}</p>
-            </li>
+            </StaggerRow>
           ))}
         </ul>
       </div>
@@ -125,8 +163,12 @@ export function StepDashboardMockup() {
           Kritik Uyarılar
         </h4>
         <ul className="mt-3 space-y-2">
-          {alerts.map((alert) => (
-            <li key={alert.title} className="rounded-lg border border-neutral-200 p-3">
+          {alerts.map((alert, index) => (
+            <StaggerRow
+              key={alert.title}
+              index={index}
+              className="rounded-lg border border-neutral-200 p-3"
+            >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-neutral-900">{alert.title}</p>
@@ -140,7 +182,7 @@ export function StepDashboardMockup() {
                   {alert.priority}
                 </span>
               </div>
-            </li>
+            </StaggerRow>
           ))}
         </ul>
       </div>

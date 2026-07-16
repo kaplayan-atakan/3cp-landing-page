@@ -57,16 +57,14 @@ export function CostAndQuote() {
         <Reveal>
           <div className="mt-12 px-5 text-center sm:px-8 lg:px-12">
             <p className="mx-auto max-w-[560px] text-base font-medium text-neutral-900">
-              Fiyatlandırma şube sayınıza ve seçtiğiniz modüllere göre belirlenir.
-            </p>
-            <p className="mx-auto mt-2 max-w-[560px] text-sm text-neutral-600">
-              Size özel bir teklif için otuz dakikalık bir görüşme yeterli.
+              Şube sayınıza ve modüllerinize göre fiyatlandırmayı, kısa bir demo görüşmesinde
+              birlikte netleştirelim.
             </p>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className={`mt-6 inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-6 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 ${TRANSITION}`}
+              className={`mt-6 inline-flex items-center justify-center rounded-full border border-neutral-200 bg-surface-default px-6 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 ${TRANSITION}`}
             >
-              Teklif alın
+              Demo İste
             </a>
           </div>
         </Reveal>

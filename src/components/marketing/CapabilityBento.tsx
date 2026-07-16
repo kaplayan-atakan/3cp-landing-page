@@ -1,5 +1,5 @@
 import { CORE_MODULES } from '../../data/content';
-import { GrainOverlay, PremiumCard, Reveal, SectionHeader } from '../primitives';
+import { GrainOverlay, Reveal, SectionHeader, TiltCard } from '../primitives';
 
 /**
  * Section 2 — the platform's four core modules (IAM, the customer record,
@@ -26,7 +26,9 @@ export function CapabilityBento() {
                 delay={index * 0.05}
                 className={module.wide ? 'lg:col-span-2' : 'lg:col-span-1'}
               >
-                <PremiumCard
+                {/* TiltCard = PremiumCard + opt-in pointer tilt/glow; other
+                    PremiumCard call sites are untouched. */}
+                <TiltCard
                   cornerLabel={String(index + 1).padStart(2, '0')}
                   className="flex h-full flex-col"
                 >
@@ -50,7 +52,7 @@ export function CapabilityBento() {
                       </li>
                     ))}
                   </ul>
-                </PremiumCard>
+                </TiltCard>
               </Reveal>
             );
           })}

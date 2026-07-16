@@ -13,7 +13,7 @@ function PermissionMatrix() {
   const { roles, actions, grid } = PERMISSION_MATRIX;
 
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white p-6">
+    <div className="rounded-xl border border-neutral-200 bg-surface-raised p-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-base font-semibold text-neutral-900">
           Rol ve aksiyon bazlı izin matrisi
@@ -99,7 +99,7 @@ function PermissionMatrix() {
  */
 export function Onboarding() {
   return (
-    <section className="bg-white">
+    <section className="bg-surface-default">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="05"

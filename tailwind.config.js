@@ -37,6 +37,24 @@ export default {
 
         'surface-default': token('--color-background-default'),
         'surface-sunken': token('--color-background-sunken'),
+        'surface-raised': token('--color-background-raised'),
+        'surface-overlay': token('--color-background-overlay'),
+
+        // Semantic text/border/scrim tokens — theme-aware alternatives to the
+        // neutral-* scale, intended for the dark-mode component migration.
+        'content-primary': token('--color-text-primary'),
+        'content-secondary': token('--color-text-secondary'),
+        'content-subtle': token('--color-text-subtle'),
+        'content-inverse': token('--color-text-inverse'),
+        'edge-default': token('--color-border-default'),
+        'edge-subtle': token('--color-border-subtle'),
+        blanket: token('--color-blanket'),
+
+        // Fixed dark surface for intentionally-dark blocks (Integrations,
+        // footer, terminal): identical in both themes, immune to the dark-mode
+        // neutral inversion. Matches light-mode bg-neutral-900 (#172B4D).
+        'surface-dark': token('--color-surface-dark-fixed'),
+
         'footer-deep': token('--color-deep-navy'),
         'led-bg': token('--color-led-bg'),
       },

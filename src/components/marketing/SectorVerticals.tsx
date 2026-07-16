@@ -9,7 +9,7 @@ import { PremiumCard, Reveal, SectionHeader, StatPair, TRANSITION } from '../pri
 function ConcentricDiagram() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[340px]">
-      <div className="absolute inset-0 flex items-start justify-center rounded-full border border-neutral-200 bg-white pt-6">
+      <div className="absolute inset-0 flex items-start justify-center rounded-full border border-neutral-200 bg-surface-default pt-6">
         <span className="text-xs font-medium uppercase tracking-wide text-neutral-600">
           Sektörel Modüller
         </span>
@@ -20,7 +20,9 @@ function ConcentricDiagram() {
         </span>
       </div>
       <div className="absolute inset-[36%] flex items-center justify-center rounded-full bg-brand-teal p-4 text-center">
-        <span className="text-sm font-semibold leading-tight text-white">
+        {/* content-inverse: light'ta beyaz, dark'ta koyu navy — teal-400 zeminde
+            beyaz metin ~2.7:1'e düşerdi. */}
+        <span className="text-sm font-semibold leading-tight text-content-inverse">
           3CP Evrensel Çekirdek
         </span>
       </div>
@@ -71,7 +73,7 @@ export function SectorVerticals() {
 
         {/* The core stays sector-agnostic; the restaurant vertical adds its own modules on top. */}
         <Reveal>
-          <div className="mx-5 mt-12 rounded-xl border border-neutral-200 bg-white p-8 sm:mx-8 lg:mx-12">
+          <div className="mx-5 mt-12 rounded-xl border border-neutral-200 bg-surface-raised p-8 sm:mx-8 lg:mx-12">
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,340px)_1fr] lg:gap-16">
               <ConcentricDiagram />
 
@@ -94,7 +96,7 @@ export function SectorVerticals() {
                       {CORE_CHIPS.map((chip) => (
                         <span
                           key={chip}
-                          className={`inline-flex items-center gap-2 rounded-lg border border-neutral-200 bg-white px-3 py-2 text-sm font-medium text-neutral-900 hover:border-brand-teal ${TRANSITION}`}
+                          className={`inline-flex items-center gap-2 rounded-lg border border-neutral-200 bg-surface-default px-3 py-2 text-sm font-medium text-neutral-900 hover:border-brand-teal ${TRANSITION}`}
                         >
                           <span
                             className="h-1.5 w-1.5 rounded-full bg-brand-teal"
