@@ -21,7 +21,7 @@ const GLYPH_EDGE_FADE =
 export function LedTicker() {
   return (
     <div
-      className="relative w-full overflow-hidden bg-led-bg"
+      className="relative w-full overflow-hidden border-y border-edge-subtle bg-led-bg"
       role="marquee"
       aria-label="3CP platform yetenekleri"
     >

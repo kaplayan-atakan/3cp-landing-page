@@ -5,6 +5,16 @@
 @tailwind utilities;
 
 @layer base {
+  /* Native UI (scrollbar, form kontrolleri) temayı takip etsin. data-theme
+     index.html'deki inline script tarafından ilk boyamadan önce basılır. */
+  :root {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -18,6 +28,12 @@
     outline: 2px solid rgb(var(--focus-ring-color));
     outline-offset: 2px;
     border-radius: var(--radius-sm);
+  }
+
+  /* Selection follows the brand token, so it stays teal-700 in light and
+     teal-400 in dark without a separate override. */
+  ::selection {
+    background-color: rgb(var(--color-background-brand-bold) / 0.28);
   }
 }
 

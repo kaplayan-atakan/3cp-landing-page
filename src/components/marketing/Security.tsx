@@ -38,7 +38,7 @@ function AuditRow({ line }: { line: AuditLine }) {
  */
 export function Security() {
   return (
-    <section id="guvenlik" className="scroll-mt-24 bg-white">
+    <section id="guvenlik" className="scroll-mt-24 bg-surface-default">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
           number="07"
@@ -68,7 +68,7 @@ export function Security() {
         {/* Compliance row. KVKK only — no certification we do not hold. */}
         <Reveal>
           <div className="mt-10 flex flex-wrap items-center gap-4 px-5 sm:px-8 lg:px-12">
-            <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-4 py-2 text-sm font-medium text-neutral-900">
+            <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-surface-raised px-4 py-2 text-sm font-medium text-neutral-900">
               <ShieldCheck size={16} className="text-brand-teal" aria-hidden="true" />
               KVKK uyumlu
             </span>
@@ -85,7 +85,10 @@ export function Security() {
 
         {/* Seeded audit trail illustration. */}
         <Reveal className="mx-5 mt-12 sm:mx-8 lg:mx-12">
-          <div className="overflow-hidden rounded-xl bg-neutral-900 p-6">
+          {/* Sabit koyu panel (inversiyondan muaf) + dark'ta zeminden ayrışması
+              için ince ışık kenarı. İçindeki white-alpha tonları iki temada da
+              bu sabit navy üstünde durduğu için doğru kalır. */}
+          <div className="overflow-hidden rounded-xl border border-white/10 bg-surface-dark p-6">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h3 className="text-base font-semibold text-white">

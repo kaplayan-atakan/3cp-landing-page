@@ -1,6 +1,6 @@
-import { type ReactNode } from 'react';
+import { type PointerEvent, type ReactNode } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useMotionTemplate, useMotionValue, useSpring } from 'motion/react';
 import { usePrefersReducedMotion } from '../hooks';
 import { cn } from '../lib/utils';
 
@@ -23,14 +23,24 @@ interface TextRollButtonProps {
   ariaLabel?: string;
 }
 
+/*
+ * Theme notes:
+ *  - teal variant lives on theme-aware surfaces: in dark the fill becomes
+ *    teal-400, so the label flips to a dark navy via `content-inverse`
+ *    (white in light — pixels unchanged there).
+ *  - white variant only appears on the FIXED teal CTA band, so every colour
+ *    is pinned to fixed primitives; the themed brand tokens would drift to
+ *    teal-400-on-white (≈2.7:1) in dark.
+ */
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  teal: 'bg-brand-teal text-white hover:bg-brand-teal-hovered',
-  white: 'bg-white text-brand-teal hover:bg-neutral-50',
+  teal: 'bg-brand-teal text-content-inverse hover:bg-brand-teal-hovered',
+  white:
+    'bg-white text-[rgb(var(--color-teal-700))] hover:bg-[rgb(var(--color-neutral-50-fixed))]',
 };
 
 const CIRCLE_VARIANTS: Record<ButtonVariant, string> = {
-  teal: 'bg-white text-brand-teal',
-  white: 'bg-brand-teal text-white',
+  teal: 'bg-surface-default text-brand-teal',
+  white: 'bg-[rgb(var(--color-teal-700))] text-white',
 };
 
 /**
@@ -193,7 +203,7 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
  */
 export function DemoBadge({ label = 'Örnek görünüm · Demo verisi' }: { label?: string }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 font-mono text-[11px] text-neutral-600">
+    <span className="inline-flex items-center gap-2 rounded-full border border-neutral-200 bg-surface-default px-3 py-1 font-mono text-[11px] text-neutral-600">
       <span className="h-1.5 w-1.5 rounded-full bg-neutral-400" aria-hidden="true" />
       {label}
     </span>
@@ -237,7 +247,7 @@ export function PremiumCard({ children, className, hairline = true, cornerLabel 
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 shadow-raised transition-shadow duration-medium ease-smooth',
+        'group relative overflow-hidden rounded-xl border border-neutral-200 bg-surface-raised p-6 shadow-raised transition-shadow duration-medium ease-smooth',
         !reducedMotion && 'hover:-translate-y-0.5 hover:shadow-overlay motion-safe:transition-[transform,box-shadow] motion-safe:active:scale-[0.99]',
         className,
       )}
@@ -255,6 +265,78 @@ export function PremiumCard({ children, className, hairline = true, cornerLabel 
       )}
       {children}
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* TiltCard                                                            */
+/* ------------------------------------------------------------------ */
+
+/** Max tilt in degrees — deliberately shallow so the card reads as a surface,
+ * not a toy. */
+const TILT_MAX_DEG = 5;
+
+/** Spring configs: the tilt follows the pointer with a little momentum
+ * (direct mapping feels artificial — see emil-design-eng on decorative
+ * mouse-tracking), and settles crisply on leave. */
+const TILT_SPRING = { stiffness: 260, damping: 24, mass: 0.6 };
+const GLOW_SPRING = { stiffness: 180, damping: 26 };
+
+/**
+ * Opt-in pointer-tracking 3D tilt wrapper around PremiumCard. PremiumCard
+ * itself is untouched — every existing call site keeps its exact behaviour;
+ * only surfaces that explicitly choose TiltCard get the effect.
+ *
+ * The tilt is decorative, so it is fully disabled for touch pointers
+ * (pointerType guard) and under prefers-reduced-motion (handlers no-op and
+ * the springs never leave 0). A very faint token-teal glow follows the
+ * pointer inside the card; it fades out on leave via its own spring.
+ */
+export function TiltCard({ children, className, hairline, cornerLabel }: PremiumCardProps) {
+  const reducedMotion = usePrefersReducedMotion();
+
+  const rotateX = useSpring(0, TILT_SPRING);
+  const rotateY = useSpring(0, TILT_SPRING);
+  const glowX = useMotionValue(50);
+  const glowY = useMotionValue(50);
+  const glowOpacity = useSpring(0, GLOW_SPRING);
+
+  const glowImage = useMotionTemplate`radial-gradient(280px circle at ${glowX}% ${glowY}%, rgb(var(--color-teal-700) / 0.08), transparent 70%)`;
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (reducedMotion || event.pointerType !== 'mouse') return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const px = (event.clientX - rect.left) / rect.width;
+    const py = (event.clientY - rect.top) / rect.height;
+    rotateY.set((px - 0.5) * 2 * TILT_MAX_DEG);
+    rotateX.set(-(py - 0.5) * 2 * TILT_MAX_DEG);
+    glowX.set(px * 100);
+    glowY.set(py * 100);
+    glowOpacity.set(1);
+  };
+
+  const handlePointerLeave = () => {
+    rotateX.set(0);
+    rotateY.set(0);
+    glowOpacity.set(0);
+  };
+
+  return (
+    <motion.div
+      className="h-full"
+      style={{ rotateX, rotateY, transformPerspective: 900 }}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+    >
+      <PremiumCard className={className} hairline={hairline} cornerLabel={cornerLabel}>
+        <motion.span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{ backgroundImage: glowImage, opacity: glowOpacity }}
+        />
+        {children}
+      </PremiumCard>
+    </motion.div>
   );
 }
 

@@ -31,11 +31,11 @@ export function ActivityPreview() {
               <DemoBadge />
             </div>
 
-            <AnimatedList delay={60} className="bg-white p-4">
+            <AnimatedList delay={60} className="bg-surface-default p-4">
               {ACTIVITY_FEED.map((item) => (
                 <div
                   key={`${item.branch}-${item.title}`}
-                  className="flex items-start justify-between gap-4 rounded-lg border border-neutral-200 bg-white p-4"
+                  className="flex items-start justify-between gap-4 rounded-lg border border-neutral-200 bg-surface-raised p-4"
                 >
                   <div>
                     <p className="text-sm font-medium text-neutral-900">{item.title}</p>

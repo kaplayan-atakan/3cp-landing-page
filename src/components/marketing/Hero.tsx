@@ -20,7 +20,7 @@ export function Hero() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="max-w-[640px]">
             <p className="mb-4 font-mono text-[13px] tracking-wider text-neutral-600">
-              Centralized Customer Control Panel
+              Restoran zincirleri için merkezi müşteri kontrol paneli
             </p>
 
             <h1 className="text-[clamp(1.75rem,6vw,3.8rem)] font-serif font-semibold leading-[1.1] tracking-[-0.03em] text-neutral-900">
@@ -38,7 +38,7 @@ export function Hero() {
               <TextRollButton label="Demo İste" href="#demo" className="py-2.5 pl-6 pr-2 text-sm" />
               <a
                 href="#nasil-calisir"
-                className={`inline-flex items-center justify-center rounded-full border border-neutral-200 bg-white px-6 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 ${TRANSITION}`}
+                className={`inline-flex items-center justify-center rounded-full border border-neutral-200 bg-surface-default px-6 py-2.5 text-sm font-medium text-neutral-900 hover:bg-neutral-50 ${TRANSITION}`}
               >
                 Nasıl Çalışır?
               </a>
