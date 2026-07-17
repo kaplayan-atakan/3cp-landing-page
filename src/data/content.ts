@@ -20,6 +20,35 @@ import {
   CreditCard,
 } from 'lucide-react';
 
+/**
+ * Editöryel dergi çerçevesi — App.tsx'teki ana section sırasıyla birebir
+ * eşleşen folyo (sayfa numarası) verisi. EditorialFrame dev arka plan
+ * numarasını ve dikey kenar notunu buradan alır; ScrollRail tik işaretleri
+ * `target` üzerinden basılan data attribute'ları ölçerek yerleşir.
+ */
+export interface SectionFolio {
+  /** İki haneli sıra numarası, ör. '01'. */
+  number: string;
+  /** Kenar notunda görünen kısa mono etiket. */
+  label: string;
+  /** EditorialFrame wrapper'ına basılan data-editorial-section değeri. */
+  target: string;
+}
+
+export const SECTION_FOLIOS: SectionFolio[] = [
+  { number: '01', label: 'Platform', target: 'hero' },
+  { number: '02', label: 'Problem', target: 'problem' },
+  { number: '03', label: 'Çekirdek Modüller', target: 'cekirdek-moduller' },
+  { number: '04', label: 'Nasıl Çalışır', target: 'nasil-calisir-cerceve' },
+  { number: '05', label: 'Restoran Dikeyi', target: 'restoran-dikeyi' },
+  { number: '06', label: 'Kurulum', target: 'kurulum' },
+  { number: '07', label: 'Entegrasyon', target: 'entegrasyon-cerceve' },
+  { number: '08', label: 'Güvenlik', target: 'guvenlik-cerceve' },
+  { number: '09', label: 'Canlı Akış', target: 'canli-akis' },
+  { number: '10', label: 'Maliyet', target: 'maliyet' },
+  { number: '11', label: 'Yol Haritası & SSS', target: 'yol-haritasi-sss' },
+];
+
 /** Navigation links shared by the desktop navbar and the mobile menu. */
 export const NAV_LINKS: { label: string; href: string }[] = [
   { label: 'Platform', href: '#platform' },
