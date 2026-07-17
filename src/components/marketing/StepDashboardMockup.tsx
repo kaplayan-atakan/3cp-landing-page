@@ -1,6 +1,6 @@
-import { type ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { STEP_DASHBOARD } from '../../data/content';
 import { usePrefersReducedMotion } from '../../hooks';
 import { NumberTicker } from '../magicui/number-ticker';
@@ -77,12 +77,31 @@ function TicketStatus({
  * Stacked single-column layout (not a 3-up grid or a data table) so the
  * panel stays readable at the ~half-viewport width this component renders
  * at on desktop, without any horizontal scroll or overflow.
+ *
+ * The card carries a gentle scroll-scrubbed parallax (y -28px→28px across its
+ * viewport travel) — the exact mirror of StepAnalysisMockup's, so the two
+ * mockups drift in opposite directions through the HowItWorks zig-zag and the
+ * section gains depth. Parallax lives on this outermost wrapper only; the
+ * row stagger and NumberTicker inside are untouched. Transform-only,
+ * reversible, and inert under prefers-reduced-motion (card rests at 0).
  */
 export function StepDashboardMockup() {
   const { nps, tickets, alerts } = STEP_DASHBOARD;
+  const reducedMotion = usePrefersReducedMotion();
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ['start end', 'end start'],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [-28, 28]);
 
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay sm:p-6">
+    <motion.div
+      ref={cardRef}
+      className="w-full rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay sm:p-6"
+      style={reducedMotion ? undefined : { y: parallaxY }}
+    >
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <span className="font-mono text-xs text-neutral-600">3CP · Bölge Yöneticisi Paneli · Bugün</span>
         <DemoBadge />
@@ -186,6 +205,6 @@ export function StepDashboardMockup() {
           ))}
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 }

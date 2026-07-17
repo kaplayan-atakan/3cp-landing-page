@@ -1,4 +1,5 @@
-import { motion } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { STEP_ANALYSIS } from '../../data/content';
 import { usePrefersReducedMotion } from '../../hooks';
 import { DemoBadge } from '../primitives';
@@ -18,14 +19,31 @@ const CATEGORY_TONE_CLASSES: Record<'success' | 'danger', string> = {
  * never contain the baked-in defects (English strings, wrong language) the
  * two prior raster/regeneration attempts produced. Carries a DemoBadge per
  * the page's rule for every panel rendering mock data.
+ *
+ * The card carries a gentle scroll-scrubbed parallax (y 28px→-28px across its
+ * viewport travel) that runs opposite to StepDashboardMockup's, giving the
+ * HowItWorks zig-zag a subtle sense of depth. Parallax lives on this outermost
+ * wrapper only — the clip-path bar reveal inside is untouched. Transform-only,
+ * fully reversible, and inert under prefers-reduced-motion (card rests at 0).
  */
 export function StepAnalysisMockup() {
   const { feedback, categories, sentimentScore, sentimentMax, positivePct, criticalPct, confidence } =
     STEP_ANALYSIS;
   const reducedMotion = usePrefersReducedMotion();
 
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ['start end', 'end start'],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [28, -28]);
+
   return (
-    <div className="w-full rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay sm:p-6">
+    <motion.div
+      ref={cardRef}
+      className="w-full rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay sm:p-6"
+      style={reducedMotion ? undefined : { y: parallaxY }}
+    >
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <span className="font-mono text-xs text-neutral-600">3CP · Yapay Zeka Analizi</span>
         <DemoBadge />
@@ -104,6 +122,6 @@ export function StepAnalysisMockup() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

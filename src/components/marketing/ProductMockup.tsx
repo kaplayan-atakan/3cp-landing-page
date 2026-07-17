@@ -1,7 +1,13 @@
-import { motion } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { ACTIVITY_FEED } from '../../data/content';
 import { usePrefersReducedMotion } from '../../hooks';
 import { DemoBadge, StatusBadge } from '../primitives';
+
+/** Light spring over raw scroll progress so the scrub feels settled, not
+ * strapped 1:1 to the wheel — still fully reversible (see emil-design-eng on
+ * decorative motion needing momentum). */
+const SCRUB_SPRING = { stiffness: 140, damping: 26, mass: 0.5 };
 
 /**
  * Türkçe, GPU-free HTML/CSS product panel for the hero.
@@ -17,13 +23,40 @@ import { DemoBadge, StatusBadge } from '../primitives';
  *
  * Rows enter once with a 60ms cascade (opacity + 8px rise only) so the panel
  * reads as a feed settling into place; reduced-motion renders them in place.
+ *
+ * On top of that once-cascade, the whole panel carries a scroll-scrubbed
+ * perspective settle: entering the viewport it floats up and flattens
+ * (rotateX 6°→0°, scale 0.96→1, y 24→0 over the first ~35% of its travel),
+ * holds identity through the readable middle band, then deepens very slightly
+ * (rotateX→2°, scale→0.99, y→-10) as the hero scrolls away. Transform-only,
+ * reversible, and skipped entirely under prefers-reduced-motion (the panel
+ * simply rests at its natural, final values).
  */
 export function ProductMockup() {
   const items = ACTIVITY_FEED.slice(1, 6);
   const reducedMotion = usePrefersReducedMotion();
 
+  const panelRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: panelRef,
+    offset: ['start end', 'end start'],
+  });
+  const progress = useSpring(scrollYProgress, SCRUB_SPRING);
+
+  // Flat middle band [0.35, 0.75]: while the panel is comfortably in view it
+  // sits at identity so the rows stay perfectly readable.
+  const y = useTransform(progress, [0, 0.35, 0.75, 1], [24, 0, 0, -10]);
+  const rotateX = useTransform(progress, [0, 0.35, 0.75, 1], [6, 0, 0, 2]);
+  const scale = useTransform(progress, [0, 0.35, 0.75, 1], [0.96, 1, 1, 0.99]);
+
   return (
-    <div className="relative rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay">
+    <motion.div
+      ref={panelRef}
+      className="relative rounded-2xl border border-neutral-200 bg-surface-raised p-5 shadow-overlay"
+      style={
+        reducedMotion ? undefined : { y, rotateX, scale, transformPerspective: 900 }
+      }
+    >
       <div className="mb-4 flex items-center justify-between gap-3">
         <span className="font-mono text-xs text-neutral-600">3CP · Şube akışı</span>
         <DemoBadge />
@@ -47,6 +80,6 @@ export function ProductMockup() {
           </motion.li>
         ))}
       </ul>
-    </div>
+    </motion.div>
   );
 }

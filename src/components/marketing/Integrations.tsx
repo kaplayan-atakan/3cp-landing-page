@@ -1,4 +1,5 @@
-import { motion } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { ADAPTER_CLASSES, OUTBOX_EVENT_SAMPLE } from '../../data/content';
 import { usePrefersReducedMotion } from '../../hooks';
 import { Reveal } from '../primitives';
@@ -56,6 +57,19 @@ const TERMINAL_LINES = OUTBOX_EVENT_SAMPLE.split('\n');
 export function Integrations() {
   const reducedMotion = usePrefersReducedMotion();
 
+  /* Very light counter-parallax between the two columns (±18px, mirrored)
+   * scrubbed across the grid's viewport travel — depth for the dark section
+   * without touching its ground or borders. The offsets sit on wrappers
+   * inside each Reveal (Reveal's once-entrance is unchanged), the terminal
+   * print-in stays as-is. Transform-only; inert under reduced motion. */
+  const columnsRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: columnsRef,
+    offset: ['start end', 'end start'],
+  });
+  const diagramY = useTransform(scrollYProgress, [0, 1], [18, -18]);
+  const terminalY = useTransform(scrollYProgress, [0, 1], [-18, 18]);
+
   return (
     /* bg-surface-dark: sabit koyu yüzey — dark temadaki nötr inversiyondan
        etkilenmez, bölüm iki temada da koyu kalır. border-y: dark'ta koyu
@@ -83,10 +97,16 @@ export function Integrations() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
+        <div
+          ref={columnsRef}
+          className="grid grid-cols-1 gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12"
+        >
           {/* Architecture diagram */}
           <Reveal>
-            <div className="flex flex-col items-center">
+            <motion.div
+              className="flex flex-col items-center"
+              style={reducedMotion ? undefined : { y: diagramY }}
+            >
               {/* Sabit teal-700: brand token dark'ta teal-400'e döner ve üstündeki
                   beyaz metin ~2.7:1'e düşerdi; kutu sabit koyu bölümün içinde,
                   iki temada da aynı kalmalı. */}
@@ -132,12 +152,15 @@ export function Integrations() {
                 Adaptörler çekirdeğin dışındadır. POS'unuz ya da çağrı merkeziniz değiştiğinde
                 yalnız adaptör değişir; platformunuz çalışmaya devam eder.
               </p>
-            </div>
+            </motion.div>
           </Reveal>
 
           {/* Outbox contract — terminal panel */}
           <Reveal delay={0.1}>
-            <div className="flex flex-col gap-6">
+            <motion.div
+              className="flex flex-col gap-6"
+              style={reducedMotion ? undefined : { y: terminalY }}
+            >
               <div className="overflow-hidden rounded-xl border border-white/10">
                 <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3">
                   <span className="flex items-center gap-3">
@@ -188,7 +211,7 @@ export function Integrations() {
                   sunmaz; entegrasyonlar adaptör çatısı üzerinden yürür.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </Reveal>
         </div>
       </div>
