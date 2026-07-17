@@ -1,15 +1,28 @@
 import { useCallback, useEffect, useState } from 'react';
 
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+/** Reads the OS reduced-motion preference. */
+function readReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia(REDUCED_MOTION_QUERY).matches;
+}
+
 /**
  * Tracks the user's `prefers-reduced-motion` setting so heavy visuals
  * (the animated hero background, marquees) can fall back to a static
  * presentation.
+ *
+ * The preference is read during the first render rather than in an effect.
+ * Mount-time choreography starts before effects flush, so a hook that reported
+ * `false` until after paint would play the entrance once at full motion for
+ * exactly the people who asked it not to.
  */
 export function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReduced] = useState(readReducedMotion);
 
   useEffect(() => {
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const query = window.matchMedia(REDUCED_MOTION_QUERY);
     setReduced(query.matches);
     const handler = (event: MediaQueryListEvent) => setReduced(event.matches);
     query.addEventListener('change', handler);

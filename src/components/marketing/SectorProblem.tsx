@@ -1,10 +1,37 @@
+import { motion } from 'motion/react';
 import { SECTORS, PROBLEMS } from '../../data/content';
-import { Reveal, SectionHeader, TRANSITION } from '../primitives';
+import { usePrefersReducedMotion } from '../../hooks';
+import { SPRING_UI } from '../../lib/motion';
+import { SectionHeader, TRANSITION } from '../primitives';
+
+/**
+ * Where each problem card starts, before the grid squares it up.
+ *
+ * The section's whole argument is in its title: the signals are everywhere and
+ * never line up. So the cards don't rise into a grid that was already true —
+ * they arrive out of true, each on its own drift and tilt, and are pulled
+ * square. The misalignment is the problem stated in motion; the settle is the
+ * answer, and it lands before the reader has finished the first heading.
+ *
+ * Deliberate values, not random ones: four cards, four offsets, each a
+ * different distance and direction so the grid reads as gathered from four
+ * places rather than nudged by one hand. Tilts stay under 1.5° — past that a
+ * card stops reading as a panel that hasn't been squared up and starts reading
+ * as a novelty sticker.
+ */
+const OFF_GRID: { x: number; y: number; rotate: number }[] = [
+  { x: -10, y: 14, rotate: -1.2 },
+  { x: 8, y: 20, rotate: 0.9 },
+  { x: -6, y: 10, rotate: 1.3 },
+  { x: 12, y: 16, rotate: -0.8 },
+];
 
 /**
  * Section 2 — sector strip ribbon + problem-space architecture (white).
  */
 export function SectorProblem() {
+  const reducedMotion = usePrefersReducedMotion();
+
   return (
     <section className="bg-surface-default">
       <div className="mx-auto max-w-container pb-16 pt-20 lg:pt-28">
@@ -27,19 +54,30 @@ export function SectorProblem() {
 
         {/* Problem header */}
         <SectionHeader
-          number="01"
           pill="Müşteri Deneyimi Kaosu"
           title="Müşteri geri bildirimi her yerde — ama hiçbir yerde bir arada değil."
         />
 
         {/* Problem grid */}
-        {/* Staggered entrance (60ms/card via the shared Reveal primitive);
-            reduced motion renders cards in place. */}
+        {/* SPRING_UI, not SPRING_ENTRANCE: these cards aren't materialising,
+            they're being repositioned into the grid, and 0.4s of critically
+            damped travel is what "squared up" sounds like. Bounce would undo
+            the point — nothing threw them, and a card that overshoots its own
+            slot has not settled into it. 4 × 60ms of stagger keeps the whole
+            correction inside a beat. */}
         <div className="grid grid-cols-1 gap-6 px-5 sm:px-8 md:grid-cols-2 lg:grid-cols-4 lg:px-12">
           {PROBLEMS.map((problem, index) => {
             const Icon = problem.icon;
+            const offGrid = OFF_GRID[index % OFF_GRID.length];
             return (
-              <Reveal key={problem.title} delay={index * 0.06} className="h-full">
+              <motion.div
+                key={problem.title}
+                className="h-full"
+                initial={reducedMotion ? false : { opacity: 0, ...offGrid }}
+                whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+                viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+                transition={{ ...SPRING_UI, delay: index * 0.06 }}
+              >
                 <div
                   className={`h-full rounded-xl bg-neutral-50 p-6 hover:shadow-raised ${TRANSITION}`}
                 >
@@ -51,7 +89,7 @@ export function SectorProblem() {
                     {problem.description}
                   </p>
                 </div>
-              </Reveal>
+              </motion.div>
             );
           })}
         </div>
