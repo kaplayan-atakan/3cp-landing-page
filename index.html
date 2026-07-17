@@ -35,7 +35,15 @@
       content="Restoran zincirleri için tek panelde toplanan müşteri geri bildirimi — yapay zeka ile otomatik anlamlandırılmış."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/logo-wordmark.png" />
+    <!-- Must be an absolute URL: link/script asset paths get the /3cp-landing-page/
+         base rewritten in by Vite, but og:image content is not one of the
+         attributes it rewrites, so a root-relative path would resolve against
+         the domain root (kaplayan-atakan.github.io/images/…) and 404. Social
+         scrapers expect an absolute URL regardless. -->
+    <meta
+      property="og:image"
+      content="https://kaplayan-atakan.github.io/3cp-landing-page/images/logo-wordmark.png"
+    />
   </head>
   <body>
     <div id="root"></div>

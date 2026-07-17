@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Clock, Menu, Moon, Sun, X } from 'lucide-react';
 import { AnimatePresence, motion, type MotionProps } from 'motion/react';
 import { NAV_LINKS } from '../../data/content';
@@ -147,6 +147,7 @@ function ThemeToggle({ className = '' }: { className?: string }) {
  */
 function MobileMenu({ onClose }: { onClose: () => void }) {
   const reducedMotion = usePrefersReducedMotion();
+  const panelRef = useRef<HTMLDivElement>(null);
 
   /**
    * §7. The sheet leaves along the path it arrived on — up off the bottom edge,
@@ -185,6 +186,52 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onClose]);
 
+  /*
+   * `aria-modal` is a promise to assistive tech, not to the Tab key: on its own
+   * it doesn't stop physical focus from walking out the back of the sheet into
+   * the page behind the scrim. This makes the promise real — focus moves into
+   * the panel on open, cycles within it on Tab, and returns to whatever opened
+   * the sheet on close — and locks body scroll so the page underneath can't
+   * drift while the sheet is up. Mount-only: the panel's contents are stable
+   * for the life of the sheet.
+   */
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const focusable = () =>
+      Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+
+    focusable()[0]?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab') return;
+      const items = focusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = originalOverflow;
+      previouslyFocused?.focus?.();
+    };
+  }, []);
+
   return (
     <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label="Menü">
       {/* §12 "dim to focus". Pushing the page back as well would mean reaching
@@ -204,7 +251,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
           its top edge exactly on the viewport bottom. With the margin outside the
           animated box, the same 100% would leave a 12px sliver sitting at the
           screen edge through the spring's settle, then blink out at unmount. */}
-      <motion.div className="absolute inset-x-0 bottom-0 px-3 pb-3" {...sheetMotion}>
+      <motion.div ref={panelRef} className="absolute inset-x-0 bottom-0 px-3 pb-3" {...sheetMotion}>
         <div className="rounded-2xl bg-surface-overlay p-6 shadow-overlay">
           <div className="mb-4 flex items-center justify-between">
             <span className="text-xl font-bold tracking-tight text-brand-teal">3CP</span>
@@ -346,6 +393,8 @@ export function Navbar() {
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-label="Menüyü aç"
+            aria-haspopup="dialog"
+            aria-expanded={menuOpen}
             className={`rounded-full bg-neutral-900 p-2.5 text-neutral-50 active:bg-neutral-800 md:hidden ${PRESS}`}
           >
             <Menu size={18} aria-hidden="true" />

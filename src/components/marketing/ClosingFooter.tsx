@@ -11,7 +11,13 @@ export function ClosingFooter() {
   return (
     <>
       {/* Closing CTA band */}
-      <section id="demo" className="relative scroll-mt-24 overflow-hidden">
+      {/* The focus ring token is brand-teal, invisible on this fixed teal band.
+          Both surfaces below (the teal band and the dark footer) are fixed dark
+          in either theme, so a white ring is the one that contrasts on both. */}
+      <section
+        id="demo"
+        className="relative scroll-mt-24 overflow-hidden [--focus-ring-color:255_255_255]"
+      >
         <img
           src={asset('images/banner-network.png')}
           alt=""
@@ -58,8 +64,9 @@ export function ClosingFooter() {
       </section>
 
       {/* Footer */}
-      {/* Sabit koyu yüzey + dark'ta sayfa zemininden ayrışma için üst ışık kenarı. */}
-      <footer className="border-t border-white/10 bg-surface-dark text-white">
+      {/* Sabit koyu yüzey + dark'ta sayfa zemininden ayrışma için üst ışık kenarı.
+          Odak halkası da teal yerine beyaza sabitlenir (koyu zeminde görünür). */}
+      <footer className="border-t border-white/10 bg-surface-dark text-white [--focus-ring-color:255_255_255]">
         <div className="mx-auto max-w-container px-5 pb-8 pt-12 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
             <div>

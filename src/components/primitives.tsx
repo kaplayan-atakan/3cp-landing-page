@@ -273,7 +273,12 @@ export function PremiumCard({ children, className, hairline = true, cornerLabel 
         />
       )}
       {cornerLabel && (
-        <span className="absolute right-4 top-4 font-mono text-xs tabular-nums text-neutral-400">
+        // Decorative ordinal; the magazine folio is the page's numbering
+        // system, so this must not reach the accessibility tree as a bare digit.
+        <span
+          className="absolute right-4 top-4 font-mono text-xs tabular-nums text-neutral-400"
+          aria-hidden="true"
+        >
           {cornerLabel}
         </span>
       )}

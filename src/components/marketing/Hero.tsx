@@ -208,7 +208,12 @@ export function Hero() {
                     {FIGURE_FORMAT.format(0)}
                   </span>
                 )}
-                <span className="mt-2 block text-xs leading-snug text-neutral-600">
+                {/* The label is already announced by the sr-only <dt>; hiding
+                    this visible copy stops screen readers hearing it twice. */}
+                <span
+                  className="mt-2 block text-xs leading-snug text-neutral-600"
+                  aria-hidden="true"
+                >
                   {stat.label}
                 </span>
               </dd>
