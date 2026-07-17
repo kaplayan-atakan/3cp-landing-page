@@ -64,12 +64,19 @@ export default {
         mono: ['"JetBrains Mono Variable"', 'ui-monospace', 'monospace'],
       },
       transitionTimingFunction: {
+        // `smooth` aliases the standard curve, so every existing call site
+        // inherits the ease-out upgrade without being touched.
         smooth: 'var(--motion-easing-standard)',
+        'out-quart': 'var(--motion-ease-out-quart)',
+        'out-quint': 'var(--motion-ease-out-quint)',
+        'out-expo': 'var(--motion-ease-out-expo)',
       },
       transitionDuration: {
         DEFAULT: 'var(--motion-duration-slow)',
+        instant: 'var(--motion-duration-instant)',
         fast: 'var(--motion-duration-fast)',
         medium: 'var(--motion-duration-medium)',
+        slow: 'var(--motion-duration-slow)',
       },
       boxShadow: {
         raised: 'var(--elevation-raised)',

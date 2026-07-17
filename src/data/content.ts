@@ -23,13 +23,18 @@ import {
 /**
  * Editöryel dergi çerçevesi — App.tsx'teki ana section sırasıyla birebir
  * eşleşen folyo (sayfa numarası) verisi. EditorialFrame dev arka plan
- * numarasını ve dikey kenar notunu buradan alır; ScrollRail tik işaretleri
- * `target` üzerinden basılan data attribute'ları ölçerek yerleşir.
+ * numarasını buradan alır; ScrollRail tik işaretleri `target` üzerinden
+ * basılan data attribute'ları ölçerek yerleşir ve o anki bölümü `label` ile
+ * seslendirir.
+ *
+ * Bu, sayfanın TEK numaralama sistemidir: SectionHeader'lar ordinal taşımaz.
+ * İkinci bir numeral aynı şeyi iki kez söylüyor, üstelik farklı sayıyla —
+ * o ölçek SectorProblem'den sayarken folyo hero'dan sayıyordu.
  */
 export interface SectionFolio {
   /** İki haneli sıra numarası, ör. '01'. */
   number: string;
-  /** Kenar notunda görünen kısa mono etiket. */
+  /** Kısa mono etiket — ScrollRail'in aria-valuetext'inde okunur. */
   label: string;
   /** EditorialFrame wrapper'ına basılan data-editorial-section değeri. */
   target: string;

@@ -1,5 +1,5 @@
 import { COST_MODELS, CONTACT_EMAIL } from '../../data/content';
-import { PremiumCard, Reveal, SectionHeader, TRANSITION } from '../primitives';
+import { PremiumCard, PRESS, Reveal, SectionHeader } from '../primitives';
 
 /**
  * Section 9 — cost transparency, where a pricing table would normally go.
@@ -13,22 +13,29 @@ import { PremiumCard, Reveal, SectionHeader, TRANSITION } from '../primitives';
  * The CTA is deliberately not Teal: by the time a visitor scrolls here the
  * navbar's Teal CTA is on screen, and the design language forbids two brand
  * coloured CTAs at once.
+ *
+ * Motion: the two cards enter *together*, with no per-card delay. The pair is a
+ * comparison of equivalents — you bring your own key, or you use the pool — and
+ * a stagger is not neutral about that: whatever lands first reads as the
+ * recommendation, and the second as the fallback. Simultaneous arrival is the
+ * only timing that says "either of these". Nothing inside the cards animates;
+ * this is the honesty section, and it should hold still while it makes its
+ * claim.
  */
 export function CostAndQuote() {
   return (
     <section className="bg-surface-sunken">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
-          number="09"
           pill="Şeffaf Maliyet"
           title="Yapay zeka maliyetiniz size görünür kalır"
         />
 
         <div className="grid grid-cols-1 gap-6 px-5 sm:px-8 md:grid-cols-2 lg:px-12">
-          {COST_MODELS.map((model, index) => {
+          {COST_MODELS.map((model) => {
             const Icon = model.icon;
             return (
-              <Reveal key={model.title} delay={index * 0.05}>
+              <Reveal key={model.title}>
                 <PremiumCard className="flex h-full flex-col">
                   <span className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-neutral-100 text-brand-teal">
                     <Icon size={20} aria-hidden="true" />
@@ -60,9 +67,13 @@ export function CostAndQuote() {
               Şube sayınıza ve modüllerinize göre fiyatlandırmayı, kısa bir demo görüşmesinde
               birlikte netleştirelim.
             </p>
+            {/* Not a TextRollButton, so it inherited no press response: it carried
+                TRANSITION (`transition-all`, 300ms) and answered a press only by
+                changing colour on release. PRESS acknowledges on pointer-down and
+                names the properties it moves. */}
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className={`mt-6 inline-flex items-center justify-center rounded-full border border-neutral-200 bg-surface-default px-6 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 ${TRANSITION}`}
+              className={`mt-6 inline-flex items-center justify-center rounded-full border border-neutral-200 bg-surface-default px-6 py-3 text-sm font-medium text-neutral-900 hover:bg-neutral-50 ${PRESS}`}
             >
               Demo İste
             </a>

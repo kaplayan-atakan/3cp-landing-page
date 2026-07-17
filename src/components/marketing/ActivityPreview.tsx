@@ -16,7 +16,6 @@ export function ActivityPreview() {
       <GrainOverlay />
       <div className="relative z-10 mx-auto max-w-container py-20">
         <SectionHeader
-          number="08"
           pill="Panel Önizleme"
           title="Şubeler arasında olan biten, tek akışta"
         />

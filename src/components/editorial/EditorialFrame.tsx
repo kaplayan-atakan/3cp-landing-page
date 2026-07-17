@@ -7,12 +7,15 @@ import type { SectionFolio } from '../../data/content';
 /**
  * EditorialFrame — dergi sayfası çerçevesi.
  *
- * Her ana section'ı sarar ve iki dekoratif katman ekler:
- *  (a) dev folio numarası: Playfair, çok büyük, neredeyse görünmez
- *      opaklıkta (içi boş sayfa numarası hissi) — tek/çift index'te
- *      sol/sağ alternasyon + hafif scroll parallax'ı (yalnız transform);
- *  (b) kenar notu: "03 — ÇEKİRDEK MODÜLLER" tarzı dikey mono etiket,
- *      yalnız xl ve üstünde.
+ * Her ana section'ı sarar ve tek bir dekoratif katman ekler: dev folio
+ * numarası — Playfair, çok büyük, neredeyse görünmez opaklıkta (içi boş sayfa
+ * numarası hissi), tek/çift index'te sol/sağ alternasyon + hafif scroll
+ * parallax'ı (yalnız transform).
+ *
+ * Buradaki dikey mono kenar notu ("03 — ÇEKİRDEK MODÜLLER") kaldırıldı: dergi
+ * folio'su sayfanın TEK numaralama sistemi. Kenar notu hem aynı numarayı
+ * üçüncü kez tekrarlıyordu hem de sayfadan ayıklanmaya çalışılan
+ * tracked-uppercase eyebrow deseninin ta kendisiydi.
  *
  * Section bileşenlerinin kendi id anchor'ları içlerinde kalır — wrapper
  * id taşımaz, scroll-margin davranışına karışmaz. Dekor katmanı ayrı bir
@@ -62,7 +65,7 @@ export function EditorialFrame({ folio, index, children }: EditorialFrameProps) 
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
-        {/* (a) Dev folio numarası — düşük opaklık + ince stroke ile içi boş
+        {/* Dev folio numarası — düşük opaklık + ince stroke ile içi boş
             görünüm. text-neutral-900 dark'ta inversiyonla açık tona döner,
             iki temada da aynı "hayalet rakam" etkisi korunur. */}
         <motion.span
@@ -74,11 +77,6 @@ export function EditorialFrame({ folio, index, children }: EditorialFrameProps) 
         >
           {folio.number}
         </motion.span>
-
-        {/* (b) Kenar notu — dikey mono etiket, yalnız xl ve üstü. */}
-        <span className="absolute left-4 top-24 hidden font-mono text-[11px] uppercase tracking-[0.22em] text-neutral-400/80 [writing-mode:vertical-rl] xl:block">
-          {folio.number} — {folio.label}
-        </span>
       </div>
     </div>
   );

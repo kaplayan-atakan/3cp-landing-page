@@ -111,10 +111,20 @@
   --elevation-pill: 0 2px 8px rgb(0 0 0 / 0.04);
 
   /* --- Motion --------------------------------------------------------- */
+  /* Press feedback belongs in the ~80ms perception band, where the response
+     reads as part of the press rather than a reply to it. */
+  --motion-duration-instant: 120ms;
   --motion-duration-fast: 150ms;
   --motion-duration-medium: 300ms;
   --motion-duration-slow: 500ms;
-  --motion-easing-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  /* Exponential ease-outs: leave fast, settle slow. The standard curve used to
+     be cubic-bezier(0.25, 0.1, 0.25, 1) — the literal definition of CSS `ease`,
+     an ease-IN-out whose slow start made every interaction answer late. */
+  --motion-ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --motion-ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-easing-standard: var(--motion-ease-out-quart);
 
   /* --- Radius --------------------------------------------------------- */
   --radius-sm: 4px;

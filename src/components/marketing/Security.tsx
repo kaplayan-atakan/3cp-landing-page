@@ -41,7 +41,6 @@ export function Security() {
     <section id="guvenlik" className="scroll-mt-24 bg-surface-default">
       <div className="mx-auto max-w-container py-20">
         <SectionHeader
-          number="07"
           pill="Güvenlik ve Uyum"
           title="Veri güvenliği ve KVKK, sonradan değil — baştan"
         />

@@ -4,9 +4,23 @@ import { motion, useMotionTemplate, useMotionValue, useSpring } from 'motion/rea
 import { usePrefersReducedMotion } from '../hooks';
 import { cn } from '../lib/utils';
 
-/** Canonical transition used across the whole page. */
-export const TRANSITION =
-  'transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]';
+/**
+ * Canonical transition for hover and state changes across the page.
+ *
+ * Was 500ms on cubic-bezier(0.25, 0.1, 0.25, 1) — that curve is the literal
+ * definition of CSS `ease`, so the page's one "designed" transition was the
+ * browser default at triple the length a hover should take.
+ */
+export const TRANSITION = 'transition-all duration-medium ease-smooth';
+
+/**
+ * Press feedback. Apple's first principle is response: highlight on pointer
+ * *down*, not on release — waiting for the click to acknowledge the press is
+ * what makes an interface feel dead. `:active` fires on pointer-down, so the
+ * CSS is the whole implementation.
+ */
+export const PRESS =
+  'transition-[transform,background-color,box-shadow] duration-instant ease-smooth motion-safe:active:scale-[0.97]';
 
 /* ------------------------------------------------------------------ */
 /* TextRollButton                                                      */
@@ -60,11 +74,11 @@ export function TextRollButton({
     <a
       href={href}
       aria-label={ariaLabel ?? label}
-      className={`group inline-flex items-center gap-2 rounded-full font-medium ${TRANSITION} ${BUTTON_VARIANTS[variant]} ${className}`}
+      className={`group inline-flex items-center gap-2 rounded-full font-medium ${PRESS} ${BUTTON_VARIANTS[variant]} ${className}`}
     >
       <span className="relative block h-[20px] overflow-hidden">
         <span
-          className={`flex flex-col leading-[20px] ${TRANSITION} group-hover:-translate-y-1/2`}
+          className="flex flex-col leading-[20px] transition-transform duration-medium ease-smooth group-hover:-translate-y-1/2"
         >
           <span className="block h-[20px]">{label}</span>
           <span className="block h-[20px]" aria-hidden="true">
@@ -77,7 +91,7 @@ export function TextRollButton({
       >
         <ArrowRight
           size={16}
-          className={`${TRANSITION} group-hover:-rotate-45`}
+          className="transition-transform duration-medium ease-smooth group-hover:-rotate-45"
           aria-hidden="true"
         />
       </span>
@@ -134,20 +148,20 @@ export function StatusBadge({
 /* ------------------------------------------------------------------ */
 
 interface SectionHeaderProps {
-  number: string;
   pill: string;
   title: ReactNode;
 }
 
-export function SectionHeader({ number, pill, title }: SectionHeaderProps) {
+/**
+ * Section headers carry no ordinal. The magazine folio in EditorialFrame is the
+ * page's one numbering system; a second numeral here said the same thing twice
+ * and — because this scale counted from SectorProblem while the folio counts
+ * from the hero — said it with a different number.
+ */
+export function SectionHeader({ pill, title }: SectionHeaderProps) {
   return (
     <div className="mb-12 px-5 sm:px-8 lg:px-12">
-      <div className="mb-4 flex items-end gap-4">
-        {/* Swiss Modernism numeral: large, thin, low-opacity mono figure —
-            typographic scale only, same neutral-900 token as the rest of the page. */}
-        <span className="font-mono text-[clamp(2rem,5vw,3.5rem)] font-thin leading-none tracking-tight text-neutral-900/20">
-          {number}
-        </span>
+      <div className="mb-4">
         <span className="rounded-full border border-neutral-200 px-3 py-1 text-xs text-neutral-600">
           {pill}
         </span>
