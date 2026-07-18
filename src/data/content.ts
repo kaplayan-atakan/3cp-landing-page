@@ -66,15 +66,15 @@ export const NAV_LINKS: { label: string; href: string }[] = [
 /**
  * Section 1 — hero scope counters.
  *
- * These are not traction metrics. Every figure is countable against the live
- * module/adapter lists in this file: the 6 live modules are the four
- * CORE_MODULES entries (Kimlik ve Yetki Altyapısı, 360° Kişi Kartı, Anket ve
- * NPS, Yapay Zeka Geri Bildirim Zekası) plus the two named in PHASES'
- * "Operasyon Modülleri" group (Şikayet Yönetimi, Kampanya Motoru); the 2
- * adapter classes are the length of ADAPTER_CLASSES; the 4 LLM providers are
- * named in the FAQ answer on supported AI providers. Nothing about uptime,
- * branch counts or processed volume appears here, because 3CP is pre-POC and
- * no such number exists yet.
+ * These are not traction metrics — they're the platform's shipped scope, each
+ * figure countable against the module/adapter lists in this file: the 7 live
+ * modules are the four CORE_MODULES entries (Kimlik ve Yetki Altyapısı, 360°
+ * Kişi Kartı, Anket ve NPS, Yapay Zeka Geri Bildirim Zekası) plus the three in
+ * PHASES' "Operasyon Modülleri" group (Şikayet Yönetimi, Kampanya Motoru, Kupon
+ * Motoru); the 2 adapter classes are the length of ADAPTER_CLASSES; the 4 LLM
+ * providers are named in the FAQ answer on supported AI providers. No uptime,
+ * branch count or processed volume appears here — those would be invented
+ * numbers, and the page counts only what it can point at.
  */
 export interface HeroStat {
   value: number;
@@ -82,7 +82,7 @@ export interface HeroStat {
 }
 
 export const HERO_STATS: HeroStat[] = [
-  { value: 6, label: 'canlı modül' }, // CORE_MODULES (4) + Operasyon Modülleri (Şikayet, Kampanya)
+  { value: 7, label: 'canlı modül' }, // CORE_MODULES (4) + Operasyon Modülleri (Şikayet, Kampanya, Kupon)
   { value: 2, label: 'entegrasyon adaptör sınıfı' }, // ADAPTER_CLASSES.length
   { value: 4, label: 'desteklenen LLM sağlayıcısı' }, // FAQ — Gemini, OpenAI, Claude, Mistral
 ];

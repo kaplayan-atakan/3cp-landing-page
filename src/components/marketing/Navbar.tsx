@@ -389,13 +389,17 @@ export function Navbar() {
           </div>
 
           {/* Mobile toggle */}
+          {/* Fixed dark surface, not `neutral-900`: the neutral scale inverts in
+              dark, which would flip this button to a bright fill on the dark
+              navbar material. The sheet's own X button keeps the inversion —
+              it sits on a dark panel where the bright fill is the contrast. */}
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
             aria-label="Menüyü aç"
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
-            className={`rounded-full bg-neutral-900 p-2.5 text-neutral-50 active:bg-neutral-800 md:hidden ${PRESS}`}
+            className={`rounded-full bg-surface-dark p-2.5 text-white active:bg-[rgb(var(--color-neutral-800-fixed))] md:hidden ${PRESS}`}
           >
             <Menu size={18} aria-hidden="true" />
           </button>

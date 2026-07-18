@@ -68,3 +68,33 @@
     scroll-behavior: auto !important;
   }
 }
+
+/*
+ * Higher-contrast preference: the base theme targets AA, this is the takviye on
+ * top. Borders are the first thing to disappear for a low-vision user, so bind
+ * them to the text tokens (they carry that theme's full contrast) and thicken
+ * the focus ring. `:root[data-theme]` matches both themes and is written after
+ * the theme blocks, so it wins the cascade over the dark override at equal
+ * specificity while still resolving to each theme's own ink.
+ */
+@media (prefers-contrast: more) {
+  :root[data-theme] {
+    --color-border-default: var(--color-text-primary);
+    --color-border-subtle: var(--color-text-secondary);
+  }
+
+  :focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/*
+ * Windows High Contrast / forced-colors: the OS replaces the palette, so the
+ * brand-teal focus ring can vanish. Pin it to the system text colour so keyboard
+ * focus stays visible; the browser maps the rest of the surfaces itself.
+ */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid CanvasText;
+  }
+}
