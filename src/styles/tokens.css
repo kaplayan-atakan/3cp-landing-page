@@ -179,9 +179,9 @@
      sınıflarıyla (yani bu primitives üzerinden) tüketiyor; skala ters
      çevrilmezse gövde metni ve zeminler dark'ta olduğu gibi kalırdı.
      Işık yönü tersine döner: 50 en koyu zemin, 900 en açık metin olur.
-     DİKKAT: `bg-neutral-900`u kasıtlı koyu blok olarak kullanan bölümler
-     (Integrations, ClosingFooter footer, Security terminali) dark'ta
-     açık zemine döner — entegrasyon fazında sabit primitive'e alınmalı. */
+     Not: Kasıtlı koyu bloklar (Integrations bölümü, footer, denetim log
+     paneli) bu inversiyondan etkilenmez — hepsi sabit `bg-surface-dark`
+     kullanır, `bg-neutral-900` değil; migration tamamlandı. */
   --color-neutral-50: var(--color-dark-navy-900);
   --color-neutral-100: var(--color-dark-navy-700);
   --color-neutral-200: var(--color-dark-navy-600);

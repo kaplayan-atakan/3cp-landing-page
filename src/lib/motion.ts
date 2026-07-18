@@ -22,9 +22,6 @@ import type { Transition } from 'motion/react';
 /** Move / reposition — the default for anything the user can touch. */
 export const SPRING_UI: Transition = { type: 'spring', bounce: 0, duration: 0.4 };
 
-/** Rotation. Apple ships a little overshoot here; rotation reads as physical. */
-export const SPRING_ROTATE: Transition = { type: 'spring', bounce: 0.2, duration: 0.4 };
-
 /** Drawers / sheets — snappier response, slight overshoot on arrival. */
 export const SPRING_DRAWER: Transition = { type: 'spring', bounce: 0.2, duration: 0.3 };
 
@@ -38,11 +35,12 @@ export const SPRING_MOMENTUM: Transition = { type: 'spring', bounce: 0.15, durat
 /**
  * Tween curves, for the cases where a spring is wrong: anything whose end
  * state must land on an exact frame, and anything driven by scroll rather than
- * by a pointer. Mirrors the CSS custom properties in styles/tokens.css.
+ * by a pointer. These two mirror their `--motion-ease-out-*` counterparts in
+ * styles/tokens.css; the CSS side also defines an `expo`, which only the CSS
+ * `ease-out-expo` utility consumes — no JS animation reaches for it.
  */
 export const EASE_OUT_QUART = [0.25, 1, 0.5, 1] as const;
 export const EASE_OUT_QUINT = [0.22, 1, 0.36, 1] as const;
-export const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 /**
  * Where an exponentially-decelerating flick comes to rest, from the

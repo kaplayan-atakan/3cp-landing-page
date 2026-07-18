@@ -95,6 +95,9 @@ export function NumberTicker({
       ref={ref}
       className={cn('inline-block tabular-nums', className)}
       // Assistive tech announces the destination, never the intermediate frames.
+      // `role="img"` makes the aria-label authoritative — on a bare generic
+      // span some screen readers drop the label and read the counting digits.
+      role="img"
       aria-label={formatter.format(value)}
     >
       {formatter.format(startValue)}

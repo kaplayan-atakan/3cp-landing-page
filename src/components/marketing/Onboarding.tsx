@@ -55,7 +55,16 @@ function PermissionMatrix() {
           positioned, and without a positioned ancestor inside this scroller
           they resolve against an outer containing block, escape the clip, and
           drag the whole page 161px wide at 375px. */}
-      <div ref={tableRef} className="relative overflow-x-auto">
+      {/* tabIndex + role make the horizontal scroller keyboard-reachable: below
+          520px the table overflows, and without focus here a keyboard-only user
+          can't scroll to the clipped columns (WCAG 2.1.1). */}
+      <div
+        ref={tableRef}
+        tabIndex={0}
+        role="region"
+        aria-label="İzin matrisi (yatay kaydırılabilir)"
+        className="relative overflow-x-auto"
+      >
         <table className="w-full min-w-[520px] border-collapse text-sm">
           <caption className="sr-only">
             Rol ve aksiyon bazlı izin matrisi — örnek bir yapılandırma
